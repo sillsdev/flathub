@@ -1,0 +1,43 @@
+From ca9970cd641fe30edc97eff5c13fcb1311bcf60e Mon Sep 17 00:00:00 2001
+Message-Id: <ca9970cd641fe30edc97eff5c13fcb1311bcf60e.1615394652.git.marksvc@gmail.com>
+In-Reply-To: <5e1e8824986126e3d5c4318a45e42217239884ae.1615394652.git.marksvc@gmail.com>
+References: <5e1e8824986126e3d5c4318a45e42217239884ae.1615394652.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Wed, 10 Mar 2021 10:43:20 -0600
+Subject: [PATCH 2/2] fix bash debug message printing
+
+Change-Id: Ie93d1aa15646ad456870518d1b86989c22105d65
+---
+ Lib/linux/run-app    | 2 +-
+ Lib/linux/setup-user | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Lib/linux/run-app b/Lib/linux/run-app
+index ad0eeb2c..92302c02 100755
+--- a/fw/Lib/linux/run-app
++++ b/fw/Lib/linux/run-app
+@@ -13,7 +13,7 @@ sharedWs=$sharedWsRoot/SIL/WritingSystemStore
+ 
+ # Usage: debug "foo baz" "bar"
+ debug() {
+-  [[ -z ${FW_DEBUG} ]] || printf "$(date +'%F %T') run-app[$$]: " "$@"
++  [[ -z ${FW_DEBUG} ]] || echo -e "$(date +'%F %T') run-app[$$]: " "$@"
+ }
+ 
+ # Test for write permissions in global writing system store.
+diff --git a/Lib/linux/setup-user b/Lib/linux/setup-user
+index 1ec76e2e..797c622c 100755
+--- a/fw/Lib/linux/setup-user
++++ b/fw/Lib/linux/setup-user
+@@ -24,7 +24,7 @@ READKEY="${FW_LIB}/ReadKey.exe"
+ # Usage: Debug "foo baz" "bar"
+ Debug()
+ {
+-	[[ -z ${FW_DEBUG} ]] || printf "$(date +'%F %T') setup-user[$$]: " "$@"
++	[[ -z ${FW_DEBUG} ]] || echo -e "$(date +'%F %T') setup-user[$$]: " "$@"
+ }
+ 
+ Debug "XDG_DATA_HOME is ${XDG_DATA_HOME}"
+-- 
+2.25.1
+

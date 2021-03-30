@@ -1,0 +1,846 @@
+# FieldWorks flatpak build specification
+#
+# MIT License
+#
+# Copyright (c) 2021 SIL International
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# Build: flatpak-builder --user --install --force-clean build-dir org.sil.FieldWorks.yml 
+# Inspect before building it by appending --build-shell=fieldworks
+# Run: flatpak run org.sil.FieldWorks
+# Run a shell in the flatpak: flatpak run --command=bash org.sil.FieldWorks
+
+app-id: org.sil.FieldWorks
+
+# org.gnome.Platform provides some pieces that we would need to manually specify if we use org.freedesktop.Platform.
+runtime: org.gnome.Platform
+# Target a runtime that is most similar to Ubuntu 20.04, for which we can easily build and test on without flatpak.
+runtime-version: "3.36"
+sdk: org.gnome.Sdk
+
+writable-sdk: true
+command: fieldworks-flex
+finish-args:
+  - --share=network
+  - --socket=x11
+  - --share=ipc
+  - --socket=pulseaudio
+  # wide access during development
+  - --socket=system-bus
+  # Don't grant host filesystem access or /opt/mono5-sil can be used and cause problems.
+  # - --filesystem=host
+  # Directory for libpalaso GlobalMutex
+  - --filesystem=/var/lock:rw
+modules:
+#TODO flatpak run org.freedesktop.appstream-glib validate
+#TODO check .desktop file, application icon, adjust permissions -  https://github.com/flathub/flathub/wiki/App-Requirements
+  - name: hello
+    buildsystem: simple
+    build-commands:
+      - echo Hello
+    modules:
+      - name: libboost-test-dev
+        buildsystem: simple
+        build-commands:
+          - env; ls -al; pwd
+          - for package in *.deb; do mkdir "${package}-dir" && (cd "${package}-dir" && ar x ../"${package}") && tar -v -C / -x -f "${package}-dir"/data.tar.xz ; done
+        sources:
+          - type: file
+            url: http://archive.ubuntu.com/ubuntu/pool/universe/b/boost-defaults/libboost-test-dev_1.71.0.0ubuntu2_amd64.deb
+            sha256: 53e09ac817286ffb361a354d6d2072fc1102ebb5d1aeaaaf754d2f8bcdd3d460
+          - type: file
+            url: http://cz.archive.ubuntu.com/ubuntu/pool/universe/b/boost1.71/libboost-test1.71-dev_1.71.0-6ubuntu6_amd64.deb
+            sha256: 65e8a7d6a60b12931ecddc1b2e008296fedc55421533c48d884e07f2b0a6c8d8
+          - type: file
+            url: http://cz.archive.ubuntu.com/ubuntu/pool/universe/b/boost1.71/libboost-test1.71.0_1.71.0-6ubuntu6_amd64.deb
+            sha256: 3fd4afefc4fa0b234c3e237adf198c4bce33df243a93cd43ea4575d436652dc0
+          - type: file
+            url: http://cz.archive.ubuntu.com/ubuntu/pool/main/b/boost1.71/libboost1.71-dev_1.71.0-6ubuntu6_amd64.deb
+            sha256: d3346a9c1eb551c1b0214ee6db4efead588da16e607d1290ab143453a5e8924f
+      # Remove the libenchant-dev module if the enchant in org.gnome.Sdk is sufficient.
+      # - name: libenchant-dev
+      #   buildsystem: simple
+      #   build-commands:
+      #     - env; ls -al; pwd
+      #     - for package in *.deb; do mkdir "${package}-dir" && (cd "${package}-dir" && ar x ../"${package}") && tar -v -C / -x -f "${package}-dir"/data.tar.xz ; done
+      #   sources:
+      #     - type: file
+      #       url: http://cz.archive.ubuntu.com/ubuntu/pool/universe/e/enchant/libenchant-dev_1.6.0-11.3build1_amd64.deb
+      #       sha256: edfca92d3c6fb0f7237057b02175a6de55bccda581fb53bbc536de2bfd857cb0
+      #     - type: file
+      #       url: http://cz.archive.ubuntu.com/ubuntu/pool/universe/e/enchant/libenchant1c2a_1.6.0-11.3build1_amd64.deb
+      #       sha256: 61fcfff6f79c871350b1c2f674bdf6f1cc19e9e808687f7abb005cdfc19264a6
+      #     - type: file
+      #       url: http://cz.archive.ubuntu.com/ubuntu/pool/main/s/scowl/hunspell-en-us_2018.04.16-1_all.deb
+      #       sha256: 804a6097f0034eea0edf7cbf30d75adb881933064ab6d65515159dbc1c89aeb6
+      #     - type: file
+      #       url: http://cz.archive.ubuntu.com/ubuntu/pool/main/d/dictionaries-common/dictionaries-common_1.28.1_all.deb
+      #       sha256: 5828e8d6973125cb19968eb345e2b5e08d207f73dac09c42f1ed9e81ca251431
+      #     - type: file
+      #       url: http://cz.archive.ubuntu.com/ubuntu/pool/main/a/aspell/libaspell15_0.60.8-1build1_amd64.deb
+      #       sha256: e693bec4fad44a18b9855ee26fc5abbe0df5dabba97fcdd4f2675b5b0ccd3997
+      #     - type: file
+      #       url: http://cz.archive.ubuntu.com/ubuntu/pool/main/h/hunspell/libhunspell-1.7-0_1.7.0-2build2_amd64.deb
+      #       sha256: a8851da5816b31753f0682bb78d98c5d29ec7ef22cf14546876eb0e8f668f295
+      
+      - name: dbus-glib # for gecko
+        sources: 
+          - type: git
+            url: https://salsa.debian.org/debian/dbus-glib.git
+            tag: debian/0.110-5
+            commit: 722fc1041fc8d975774b17a6cff0ec260e666172
+
+      - name: libxklavier-dev
+        buildsystem: autotools
+        sources:
+          - type: git
+            url: https://salsa.debian.org/gnome-team/libxklavier.git
+            commit: 4cd9bfe37a52961270d588b37e617cbce8217e5a
+            tag: debian/5.4-4
+          - type: shell
+            commands:
+              - |
+                for PATCH_FILE in $(cat debian/patches/series); do
+                  patch -p1 -i debian/patches/${PATCH_FILE}
+                done
+
+      - name: libjbig0
+        # TODO try omitting out libjbig0. Every reference to jbig at flathub is to compile something (eg imagemagic) --without-jbig
+        buildsystem: simple
+        build-commands:
+          - env; ls -al; pwd
+          - for package in *.deb; do mkdir "${package}-dir" && (cd "${package}-dir" && ar x ../"${package}") && tar -v -C / -x -f "${package}-dir"/data.tar.xz ; done
+        sources:
+          - type: file
+            url: http://archive.ubuntu.com/ubuntu/pool/main/j/jbigkit/libjbig0_2.1-3.1build1_amd64.deb
+            sha256: f19d3e72dad9a418ca71ef58ee94b258616abbdbab3d1c5e2ed98fb8f14622a8
+
+      - name: gtkmm2.4
+        config-opts:
+          - --disable-documentation
+        sources:
+          - type: archive
+            url: http://archive.ubuntu.com/ubuntu/pool/universe/g/gtkmm2.4/gtkmm2.4_2.24.5.orig.tar.xz
+            sha256: 0680a53b7bf90b4e4bf444d1d89e6df41c777e0bacc96e9c09fc4dd2f5fe6b72
+        modules:
+          - name: atkmm1.6
+            config-opts:
+              - --disable-documentation
+            sources:
+              - type: archive
+                url: http://archive.ubuntu.com/ubuntu/pool/main/a/atkmm1.6/atkmm1.6_2.28.0.orig.tar.xz
+                sha256: 5d27b6a2f4c130bf0e6415683399175e245a305bd91d13b9bd33abde401a3a04
+            modules:
+              - name: glibmm2.4
+                config-opts:
+                  - --disable-documentation
+                sources:
+                  - type: archive
+                    url: http://archive.ubuntu.com/ubuntu/pool/main/g/glibmm2.4/glibmm2.4_2.64.2.orig.tar.xz
+                    sha256: bdd5e4ea879826784faf486ea23eb2d03c892fd5e0177ac416be7b8e12c404e6
+                modules:
+                  - name: libsigc++-2.0
+                    config-opts:
+                      - --disable-documentation
+                    sources:
+                      - type: archive
+                        url: http://archive.ubuntu.com/ubuntu/pool/main/libs/libsigc++-2.0/libsigc++-2.0_2.10.2.orig.tar.xz
+                        sha256: 9e4f93ed27bd2a0f60af3a007c6963eee2b126eff378a1c719ed8235dfcdf524
+                
+          - name: pangomm
+            config-opts:
+              - --disable-documentation
+            sources:
+              - type: archive
+                url: http://archive.ubuntu.com/ubuntu/pool/main/p/pangomm/pangomm_2.42.0.orig.tar.xz
+                sha256: 4befa6dc41ad72b7b8e7351d2525399daaab5cf9a89c3ab0ba65678801ff4db4
+            #     modules:
+            #   - name: pango1.0
+            #     sources:
+            #       - type: archive
+            #         url: http://archive.ubuntu.com/ubuntu/pool/main/p/pango1.0/pango1.0_1.44.7.orig.tar.xz
+            #         sha256: 66a5b6cc13db73efed67b8e933584509f8ddb7b10a8a40c3850ca4a985ea1b1f
+            #     modules:
+            #       - name: fribidi
+            #         sources:
+            #           - type: archive
+            #             url: http://archive.ubuntu.com/ubuntu/pool/main/f/fribidi/fribidi_1.0.8.orig.tar.bz2
+            #             sha256: 94c7b68d86ad2a9613b4dcffe7bbeb03523d63b5b37918bdf2e4ef34195c1e6c
+            #       - name: harfbuzz
+            #         sources:
+            #           - type: archive
+            #             url: http://archive.ubuntu.com/ubuntu/pool/main/h/harfbuzz/harfbuzz_2.6.4.orig.tar.xz
+            #             sha256: 9413b8d96132d699687ef914ebb8c50440efc87b3f775d25856d7ec347c03c12
+
+            modules:
+              - name: cairomm
+                config-opts:
+                  - --disable-documentation
+                sources:
+                  - type: archive
+                    url: http://archive.ubuntu.com/ubuntu/pool/main/c/cairomm/cairomm_1.12.2.orig.tar.gz
+                    sha256: 45c47fd4d0aa77464a75cdca011143fea3ef795c4753f6e860057da5fb8bd599
+            #   modules:
+            #   - name: cairo
+            #     sources:
+            #       - type: archive
+            #         url: http://archive.ubuntu.com/ubuntu/pool/main/c/cairo/cairo_1.16.0.orig.tar.xz
+            #         sha256: 5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331
+            #   - name: pixman
+            #     sources:
+            #       - type: archive
+            #         url: http://archive.ubuntu.com/ubuntu/pool/main/p/pixman/pixman_0.38.4.orig.tar.gz
+            #         sha256: da66d6fd6e40aee70f7bd02e4f8f76fc3f006ec879d346bae6a723025cfbdde7
+
+          - name: gtk+2.0
+            sources:
+              - type: archive
+                url: http://archive.ubuntu.com/ubuntu/pool/main/g/gtk+2.0/gtk+2.0_2.24.32.orig.tar.xz
+                sha256: b6c8a93ddda5eabe3bfee1eb39636c9a03d2a56c7b62828b359bf197943c582e
+            modules:
+              - name: gdk-pixbuf
+                buildsystem: meson
+                build-commands:
+                  - env; ls -al; pwd;echo DEBUG2 I dont expect this to show up.
+                sources:
+                  - type: git
+                    url: https://salsa.debian.org/gnome-team/gdk-pixbuf.git
+                    commit: 3f0d33cab4fe203f5c8cbeed13af70346ee2b5b4
+                    tag: debian/2.40.0+dfsg-1
+                  - type: shell
+                    commands:
+                      - |
+                        for PATCH_FILE in $(cat debian/patches/series); do
+                          patch -p1 -i debian/patches/${PATCH_FILE}
+                        done
+                   
+                #   - type: archive
+                #     url: http://archive.ubuntu.com/ubuntu/pool/main/g/gdk-pixbuf/gdk-pixbuf_2.40.0+dfsg.orig.tar.xz
+                #     sha256: bdb3820005dc3c02ec8b1e2916a1d060f65f44d30ba48ab88704c3380d5a47b8
+      
+      - name: wget
+        buildsystem: autotools
+        sources:
+          - type: archive
+            url: https://ftp.gnu.org/gnu/wget/wget-1.20.3.tar.gz
+            sha512: e8b82b40e270296228094a78d47f81580bdbdea9e6b93fd61b37dccb39430aeb9bda5397dc53a31c952a61629383c7e2a8c8abf414c8a4dd369af6ecf2717e6c
+
+      - name: python-2.7
+        config-opts:
+          - --enable-shared
+          - --with-system-expat
+          - --with-system-ffi
+          - --enable-unicode=ucs4
+        post-install:
+          - chmod 644 ${FLATPAK_DEST}/lib/libpython2.7.so.1.0
+        sources:
+          - type: archive
+            url: https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tar.xz
+            sha256: b62c0e7937551d0cc02b8fd5cb0f544f9405bafc9a54d3808ed4594812edef43
+
+
+      # TODO stringtable.cs does something related to /usr and XDG environment variables. Is that going to have trouble in flatpak? Similar with Src/FwParatextLexiconPlugin/ParatextLexiconPluginDirectoryFinder.cs, that will need adjuted.
+
+
+
+      #   - name: mono5-sil-from-source # WIP . Note that may need to do a make get-monolite-latest after autogen.sh.  TODO uncomment this stanza to start using from source. remove the .deb usage
+      #     build-options:
+      #       prefix: /usr
+      #     env:
+      #       MONO_PREFIX: /usr
+      #     post-install:
+      #       - cert-sync /etc/ssl/certs/ca-certificates.crt
+      #     sources:
+      #       - type: archive
+      #         url: https://packages.sil.org/ubuntu/pool/main/m/mono5-sil/mono5-sil_5.16.0.179.orig.tar.gz
+      #         sha256: 1da30e1cc36d0d83646a4932ca91592e5f3ec4196884d416f9e1c5ac306e264c
+      # TODO i probably nede to apply patches too (not if i use our mono git)
+              # - type: archive
+              #   url: https://packages.sil.org/ubuntu/pool/main/m/mono5-sil/mono5-sil_5.16.0.179-1+focal1.debian.tar.xz
+              #   sha256: b7caa9f89b6a29a2879962075645a2257bae3e7768c1b5f24ff09a692bb5e4ff
+
+      # - name: mono5-sil-from-git-source
+      #   # todo work more on getting this to work
+      #   post-install:
+      #     - cert-sync /etc/ssl/certs/ca-certificates.crt
+      #   sources:
+      #     - type: git
+      #       url: https://github.com/sillsdev/mono.git
+      #       tag: sil/5.16.0.179
+      #       commit: 76d08936cf7ab1384caf2c012e821f71b3b94b23
+      #     # - type: shell            
+      #     #   commands:
+      #     #     - ./autogen.sh
+      #     #     # DNS trouble
+      #     #     - make get-monolite-latest
+      #     # - type: shell
+      #     #   commands: 
+      #     #     - tee determine-version << "VERSION=$(perl -ne '/AC_INIT\(mono, \[(.*?)\]/ and print $1' configure.ac)""
+      #     #     - grep -E '(^MONO_VERSION|^MONO_CORLIB)' configure.ac tee -a determine-version
+      #     #     - source determine-version && URL=$(perl -ne '/monolite_url = (.*)/ and print $1' mcs/class/Makefile | perl -pe 's/[()]//g) curl --output TARGET ${URL}
+      #     - type: archive
+      #       url: https://download.mono-project.com/monolite/monolite-linux-1051600011-latest.tar.gz
+      #       sha512: b48bb273f5a9107f9bb9795d47277aeaaeb458588a6e011676bb9a152b83759f305cf1031a5e74a62145854ef17026cb1aa20ea9adb5e6b15f275b9d6af585db
+      #       dest: mcs/class/lib/monolite-linux/1051600011
+
+
+      # - name: gtk-sharp-from-source
+      # # todo try again
+      #   config-opts:
+      #     - --disable-gtk-doc
+      #     - --disable-man
+      #   sources:
+      #     - type: git
+      #       url: https://github.com/sillsdev/gtk-sharp.git
+      #       branch: develop
+      #       commit: fcf1dd40d4892be309dd450bcda2026ddece4480
+      #     - type: script
+      #       commands:
+      #         - NOCONFIGURE=1 ./bootstrap-2.12
+
+      # - name: msbuild-from-source
+      #   # so i'm trying to build msbuild from source. i see that its not used by many projects on flathub. and every project that does use it seems to just fetch .deb files and extract them. 
+      #   # it looks like i can get and use msbuild.dll from a dotnet, for example dotnet 3.1 or so provides msbuild 16.4.0+e901037fe (which i can run if i do something like mono ./sdk/3.1.112/MSBuild.dll ). could i install msbuild by fetching and extracting a dotnet tarball? and maybe this is no better than just grabbing the sil or mono-project msbuild .deb ?
+      #   env:
+      #     - __PUBLISH_RID: linux-x64
+      #   # no-autogen: true
+      #   path_append: artifacts/.dotnet/2.1.300-preview2-008530
+      #   sources:
+      #     - type: git
+      #       url: https://github.com/mono/linux-packaging-msbuild.git
+      #       tag: debian/1%15.8+xamarinxplat.2018.07.31.22.43-0xamarin5
+      #       commit: 0bf924e7a3dff976ecec273763bb79504bf185f3
+      #     - type: shell
+      #       commands:
+      #         - |
+      #           for PATCH_FILE in $(cat debian/patches/series); do
+      #             patch -p1 -i debian/patches/${PATCH_FILE}
+      #           done
+      #     - type: archive
+      #       url: https://github.com/mono/msbuild/releases/download/0.06/mono_msbuild_xplat-master-3c930fa8.zip
+      #       sha512: f3a16ae1c403fe9fc3656acb65cd60f21a0f1cdc904b66a50cc1ba161fd9d84a62c4c5975fbc8554fac15c3d7563472b5e936388bf47d13ce811dd7877d644c1
+      #       dest: artifacts/mono-msbuild
+      #     - type: archive
+      #       url: https://dotnetcli.azureedge.net/dotnet/Sdk/2.1.300-preview2-008530/dotnet-sdk-2.1.300-preview2-008530-linux-x64.tar.gz
+      #       sha512: 034863bdb94a4e752d286eeac10638a012c4bae94a9bff46ee96fb7ea733554f0083d989ecf983274fcbe5c27974e16a7287c3bcca98626380b12e811fdd9174
+      #       dest: artifacts/.dotnet/2.1.300-preview2-008530
+      #     - type: script
+      #       commands:
+      #        - perl -pi -e '/commandLine=/ and s/"$/ -p:RuntimeIdentifiers=linux-x64 --runtime linux-x64"/ and print'  build/build.sh
+      #        - ./build.sh --hostType mono --configuration Release --skip_tests -p:DisableNerdbankVersioning=true -p:BUILD_SOURCEVERSION=8af44c5b9e727c096833a88fae05c3ddb76716d0 -p:RuntimeIdentifiers=linux-x64 --runtime linux-x64
+      #     # arr i guess just install an etc os-release file at build time.
+      #     - type: file
+      #       dest: /etc
+      #       path: /etc/os-release
+
+      #   - name: gtk-sharp5-sil-from-source # WIP . TODO uncomment stanza to start using from source. remove the .deb usage
+      #     build-options:
+      #       prefix: /usr
+      #       config-opts:
+      #         - --disable-man
+      #         - --disable-gtk-doc
+      #     env:
+      #       MONO_PREFIX: /usr
+      #     sources:
+      #       - type: archive
+      #         url: https://packages.sil.org/ubuntu/pool/main/g/gtk-sharp5-sil/gtk-sharp5-sil_5.4.0.orig.tar.gz
+      #         sha256: bae918b0cf91703703244606dc89daba8919a60de688c1f29584fe172ad418a0
+      - name: mono5-sil
+        buildsystem: simple
+        build-commands:
+          # Extract opt/mono5-sil/* into /app/
+          - for package in *.deb; do mkdir "${package}-dir" && (cd "${package}-dir" && ar x ../"${package}") && tar -C /app -x -f "${package}-dir"/data.tar.xz --strip-components=3 ./opt/mono5-sil; done
+          - find /app . -name msbuild # debug. ok rm this line.
+          # Same-character-count path to /app since some binary files are going to be modified too.
+          - perl -pi -e 's#/opt/mono5-sil#/./././././app#g' /app/bin/*
+        sources:
+          - type: file
+            url: http://packages.sil.org/ubuntu/pool/main/m/mono5-sil/mono5-sil_5.16.0.179-1+focal1_amd64.deb
+            sha256: 8e2831c5b2f9b116684056dca13f0ed0d7ace9f461c798629e2cdb51768e0caf
+          - type: file
+            url: http://packages.sil.org/ubuntu/pool/main/g/gtk-sharp5-sil/gtk-sharp5-sil_5.4.0-1+focal1_amd64.deb
+            sha256: 5d7918d583f2d21be195adad9f651ffa29a66f68beb3a7c071250a377555430b
+          - type: file
+            url: http://linux.lsdev.sil.org/ubuntu/pool/main/m/mono5-sil-msbuild/mono5-sil-msbuild_15.8+xamarinxplat.2018.07.31.22.43-0xamarin5+ubuntu1804b1_all.deb
+            sha256: 758274d8bc438f325fc5fc808c0482ab50eb2bdaf02f61747888e190760753de
+      
+      - name: libgdiplus5-sil-from-source
+        build-options:
+          prefix: /app
+          config-opts:
+            - --with-pango
+          env:
+            MONO_PREFIX: /app
+        sources:
+          - type: archive
+            url: https://packages.sil.org/ubuntu/pool/main/libg/libgdiplus5-sil/libgdiplus5-sil_5.6.0.orig.tar.gz
+            sha256: b6663bdf04acd2c3e218a71185f8c5a3e6189525ad3e71591bfbf69133c8937f
+        modules:
+          - name: giflib
+            buildsystem: simple
+            build-commands:
+              # libgdiplus needs GifQuantizeBuffer
+              - patch -i debian/patches/revert-GifQuantizeBuffer-remove-from-lib.patch
+              # Skip building documentation
+              - "echo >doc/Makefile all:"
+              # Install into /app so it gets picked up by libgdiplus before another giflib that doesnt have GifQuantizeBuffer. Maybe I should fiddle with libgdiplus's libdir instead.
+              - make PREFIX=/app
+              - make PREFIX=/app install
+            sources:
+              - type: git
+                url: https://salsa.debian.org/deiv-guest/giflib.git
+                commit: de2120737dbbeb00728054232a21c6b03c1ae687
+           
+
+
+      - name: icu-fw
+        buildsystem: autotools
+        subdir: source
+        sources:
+          - type: archive
+            url: https://packages.sil.org/ubuntu/pool/main/i/icu-fw/icu-fw_54.1.1.44.orig.tar.xz
+            sha256: 324af10d4aaea7213d0c6f407e9edeb6c512345f636517521db5423e55e56c7c
+
+
+     
+      - name: libteckit-dev
+        sources:
+          - type: archive
+            url: https://packages.sil.org/ubuntu/pool/main/t/teckit/teckit_2.5.10+20.04.orig.tar.gz
+            sha256: 498d6331bc25853c86f6ae9afeec178192ef91f8b3d539e7593b09b079801ed0
+      - name: fieldworks-enc-converters
+        # TODO Does building EC still say "make[1]: /usr/lib/fieldworks/icu-bin/icu-config: Command not found"?
+        # TODO clean up instructions and sources to not refer to /home/vagrant
+        # download deps on host:  sudo apt-get install automake g++ python-dev libicu-dev mono-sil icu-dev-fw && cd /home/vagrant/fwrepo/encoding-converters-core &&  (. environ && ./autogen.sh && make download_dependencies && tar cf packages.tar packages )
+        buildsystem: autotools
+        build-options:
+          build-args:
+            - --share=network
+          prepend-ld-library-path: /app/lib/fieldworks/lib
+          env:
+            FIELDWORKS: "1"
+            PYTHON_VERSION: "2.7"
+            EC_DOWNLOAD_DEPS: "false"
+            # I don't remember if I caused this, but even tho `pkg-config --libs python-2.7` gives '-L/app/lib -lpython2.7', we ended up using '-L/app/lib/python2.7 -lpython2.7' and failing to find -lpython2.7. Override.
+            PYTHON_LDFLAGS: "-L/app/lib -lpython2.7"
+            
+            
+        config-opts:
+          - --prefix=/app
+        sources:
+          - type: archive
+            url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks-enc-converters/fieldworks-enc-converters_4.0.8.179+focal1.tar.xz
+            sha256: fc92c3185482ef9626f00ac708c910ff80682ab51fdb67af631d86f3a55b82c8
+          - type: archive
+            path: /home/vagrant/fwrepo/encoding-converters-core/packages.tar
+            dest: packages/
+          - type: file
+            path: /home/vagrant/fwrepo/encoding-converters-core/build/nuget.exe
+            dest: build/
+          - type: patch
+            path: ec-dl-deps.patch
+          - type: patch
+            path: Remove-mistaken-Xsl-reference.patch
+            strip-components: 1
+          - type: patch
+            path: ec-Remove-BOM.patch
+            strip-components: 1
+
+      - name: flexbridge
+        buildsystem: simple
+        build-options:
+          build-args:
+            - --share=network
+          env:
+            PREFIX: /app
+            # TODO Probably remove perl5lib?
+            PERL5LIB: /app/perl-modules/lib/perl5
+            DESTDIR: /app
+            MONO_PREFIX: /app
+            MONO_SILPKGDIR: /app
+            
+        build-commands:
+          - env; ls -al; find; pwd
+          - touch fetch_l10ns # TODO These l10ns will need downloaded ahead of time
+          - make release_build && make install
+        sources:
+          - type: archive
+            url: https://packages.sil.org/ubuntu/pool/main/f/flexbridge/flexbridge_3.0.1+166.orig.tar.xz
+            sha256: 31b4389195bf29ddac2d739dda91a21eec47f7b5307de50b78a003a890938ace
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/common/Chorus_Help.chm
+            dest: lib/common
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/Chorus.exe
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/LibChorus.dll
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/ChorusHub.exe
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/ChorusMerge.exe
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/Mercurial-i686.zip
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/Mercurial-x86_64.zip
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/LibChorus.TestUtilities.dll
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/.guidsForInstaller.xml
+            dest: MercurialExtensions
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/Dummy.txt
+            dest: MercurialExtensions
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/.gitignore
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/.guidsForInstaller.xml
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/.hg_archival.txt
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/.hgignore
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/README.
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/buildcpmap.py
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/cpmap.pyc
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/fixutf8.py
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/fixutf8.pyc
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/fixutf8.pyo
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/osutil.py
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/osutil.pyc
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/osutil.pyo
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/win32helper.py
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/win32helper.pyc
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/win32helper.pyo
+            dest: MercurialExtensions/fixutf8
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/Chorus.exe
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/LibChorus.dll
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/ChorusHub.exe
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/ChorusMerge.exe
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/Mercurial-i686.zip
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/Mercurial-x86_64.zip
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/LibChorus.TestUtilities.dll
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/common/Autofac.dll
+            dest: lib/common
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/IPCFramework.dll
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/IPCFramework.dll
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Core.dll
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Core.Desktop.dll
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.TestUtilities.dll
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Windows.Forms.dll
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Windows.Forms.dll.config
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Windows.Forms.GeckoBrowserAdapter.dll
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Lift.dll
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/L10NSharp.dll
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/NDesk.DBus.dll
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/NDesk.DBus.dll.config
+            dest: lib/ReleaseMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Core.dll
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Core.Desktop.dll
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.TestUtilities.dll
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Windows.Forms.dll
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Windows.Forms.dll.config
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Windows.Forms.GeckoBrowserAdapter.dll
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Lift.dll
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/L10NSharp.dll
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/NDesk.DBus.dll
+            dest: lib/DebugMono
+          - type: file
+            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/NDesk.DBus.dll.config
+            dest: lib/DebugMono
+          
+
+
+
+      # TODO try building boost manually when have time. k i am going to move libboost lower in file then, and i can move it back to the top another time once i get this working. ok so i didnt really look at the output but i guess the build succeeded. try moving this back to the top of the file to replace the boost there.
+      - name: libboost
+        # TODO Should I be installing this to /usr since I don't need to ship boost?
+        buildsystem: simple
+        build-commands:
+          - env; ls -al; pwd
+          - ./bootstrap.sh
+          - ./b2 install variant=release 
+        sources:
+        - type: archive
+          url: https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.tar.bz2
+          sha512: b7937d50c4512cf13cadd0ca829de36cf2cbc6fb788f45b1d4565ad0753e2b206c545125a5862016c2f16016f2e4a6b687928963b466fff17c3e0a4437142c20
+
+      
+
+      # Note that trying to get fw FwCoreDlgs.csproj to find ECInterfaces.dll was a pain and wasn't solved by environment variables or msbuild properties or a .user file. I needed to change the hintpath from /usr/lib/fieldworks to /whatever, for it to be found. i could have also probably pre-copied it into Output/Release.
+      - name: fieldworks
+        buildsystem: simple
+        build-options:
+          build-args:
+            - --share=network
+          env:
+            PREFIX: /app
+            PERL5LIB: /app/perl-modules/lib/perl5
+            # DESTDIR: /app # libcom was picking this up
+            # MONO_PREFIX: /usr/lib/sdk/mono5
+            # MONO_SILPKGDIR: /usr/lib/sdk/mono5
+            MONO_PREFIX: /app
+            MONO_SILPKGDIR: /app
+            NUGET_DEST: fw/packages
+            FW_ROOT_PATH: /run/build/fieldworks/fw
+            # MSBUILD_ARGS: "-verbosity:normal"
+            INSTALLATION_PREFIX: /app
+        build-commands:
+          - env; ls -al . fw fw/Downloads; pwd
+        
+          
+          - cd ${FW_ROOT_PATH} && touch fieldworks-flex.1.gz unicodechareditor.1.gz check-have-build-dependencies && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true Fw-build-package
+          - cd ${FW_ROOT_PATH} && perl -pi -e '/<runtime>/ and s/^/  <dllmap dll="libdl.so" target="libdl.so.2" \/>\n/' $(find -name SIL.LCModel.Core.dll.config)
+
+          - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true install-package 
+
+          - mv /app/share/applications/fieldworks-applications.desktop /app/share/applications/org.sil.FieldWorks.desktop 
+          - perl -pi -e 's/fieldworks-flex.png/org.sil.FieldWorks.png/g' /app/share/applications/org.sil.FieldWorks.desktop 
+          - mv /app/share/icons/hicolor/128x128/apps/fieldworks-flex.png /app/share/icons/hicolor/128x128/apps/org.sil.FieldWorks.png 
+          - mv /app/share/icons/hicolor/64x64/apps/fieldworks-flex.png /app/share/icons/hicolor/64x64/apps/org.sil.FieldWorks.png 
+          
+        sources:
+          # - type: git
+          #   url: https://github.com/sillsdev/FieldWorks.git
+          #   branch: support/9.0
+          #   dest: fw
+          - type: archive
+            url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks/fieldworks_9.0.14.11+focal1.tar.xz
+            sha256: f555f232c553eb046d77782f7c8b6953d321accaa78f01365f4fdf083c57163d
+          - type: patch
+            path: patches/fieldworks-Do-not-block-path.patch
+            strip-components: 1
+          # Find ICU
+          - type: patch
+            path: patches/fieldworks-Add-app-lib-to-LD_LIBRARY_PATH.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-Remove-unused-I-ICU_INC_DIR.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-Find-netstandard.dll-in-app-not-opt-mono5-sil.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-Fix-path-to-ibusdotnet.dll.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-Fix-path-to-NDesk.DBus.dll.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-Turn-on-optional-verbose-build-output.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-run-app-debugging-output.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-Add-app-lib-to-LD_LIBRARY_PATH-when-running.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-Refine-syntax-for-environ-overridable-defaults.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-Allow-installing-to-custom-prefix.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-Look-for-files-in-prefix-not-just-usr.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-Ship-pdb-debugging-files.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-Get-LD_PRELOAD-exported-more-successfully.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-Look-for-gecko-in-custom-prefix.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-Pass-prefix-to-msbuild.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-DEBUG-messages-on-installation-prefix.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks-flatpak-environ.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/debug-preview-args.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/environ-include-external-MONO_ENV_OPTIONS.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/allow-fw-specific-mono-options.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/Add-additional-option-debugging-when-lauching-FLEx.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/Use-FW_ROOTCODE-if-available-since-may-be-in-app.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/debug-sting-table.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/debugger-thread-sleep.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/find-strings-in-app-for-flatpak.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/debug-place-in-startup.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/more-launch-bash-debuggirng.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/fix-bash-debug-message-printing.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/fw-debug-inject.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/flatpak-fw-llp-usr-lib-x8664.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/flatpak-gdb-debugging.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/Make-package-build-use-specified-config.patch
+            strip-components: 1
+          # - type: patch
+          #   path: patches/fieldworks/
+          #   strip-components: 1
+
+          # FW nuget dependencies
+          # Preview updates via FieldWorks.git: git log -p -- Build/nuget-{common,linux}/packages.config
+          # To regenerate input sources:
+          # ./nuget-sources ~/fwrepo/fw/Build/nuget-linux/packages.config packages fieldworks-sources-nuget-linux.yml
+          # ./nuget-sources ~/fwrepo/fw/Build/nuget-common/packages.config packages fieldworks-sources-nuget-common.yml
+          - fieldworks-sources-nuget-common.yml
+          - fieldworks-sources-nuget-linux.yml
+            
+          # FW dependencies
+          # Preview updates via FieldWorks.git: git log -p -- Build/mkall.targets
+          # To regenerate input sources:
+          # ./tc-sources tc-inputs.yml fieldworks-sources-tc.yml
+          - fieldworks-sources-tc.yml
+
+          # - type: patch
+          #   path: patches/fieldworks/lcm-core-libdl-dllmap.patch
+          #   strip-components: 1
+
+
+    #   - name: gobject-introspection
+    #     sources:
+    #       - type: archive
+    #         url: http://archive.ubuntu.com/ubuntu/pool/main/g/gobject-intqrospection/gobject-introspection_1.64.0.orig.tar.xz
+    #         sha256: eac05a63091c81adfdc8ef34820bcc7e7778c5b9e34734d344fc9e69ddf4fc82
+    #   - name: graphite2
+    #     sources:
+    #       - type: archive
+    #         url: http://archive.ubuntu.com/ubuntu/pool/main/g/graphite2/graphite2_1.3.13.orig.tar.gz
+    #         sha256: 2f9f609deeddfe2b193502adc8df3b0396694b799a433c36e85fd1242e654cd9

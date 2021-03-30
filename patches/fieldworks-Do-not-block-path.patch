@@ -1,0 +1,34 @@
+From 3bac8e11caaa8616f1c0fc0df8aecded095213a0 Mon Sep 17 00:00:00 2001
+From: MarkS <marksvc@gmail.com>
+Date: Fri, 10 Jul 2020 16:57:44 -0500
+Subject: [PATCH] flatpak: Do not block path
+
+Change-Id: Idcc86f5b902066fcff72d7ae5a84c96e19b4fdad
+---
+ environ | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/environ b/environ
+index f7e5808c..b4a0f41c 100644
+--- a/fw/environ
++++ b/fw/environ
+@@ -13,7 +13,6 @@
+ # dotnet tools path, if present.
+ unset LD_LIBRARY_PATH \
+   LD_PRELOAD \
+-  PATH \
+   MONO_ENABLE_SHM \
+   MONO_IOMAP \
+   MONO_WINFORMS_XIM_STYLE \
+@@ -24,7 +23,7 @@ unset LD_LIBRARY_PATH \
+   WINFORMS_STYLE_TITLEBAR_COLOR_1 \
+   WINFORMS_STYLE_TITLEBAR_COLOR_2 \
+   WINFORMS_STYLE_TITLEBAR_VERTICAL_GRADIENT
+-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
++export PATH="${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+ DOTNET_TOOLS_PATHER="/etc/profile.d/dotnet-cli-tools-bin-path.sh"
+ if [ -f "${DOTNET_TOOLS_PATHER}" ]; then
+   . "${DOTNET_TOOLS_PATHER}"
+-- 
+2.25.1
+

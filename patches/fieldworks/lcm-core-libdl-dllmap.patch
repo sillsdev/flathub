@@ -1,0 +1,10 @@
+--- a/fw/Downloads/LCM/SIL.LCModel.Core.dll.config
++++ b/fw/Downloads/LCM/SIL.LCModel.Core.dll.config
+@@ -2,6 +2,7 @@
+ <configuration>
+   <dllmap dll="icuuc54.dll" target="libicuuc.so.54" />
+   <dllmap dll="icuin54.dll" target="libicui18n.so.54" />
++  <dllmap dll="libdl.so" target="libdl.so.2" />
+   <runtime>
+     <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+       <dependentAssembly>

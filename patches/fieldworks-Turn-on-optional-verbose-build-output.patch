@@ -1,0 +1,73 @@
+From 10ce7c77135f59e009524c62ce1c6ee5cabbb125 Mon Sep 17 00:00:00 2001
+Message-Id: <10ce7c77135f59e009524c62ce1c6ee5cabbb125.1612542785.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Tue, 26 Jan 2021 11:11:34 -0600
+Subject: [PATCH] Turn on optional verbose build output
+
+To help more quickly diagnose assembly reference resolution problems.
+
+Change-Id: I605c0cea7bcd63314755912ea48351b57a90f95c
+---
+ Makefile | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 76a41fef..8778fcb8 100644
+--- a/fw/Makefile
++++ b/fw/Makefile
+@@ -8,6 +8,8 @@
+ 
+ FW_PACKAGE_DEBUG = false
+ BUILD_TOOL = msbuild
++# Verbosity: normal or detailed
++MSBUILD_ARGS ?= -verbosity:detailed
+ ICU_VERSION = 54
+ BUILD_ROOT = $(shell pwd)
+ include $(BUILD_ROOT)/Bld/_names.mak
+@@ -375,27 +377,27 @@ Fw-build-package: check-have-build-dependencies
+ 		&& mkdir -p $$LcmLocalArtifactsDir \
+ 		&& . environ \
+ 		&& cd $(BUILD_ROOT)/Build \
+-		&& $(BUILD_TOOL) /t:refreshTargets \
+-		&& $(BUILD_TOOL) '/t:remakefw' /property:config=release /property:Platform=$(PLATFORM) /property:packaging=yes \
+-		&& ./multitry $(BUILD_TOOL) '/t:localize-binaries' /property:config=release /property:packaging=yes
++		&& $(BUILD_TOOL) /t:refreshTargets $(MSBUILD_ARGS) \
++		&& $(BUILD_TOOL) '/t:remakefw' /property:config=release /property:Platform=$(PLATFORM) /property:packaging=yes $(MSBUILD_ARGS) \
++		&& ./multitry $(BUILD_TOOL) '/t:localize-binaries' /property:config=release /property:packaging=yes $(MSBUILD_ARGS)
+ 	if [ "$(FW_PACKAGE_DEBUG)" = "true" ]; then find "$(BUILD_ROOT)/.."; fi
+ 
+ Fw-build-package-fdo: check-have-build-dependencies
+ 	cd $(BUILD_ROOT)/Build \
+-		&& $(BUILD_TOOL) /t:refreshTargets \
+-		&& $(BUILD_TOOL) '/t:build4package-fdo' /property:config=release /property:packaging=yes
++		&& $(BUILD_TOOL) /t:refreshTargets $(MSBUILD_ARGS) \
++		&& $(BUILD_TOOL) '/t:build4package-fdo' /property:config=release /property:packaging=yes $(MSBUILD_ARGS)
+ 
+ RestoreNuGetPackages:
+ 	. environ \
+ 		&& cd Build \
+ 		&& $(BUILD_TOOL) /t:RestoreNuGetPackages /property:config=release \
+-			/property:packaging=yes
++			/property:packaging=yes $(MSBUILD_ARGS)
+ 
+ # Begin localization section
+ 
+ localize-source: RestoreNuGetPackages
+ 	. environ && \
+-	(cd Build && $(BUILD_TOOL) /t:localize-source /property:config=release /property:packaging=yes)
++	(cd Build && $(BUILD_TOOL) /t:localize-source /property:config=release /property:packaging=yes $(MSBUILD_ARGS))
+ 	# Remove symbolic links from Output - we don't want those in the source package
+ 	find Output -type l -delete
+ 	# Copy localization files to Localizations folder so that they survive a 'clean'
+@@ -404,7 +406,7 @@ localize-source: RestoreNuGetPackages
+ LOCALIZATIONS := $(shell ls $(BUILD_ROOT)/Localizations/l10ns/*/messages.*.po | sed 's/.*messages\.\(.*\)\.po/\1/')
+ 
+ l10n-all:
+-	(cd $(BUILD_ROOT)/Build && $(BUILD_TOOL) /t:localize-binaries)
++	(cd $(BUILD_ROOT)/Build && $(BUILD_TOOL) /t:localize-binaries $(MSBUILD_ARGS))
+ 
+ l10n-clean:
+ 	# We don't want to remove strings-en.xml
+-- 
+2.25.1
+

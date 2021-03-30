@@ -1,0 +1,27 @@
+From 12e23808056ad522a43343726ddb503b6f3a40ac Mon Sep 17 00:00:00 2001
+Message-Id: <12e23808056ad522a43343726ddb503b6f3a40ac.1612281466.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Tue, 2 Feb 2021 09:57:37 -0600
+Subject: [PATCH] Add /app/lib to LD_LIBRARY_PATH when running
+
+Change-Id: I193d1d43733181c61e6e5a251285e05771d2f64e
+---
+ environ | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/environ b/environ
+index 8d6097d8..fb28adfb 100644
+--- a/fw/environ
++++ b/fw/environ
+@@ -85,7 +85,7 @@ then
+ 	FW_ROOTCODE="${BASE}/../../share/fieldworks"
+ 	ICU_DATA="${HOME}/.config/fieldworks/Icu54"
+ 	PATH="${BASE}/icu-bin:${PATH}"
+-	LD_LIBRARY_PATH="${BASE}:${BASE}/lib:${LD_LIBRARY_PATH}"
++	LD_LIBRARY_PATH="${BASE}:${BASE}/lib:${LD_LIBRARY_PATH}:/app/lib"
+ 	MONO_REGISTRY_PATH="${HOME}/.config/fieldworks/registry"
+ 	MONO_HELP_VIEWER=${BASE}/launch-xchm
+ else
+-- 
+2.25.1
+

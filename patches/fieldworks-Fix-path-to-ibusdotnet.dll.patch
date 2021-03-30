@@ -1,0 +1,27 @@
+From 58db78b5dd8ad51507ba7c3d273325ee7eb2a3cf Mon Sep 17 00:00:00 2001
+Message-Id: <58db78b5dd8ad51507ba7c3d273325ee7eb2a3cf.1611678833.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Tue, 26 Jan 2021 10:33:43 -0600
+Subject: [PATCH] Fix path to ibusdotnet.dll
+
+Change-Id: I821e433aff77c3f23504b5ede2a7472adff61d16
+---
+ .../SimpleRootSiteTests/SimpleRootSiteTests.csproj              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Src/Common/SimpleRootSite/SimpleRootSiteTests/SimpleRootSiteTests.csproj b/Src/Common/SimpleRootSite/SimpleRootSiteTests/SimpleRootSiteTests.csproj
+index b13f35f1..65f0ffc3 100644
+--- a/fw/Src/Common/SimpleRootSite/SimpleRootSiteTests/SimpleRootSiteTests.csproj
++++ b/fw/Src/Common/SimpleRootSite/SimpleRootSiteTests/SimpleRootSiteTests.csproj
+@@ -214,7 +214,7 @@
+       <HintPath>..\..\..\..\Output\Debug\xCoreInterfaces.dll</HintPath>
+     </Reference>
+     <Reference Include="ibusdotnet, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c9ab93f7b23223fb">
+-      <HintPath>..\..\..\packages\ibusdotnet.2.0.3\lib\net461\ibusdotnet.dll</HintPath>
++      <HintPath>..\..\..\..\packages\ibusdotnet.2.0.3\lib\net461\ibusdotnet.dll</HintPath>
+     </Reference>
+     <Reference Include="NDesk.DBus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099">
+       <HintPath>..\..\..\packages\NDesk.DBus.0.15.0\lib\NDesk.DBus.dll</HintPath>
+-- 
+2.25.1
+

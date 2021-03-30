@@ -1,0 +1,25 @@
+From f51c008ef20e0d77bd3db6b897c99ca83967092a Mon Sep 17 00:00:00 2001
+Message-Id: <f51c008ef20e0d77bd3db6b897c99ca83967092a.1615494923.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Thu, 11 Mar 2021 14:35:10 -0600
+Subject: [PATCH] fw-debug-inject
+
+Change-Id: Ie8228ba3cf3c7db0fa6cc9d8684c57d86b445f4a
+---
+ Lib/linux/run-app | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Lib/linux/run-app b/Lib/linux/run-app
+index 92302c02..e9915d4f 100755
+--- a/fw/Lib/linux/run-app
++++ b/fw/Lib/linux/run-app
+@@ -92,5 +92,6 @@ cd "$lib"; RUNMODE="INSTALLED" . environ; cd $OLDPWD
+ 
+ cd "$share" # Temporary
+ command="mono ${FW_MONO_OPTS} --debug ""$lib"/"$@"
++[[ ! -f $HOME/fw-debug-inject ]] || source $HOME/fw-debug-inject
+ debug "Executing ${command} from dir $(pwd) in the following environment:\n$(env)"
+ exec ${command}
+-- 
+2.25.1
+

@@ -1,0 +1,28 @@
+From 9104ba2826712d32902fa65805ba043812cd1837 Mon Sep 17 00:00:00 2001
+Message-Id: <9104ba2826712d32902fa65805ba043812cd1837.1615319919.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Tue, 9 Mar 2021 13:58:24 -0600
+Subject: [PATCH 1/2] find strings in /app for flatpak
+
+Change-Id: Ic3d6e6cb3a6cf6fa209d762bde877784fdf04e72
+---
+ Src/Common/FwUtils/StringTable.cs | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Src/Common/FwUtils/StringTable.cs b/Src/Common/FwUtils/StringTable.cs
+index 8ef91d58..16d82ba0 100644
+--- a/fw/Src/Common/FwUtils/StringTable.cs
++++ b/fw/Src/Common/FwUtils/StringTable.cs
+@@ -52,7 +52,8 @@ public static StringTable Table
+ 						if (parentOfLanguageExplorerFolder.EndsWith("lib/fieldworks"))
+ 						{
+ 							installedBinary = true;
+-							parentOfLanguageExplorerFolder = Path.Combine(
++							// /usr/share/fieldworks or /app/share/fieldworks if running in flatpak. Mono 5 is giving /usr/share for CommonApplicationData when running in flatpak.
++							parentOfLanguageExplorerFolder = Environment.GetEnvironmentVariable("FW_ROOT") ?? Path.Combine(
+ 								Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+ 								"fieldworks");
+ 							Console.WriteLine($"DEBUG2 string table Table.get parentOfLanguageExplorerFolder={parentOfLanguageExplorerFolder}");
+-- 
+2.25.1
+

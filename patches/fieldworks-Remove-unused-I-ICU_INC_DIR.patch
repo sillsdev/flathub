@@ -1,0 +1,41 @@
+From beab7caccaa482b2c480911dcc94d4ed35bec89f Mon Sep 17 00:00:00 2001
+Message-Id: <beab7caccaa482b2c480911dcc94d4ed35bec89f.1608176398.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Wed, 16 Dec 2020 21:39:51 -0600
+Subject: [PATCH] Remove unused -I ICU_INC_DIR
+
+- Which is messing up the following -I argument.
+
+Change-Id: I362a28192a5930a0a8c127655675b93d6961e018
+---
+ Src/DebugProcs/Makefile | 1 -
+ Src/views/Makefile      | 1 -
+ 2 files changed, 2 deletions(-)
+
+diff --git a/Src/DebugProcs/Makefile b/Src/DebugProcs/Makefile
+index 68e676af..56ac87df 100644
+--- a/fw/Src/DebugProcs/Makefile
++++ b/fw/Src/DebugProcs/Makefile
+@@ -31,7 +31,6 @@ INCLUDES := $(shell icu-config --cppflags) \
+ 	-I$(WIN32MORE_INC) \
+ 	-I$(COM_INC) \
+ 	-I$(WIN32BASE_INC) \
+-	-I$(ICU_INC_DIR) \
+ 	$(shell pkg-config --cflags $(PACKAGES)) \
+ 
+ 
+diff --git a/Src/views/Makefile b/Src/views/Makefile
+index fcb9ead7..21a80490 100644
+--- a/fw/Src/views/Makefile
++++ b/fw/Src/views/Makefile
+@@ -38,7 +38,6 @@ INCLUDES := \
+ 	-I$(WIN32MORE_INC) \
+ 	-I$(COM_INC) \
+ 	-I$(WIN32BASE_INC) \
+-	-I$(ICU_INC_DIR) \
+ 	$(shell pkg-config --cflags $(PACKAGES)) \
+ 
+ 
+-- 
+2.25.1
+

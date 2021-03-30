@@ -1,0 +1,41 @@
+From 44a3656b891ffc64a1c607cd25df7862514b53c7 Mon Sep 17 00:00:00 2001
+Message-Id: <44a3656b891ffc64a1c607cd25df7862514b53c7.1612803844.git.marksvc@gmail.com>
+In-Reply-To: <2139248f79573dcdbf58bf2f45bfd811d651bdc3.1612803844.git.marksvc@gmail.com>
+References: <2139248f79573dcdbf58bf2f45bfd811d651bdc3.1612803844.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Mon, 8 Feb 2021 11:02:16 -0600
+Subject: [PATCH 6/6] Look for gecko in custom prefix
+
+Change-Id: Ieba0a141ed584afd18125bfbfa7604e413a9ebf8
+---
+ environ           | 1 +
+ environ-xulrunner | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/environ b/environ
+index d7d1bb60..7de29a39 100644
+--- a/fw/environ
++++ b/fw/environ
+@@ -31,6 +31,7 @@ if [ -f "${DOTNET_TOOLS_PATHER}" ]; then
+ fi
+ 
+ BASE=$(pwd)
++INSTALLATION_PREFIX="${INSTALLATION_PREFIX:-/usr}"
+ COM=$(dirname "${BASE}")/libcom/COM
+ ARCH=$(uname -m)
+ BUILD="${BUILD:-Debug}"
+diff --git a/environ-xulrunner b/environ-xulrunner
+index cf85ce7a..c35a66e6 100644
+--- a/fw/environ-xulrunner
++++ b/fw/environ-xulrunner
+@@ -1,6 +1,6 @@
+ if [ "$RUNMODE" = "INSTALLED" ]
+ then
+-	GECKOFX="/usr/lib/fieldworks"
++	GECKOFX="${INSTALLATION_PREFIX}/lib/fieldworks"
+ else
+ 	GECKOFX="${BASE}/Output_${ARCH}/${BUILD}"
+ fi
+-- 
+2.25.1
+

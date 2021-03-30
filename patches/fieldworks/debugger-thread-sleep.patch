@@ -1,0 +1,29 @@
+From b8eb46899bec4aa77323fdc9fc95610f0bc604a0 Mon Sep 17 00:00:00 2001
+Message-Id: <b8eb46899bec4aa77323fdc9fc95610f0bc604a0.1615308113.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Tue, 9 Mar 2021 10:41:48 -0600
+Subject: [PATCH] debugger thread sleep
+
+Change-Id: I7286bdb97b9c1d3779a79897aafd57b97c6d9a3d
+---
+ Src/Common/FwUtils/StringTable.cs | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/Src/Common/FwUtils/StringTable.cs b/Src/Common/FwUtils/StringTable.cs
+index 3b440c95..8ef91d58 100644
+--- a/fw/Src/Common/FwUtils/StringTable.cs
++++ b/fw/Src/Common/FwUtils/StringTable.cs
+@@ -44,7 +44,9 @@ public static StringTable Table
+ 					var installedBinary = false;
+ 					if (Platform.IsLinux)
+ 					{
+-						MessageBox.Show($"DEBUG1 installedBinary={installedBinary}, parentOfLanguageExplorerFolder={parentOfLanguageExplorerFolder}");
++						Console.WriteLine($"DEBUG1 installedBinary={installedBinary}, parentOfLanguageExplorerFolder={parentOfLanguageExplorerFolder}");
++						Console.WriteLine($"DEBUG3 thread sleep 5000 for debugger attach");
++						System.Threading.Thread.Sleep(5000);
+ 						// First check if we're running an installed version. If so, replace
+ 						// /usr/lib/fieldworks with /usr/share/fieldworks
+ 						if (parentOfLanguageExplorerFolder.EndsWith("lib/fieldworks"))
+-- 
+2.25.1
+

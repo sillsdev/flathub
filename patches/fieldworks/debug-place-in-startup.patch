@@ -1,0 +1,30 @@
+From f4d2cf374bc49f88c03b96989b0798c542b5e385 Mon Sep 17 00:00:00 2001
+Message-Id: <f4d2cf374bc49f88c03b96989b0798c542b5e385.1615319919.git.marksvc@gmail.com>
+In-Reply-To: <9104ba2826712d32902fa65805ba043812cd1837.1615319919.git.marksvc@gmail.com>
+References: <9104ba2826712d32902fa65805ba043812cd1837.1615319919.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Tue, 9 Mar 2021 13:58:33 -0600
+Subject: [PATCH 2/2] debug place in startup
+
+Change-Id: I19515afa896cd76348ead5d0574622105099c1e1
+---
+ Src/Common/FieldWorks/FieldWorks.cs | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/Src/Common/FieldWorks/FieldWorks.cs b/Src/Common/FieldWorks/FieldWorks.cs
+index b0e3a99f..d5e753e7 100644
+--- a/fw/Src/Common/FieldWorks/FieldWorks.cs
++++ b/fw/Src/Common/FieldWorks/FieldWorks.cs
+@@ -211,6 +211,9 @@ static int Main(string[] rgArgs)
+ 
+ 				FwUtils.InitializeIcu();
+ 
++				Console.WriteLine($"DEBUG4 thread sleep 5000 for debugger attach");
++				System.Threading.Thread.Sleep(5000);
++
+ 				// initialize the SLDR
+ 				Sldr.Initialize();
+ 
+-- 
+2.25.1
+

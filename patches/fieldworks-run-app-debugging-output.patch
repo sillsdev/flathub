@@ -1,0 +1,26 @@
+From 64d76be44c1ce4c7fab0d27d49f508cd1eebd484 Mon Sep 17 00:00:00 2001
+Message-Id: <64d76be44c1ce4c7fab0d27d49f508cd1eebd484.1612195348.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Mon, 1 Feb 2021 10:02:21 -0600
+Subject: [PATCH] run-app debugging output
+
+Change-Id: I4463c69f4d788e84e920eef762ee3635528d9863
+---
+ Lib/linux/run-app | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/Lib/linux/run-app b/Lib/linux/run-app
+index 3f103fec..942a941e 100755
+--- a/fw/Lib/linux/run-app
++++ b/fw/Lib/linux/run-app
+@@ -84,4 +84,7 @@ cd "$lib"; RUNMODE="INSTALLED" . environ; cd $OLDPWD
+ #fi
+ 
+ cd "$share" # Temporary
++echo DEBUG before running mono, env and pwd are
++env
++pwd
+ exec mono --debug "$lib"/"$@"
+-- 
+2.25.1
+

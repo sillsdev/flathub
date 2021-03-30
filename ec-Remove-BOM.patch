@@ -1,0 +1,23 @@
+From 7a103e46f27b8efd2b7a0e7342d4f8200589dea9 Mon Sep 17 00:00:00 2001
+Message-Id: <7a103e46f27b8efd2b7a0e7342d4f8200589dea9.1605547158.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Mon, 16 Nov 2020 11:13:26 -0600
+Subject: [PATCH] Remove BOM
+
+---
+ src/AIGuesserEC/Properties/Resources.resx | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/AIGuesserEC/Properties/Resources.resx b/src/AIGuesserEC/Properties/Resources.resx
+index 8d91a43..6d56517 100755
+--- a/src/AIGuesserEC/Properties/Resources.resx
++++ b/src/AIGuesserEC/Properties/Resources.resx
+@@ -1,4 +1,4 @@
+-﻿<?xml version="1.0" encoding="utf-8"?>
++<?xml version="1.0" encoding="utf-8"?>
+ <root>
+   <!-- 
+     Microsoft ResX Schema 
+-- 
+2.25.1
+

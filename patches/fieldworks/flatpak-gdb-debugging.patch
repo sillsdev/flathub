@@ -1,0 +1,27 @@
+From 6e4c7d27f99089be7d84aca5abd0f3c4ed76e99c Mon Sep 17 00:00:00 2001
+Message-Id: <6e4c7d27f99089be7d84aca5abd0f3c4ed76e99c.1616082463.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Thu, 18 Mar 2021 10:47:35 -0500
+Subject: [PATCH] flatpak - gdb debugging
+
+Change-Id: Ifddd1f2be0947146f9ebd5d1144e6f82ade3782c
+---
+ Lib/linux/run-app | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Lib/linux/run-app b/Lib/linux/run-app
+index e9915d4f..c800ade3 100755
+--- a/fw/Lib/linux/run-app
++++ b/fw/Lib/linux/run-app
+@@ -91,7 +91,7 @@ cd "$lib"; RUNMODE="INSTALLED" . environ; cd $OLDPWD
+ #fi
+ 
+ cd "$share" # Temporary
+-command="mono ${FW_MONO_OPTS} --debug ""$lib"/"$@"
++command="${FW_COMMAND_PREFIX} ${FW_MONO_COMMAND:-mono} ${FW_MONO_OPTS} --debug ""$lib"/"$@"
+ [[ ! -f $HOME/fw-debug-inject ]] || source $HOME/fw-debug-inject
+ debug "Executing ${command} from dir $(pwd) in the following environment:\n$(env)"
+ exec ${command}
+-- 
+2.25.1
+

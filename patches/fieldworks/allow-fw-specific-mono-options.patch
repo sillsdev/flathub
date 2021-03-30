@@ -1,0 +1,33 @@
+From 4181e153a10205e2935c0654050e0d7be88e3f94 Mon Sep 17 00:00:00 2001
+Message-Id: <4181e153a10205e2935c0654050e0d7be88e3f94.1614966274.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Fri, 5 Mar 2021 11:44:27 -0600
+Subject: [PATCH] allow fw-specific mono options
+
+so they aren't used for read and write key .exe if using
+MONO_ENV_OPTIONS
+
+Change-Id: Ida00127fcf379f629a857810cd3f71a3862c2766
+---
+ Lib/linux/run-app | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/Lib/linux/run-app b/Lib/linux/run-app
+index f0f341d9..969d1262 100755
+--- a/fw/Lib/linux/run-app
++++ b/fw/Lib/linux/run-app
+@@ -84,8 +84,9 @@ cd "$lib"; RUNMODE="INSTALLED" . environ; cd $OLDPWD
+ #fi
+ 
+ cd "$share" # Temporary
+-echo DEBUG before running mono, env, pwd, and args are
++echo DEBUG before running mono, env, pwd, FW_MONO_OPTS, and args are
+ env
+ pwd
++echo DEBUG FW_MONO_OPTS: ${FW_MONO_OPTS}
+ echo DEBUG args: "$@"
+-exec mono --debug "$lib"/"$@"
++exec mono ${FW_MONO_OPTS} --debug "$lib"/"$@"
+-- 
+2.25.1
+

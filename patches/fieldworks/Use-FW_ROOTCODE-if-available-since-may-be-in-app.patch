@@ -1,0 +1,30 @@
+From 32935b033f3c7f5cda7758d40b2f3a109a2c2cf4 Mon Sep 17 00:00:00 2001
+Message-Id: <32935b033f3c7f5cda7758d40b2f3a109a2c2cf4.1615225947.git.marksvc@gmail.com>
+In-Reply-To: <c68bcb66e0bbbeaa98c649c2986f4521186630d0.1615225947.git.marksvc@gmail.com>
+References: <c68bcb66e0bbbeaa98c649c2986f4521186630d0.1615225947.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Mon, 8 Mar 2021 11:51:54 -0600
+Subject: [PATCH 2/3] Use FW_ROOTCODE if available, since may be in /app
+
+Change-Id: I12886790862488eae7f32504cada60215a4eb5b6
+---
+ .../ParatextLexiconPluginDirectoryFinder.cs                    | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Src/FwParatextLexiconPlugin/ParatextLexiconPluginDirectoryFinder.cs b/Src/FwParatextLexiconPlugin/ParatextLexiconPluginDirectoryFinder.cs
+index da2ae1e0..ba94efed 100644
+--- a/fw/Src/FwParatextLexiconPlugin/ParatextLexiconPluginDirectoryFinder.cs
++++ b/fw/Src/FwParatextLexiconPlugin/ParatextLexiconPluginDirectoryFinder.cs
+@@ -52,7 +52,8 @@ public static string CodeDirectory
+ 		{
+ 			get
+ 			{
+-				return GetDirectory(RootCodeDir, MiscUtils.IsUnix ? "/usr/share/fieldworks"
++				string linuxDir = Environment.GetEnvironmentVariable("FW_ROOTCODE") ?? "/usr/share/fieldworks";
++				return GetDirectory(RootCodeDir, MiscUtils.IsUnix ? linuxDir
+ 					: Path.GetDirectoryName(FileUtils.StripFilePrefix(Assembly.GetExecutingAssembly().CodeBase)));
+ 			}
+ 		}
+-- 
+2.25.1
+

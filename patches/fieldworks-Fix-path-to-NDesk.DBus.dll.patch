@@ -1,0 +1,27 @@
+From 8d3166ef6ca5ae5511c917d69ce1bf28f6165d2e Mon Sep 17 00:00:00 2001
+Message-Id: <8d3166ef6ca5ae5511c917d69ce1bf28f6165d2e.1611680398.git.marksvc@gmail.com>
+From: MarkS <marksvc@gmail.com>
+Date: Tue, 26 Jan 2021 10:59:51 -0600
+Subject: [PATCH] Fix path to NDesk.DBus.dll
+
+Change-Id: Ic10bf22236f346d9249ddf7b36d10e2c3daaa125
+---
+ .../SimpleRootSiteTests/SimpleRootSiteTests.csproj              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Src/Common/SimpleRootSite/SimpleRootSiteTests/SimpleRootSiteTests.csproj b/Src/Common/SimpleRootSite/SimpleRootSiteTests/SimpleRootSiteTests.csproj
+index 65f0ffc3..3f89c86f 100644
+--- a/fw/Src/Common/SimpleRootSite/SimpleRootSiteTests/SimpleRootSiteTests.csproj
++++ b/fw/Src/Common/SimpleRootSite/SimpleRootSiteTests/SimpleRootSiteTests.csproj
+@@ -217,7 +217,7 @@
+       <HintPath>..\..\..\..\packages\ibusdotnet.2.0.3\lib\net461\ibusdotnet.dll</HintPath>
+     </Reference>
+     <Reference Include="NDesk.DBus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099">
+-      <HintPath>..\..\..\packages\NDesk.DBus.0.15.0\lib\NDesk.DBus.dll</HintPath>
++      <HintPath>..\..\..\..\packages\NDesk.DBus.0.15.0\lib\NDesk.DBus.dll</HintPath>
+     </Reference>
+     <Reference Include="Rhino.Mocks">
+       <HintPath>..\..\..\..\Bin\Rhino\Rhino.Mocks.dll</HintPath>
+-- 
+2.25.1
+
