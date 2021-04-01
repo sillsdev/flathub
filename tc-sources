@@ -33,7 +33,11 @@ tcInputsPath = sys.argv[1]
 outputSourcesPath=sys.argv[2]
 
 nugetSources = []
-cachePath = '{}/tc-sources-flatpak'.format($XDG_CACHE_HOME)
+if 'XDG_CACHE_HOME' in ${...}:
+    cacheHome = $XDG_CACHE_HOME
+else:
+    cacheHome = '{}/.cache'.format($HOME)
+cachePath = '{}/nuget-sources-flatpak'.format(cacheHome)
 mkdir -p @(cachePath)
 
 def processInputSourcesList(path):

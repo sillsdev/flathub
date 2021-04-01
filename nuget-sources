@@ -38,7 +38,11 @@ destdir = sys.argv[2]
 outputSourcesPath=sys.argv[3]
 
 nugetSources = []
-cachePath = '{}/nuget-sources-flatpak'.format($XDG_CACHE_HOME)
+if 'XDG_CACHE_HOME' in ${...}:
+    cacheHome = $XDG_CACHE_HOME
+else:
+    cacheHome = '{}/.cache'.format($HOME)
+cachePath = '{}/nuget-sources-flatpak'.format(cacheHome)
 mkdir -p @(cachePath)
 
 def processPackagesConfig(path):
