@@ -66,13 +66,13 @@ modules:
             url: http://archive.ubuntu.com/ubuntu/pool/universe/b/boost-defaults/libboost-test-dev_1.71.0.0ubuntu2_amd64.deb
             sha256: 53e09ac817286ffb361a354d6d2072fc1102ebb5d1aeaaaf754d2f8bcdd3d460
           - type: file
-            url: http://cz.archive.ubuntu.com/ubuntu/pool/universe/b/boost1.71/libboost-test1.71-dev_1.71.0-6ubuntu6_amd64.deb
+            url: http://archive.ubuntu.com/ubuntu/pool/universe/b/boost1.71/libboost-test1.71-dev_1.71.0-6ubuntu6_amd64.deb
             sha256: 65e8a7d6a60b12931ecddc1b2e008296fedc55421533c48d884e07f2b0a6c8d8
           - type: file
-            url: http://cz.archive.ubuntu.com/ubuntu/pool/universe/b/boost1.71/libboost-test1.71.0_1.71.0-6ubuntu6_amd64.deb
+            url: http://archive.ubuntu.com/ubuntu/pool/universe/b/boost1.71/libboost-test1.71.0_1.71.0-6ubuntu6_amd64.deb
             sha256: 3fd4afefc4fa0b234c3e237adf198c4bce33df243a93cd43ea4575d436652dc0
           - type: file
-            url: http://cz.archive.ubuntu.com/ubuntu/pool/main/b/boost1.71/libboost1.71-dev_1.71.0-6ubuntu6_amd64.deb
+            url: http://archive.ubuntu.com/ubuntu/pool/main/b/boost1.71/libboost1.71-dev_1.71.0-6ubuntu6_amd64.deb
             sha256: d3346a9c1eb551c1b0214ee6db4efead588da16e607d1290ab143453a5e8924f
       # Remove the libenchant-dev module if the enchant in org.gnome.Sdk is sufficient.
       # - name: libenchant-dev
@@ -82,22 +82,22 @@ modules:
       #     - for package in *.deb; do mkdir "${package}-dir" && (cd "${package}-dir" && ar x ../"${package}") && tar -v -C / -x -f "${package}-dir"/data.tar.xz ; done
       #   sources:
       #     - type: file
-      #       url: http://cz.archive.ubuntu.com/ubuntu/pool/universe/e/enchant/libenchant-dev_1.6.0-11.3build1_amd64.deb
+      #       url: http://archive.ubuntu.com/ubuntu/pool/universe/e/enchant/libenchant-dev_1.6.0-11.3build1_amd64.deb
       #       sha256: edfca92d3c6fb0f7237057b02175a6de55bccda581fb53bbc536de2bfd857cb0
       #     - type: file
-      #       url: http://cz.archive.ubuntu.com/ubuntu/pool/universe/e/enchant/libenchant1c2a_1.6.0-11.3build1_amd64.deb
+      #       url: http://archive.ubuntu.com/ubuntu/pool/universe/e/enchant/libenchant1c2a_1.6.0-11.3build1_amd64.deb
       #       sha256: 61fcfff6f79c871350b1c2f674bdf6f1cc19e9e808687f7abb005cdfc19264a6
       #     - type: file
-      #       url: http://cz.archive.ubuntu.com/ubuntu/pool/main/s/scowl/hunspell-en-us_2018.04.16-1_all.deb
+      #       url: http://archive.ubuntu.com/ubuntu/pool/main/s/scowl/hunspell-en-us_2018.04.16-1_all.deb
       #       sha256: 804a6097f0034eea0edf7cbf30d75adb881933064ab6d65515159dbc1c89aeb6
       #     - type: file
-      #       url: http://cz.archive.ubuntu.com/ubuntu/pool/main/d/dictionaries-common/dictionaries-common_1.28.1_all.deb
+      #       url: http://archive.ubuntu.com/ubuntu/pool/main/d/dictionaries-common/dictionaries-common_1.28.1_all.deb
       #       sha256: 5828e8d6973125cb19968eb345e2b5e08d207f73dac09c42f1ed9e81ca251431
       #     - type: file
-      #       url: http://cz.archive.ubuntu.com/ubuntu/pool/main/a/aspell/libaspell15_0.60.8-1build1_amd64.deb
+      #       url: http://archive.ubuntu.com/ubuntu/pool/main/a/aspell/libaspell15_0.60.8-1build1_amd64.deb
       #       sha256: e693bec4fad44a18b9855ee26fc5abbe0df5dabba97fcdd4f2675b5b0ccd3997
       #     - type: file
-      #       url: http://cz.archive.ubuntu.com/ubuntu/pool/main/h/hunspell/libhunspell-1.7-0_1.7.0-2build2_amd64.deb
+      #       url: http://archive.ubuntu.com/ubuntu/pool/main/h/hunspell/libhunspell-1.7-0_1.7.0-2build2_amd64.deb
       #       sha256: a8851da5816b31753f0682bb78d98c5d29ec7ef22cf14546876eb0e8f668f295
       
       - name: dbus-glib # for gecko
