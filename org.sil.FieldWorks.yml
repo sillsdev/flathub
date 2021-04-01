@@ -255,7 +255,8 @@ modules:
 
 
 
-      #   - name: mono5-sil-from-source # WIP . Note that may need to do a make get-monolite-latest after autogen.sh.  TODO uncomment this stanza to start using from source. remove the .deb usage
+      #   - name: mono5-sil-from-source # alternative approach from mono5-si-from-git-source below, but probably prefer using git.
+      # Note that may need to do a make get-monolite-latest after autogen.sh. 
       #     build-options:
       #       prefix: /usr
       #     env:
@@ -272,7 +273,7 @@ modules:
               #   sha256: b7caa9f89b6a29a2879962075645a2257bae3e7768c1b5f24ff09a692bb5e4ff
 
       # - name: mono5-sil-from-git-source
-      #   # todo work more on getting this to work
+      #   # TODO finish getting this to work, then remove .deb usage.
       #   post-install:
       #     - cert-sync /etc/ssl/certs/ca-certificates.crt
       #   sources:
@@ -297,7 +298,7 @@ modules:
 
 
       # - name: gtk-sharp-from-source
-      # # todo try again
+      # # todo try again. Then remove .deb usage.
       #   config-opts:
       #     - --disable-gtk-doc
       #     - --disable-man
@@ -345,7 +346,7 @@ modules:
       #       dest: /etc
       #       path: /etc/os-release
 
-      #   - name: gtk-sharp5-sil-from-source # WIP . TODO uncomment stanza to start using from source. remove the .deb usage
+      #   - name: gtk-sharp5-sil-from-source # Note: probably prefer "gtk-sharp-from-source" module instead that uses git
       #     build-options:
       #       prefix: /usr
       #       config-opts:
