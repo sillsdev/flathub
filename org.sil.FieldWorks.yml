@@ -709,8 +709,8 @@ modules:
           #   branch: support/9.0
           #   dest: fw
           - type: archive
-            url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks/fieldworks_9.0.14.11+focal1.tar.xz
-            sha256: f555f232c553eb046d77782f7c8b6953d321accaa78f01365f4fdf083c57163d
+            url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks/fieldworks_9.0.16.58%2Bfocal1.tar.xz
+            sha256: 8487e179d97d7f56fb7cfbade4b40eb31ba6010e64baf8179492fcd26c1912ff
           - type: patch
             path: patches/fieldworks-Do-not-block-path.patch
             strip-components: 1

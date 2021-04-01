@@ -41,8 +41,8 @@
     url: https://api.nuget.org/v3-flatcontainer/NDesk.DBus/0.15.0/NDesk.DBus.0.15.0.nupkg
     sha512: c1f1d3cac04b26e2d068ebb555ea22763ae297d09f0d7fde63059cb707d460987ed3487f847ce9a567e20e9bc39b2b7a2b16f5a1abe608c914a10617fe693620
   - type: file
-    url: https://api.nuget.org/v3-flatcontainer/icu.net/2.5.4/icu.net.2.5.4.nupkg
-    sha512: c6551c5d5401a1bbb1cca6399c877d5edf145d9a2a8e43357e2e2016f8b442629981d58e626a008c864d52117f300c4abda2a782e1b9b77403c20b737b937269
+    url: https://api.nuget.org/v3-flatcontainer/icu.net/2.7.0-beta.10/icu.net.2.7.0-beta.10.nupkg
+    sha512: 412a3c7360c42f428c3c6c01598919f56f7aed0ed41a8bd6ceb391e273c404afbd3a280a778078fcdec1a51ecb67cc6501d16f5a3c1d85f77e2f7d975e22008b
   - type: file
     url: https://api.nuget.org/v3-flatcontainer/System.ValueTuple/4.5.0/System.ValueTuple.4.5.0.nupkg
     sha512: fa00ebb5045d12c51274f64411c551981beceb1266a8606a4731063109b95ea1f15939197bf3d2ba899db61e593dc39bfce876908bba34286823525093ae3d8e
