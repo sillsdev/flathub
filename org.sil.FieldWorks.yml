@@ -22,11 +22,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Build: flatpak-builder --user --install --force-clean build-dir org.sil.FieldWorks.yml 
-# Inspect before building it by appending --build-shell=fieldworks
-# Run: flatpak run org.sil.FieldWorks
-# Run a shell in the flatpak: flatpak run --command=bash org.sil.FieldWorks
-
 app-id: org.sil.FieldWorks
 
 # org.gnome.Platform provides some pieces that we would need to manually specify if we use org.freedesktop.Platform.
