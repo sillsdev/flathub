@@ -1,5 +1,5 @@
 - name: libpalaso
-  baseurl: https://build.palaso.org/guestAuth/repository/download/Libpalaso_PalasoLinux64masterContinuous/fw-9.0.14.tcbuildtag/
+  baseurl: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/
   dest: fw/Downloads
   files:
     - SIL.Core.dll
@@ -41,7 +41,7 @@
     - taglib-sharp.dll
     - Spart.dll
 - name: Chorus
-  baseurl: https://build.palaso.org/guestAuth/repository/download/Chorus_Linux64masterContinuous/fw-9.0.14.tcbuildtag/
+  baseurl: https://build.palaso.org/guestAuth/repository/download/Chorus_Linux64masterContinuous/fw-9.0.15.tcbuildtag/
   dest: fw/Downloads
   files:
     - Autofac.dll
@@ -69,7 +69,7 @@
     - SIL.Collections.dll
     - SIL.HermitCrab.dll
 - name: LCM
-  baseurl: https://build.palaso.org/guestAuth/repository/download/Liblcm_LiblcmLinux64masterContinuous/fw-9.0.14.tcbuildtag/
+  baseurl: https://build.palaso.org/guestAuth/repository/download/Liblcm_LiblcmLinux64masterContinuous/fw-9.0.16.tcbuildtag/
   dest: fw/Downloads
   files:
     - LCM.zip

@@ -820,8 +820,9 @@ modules:
           - fieldworks-sources-nuget-linux.yml
             
           # FW dependencies
-          # Preview updates via FieldWorks.git: git log -p -- Build/mkall.targets
-          # To regenerate input sources:
+          # Find updates via FieldWorks.git with a command like: git log -p FieldWorks9.0.13..FieldWorks9.0.16 -- Build/mkall.targets
+          # Manually apply changes by editing tc-inputs.yml.
+          # Regenerate input sources:
           # ./tc-sources tc-inputs.yml fieldworks-sources-tc.yml
           - fieldworks-sources-tc.yml
 
