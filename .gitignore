@@ -1,3 +1,4 @@
-node_modules
-.flatpak-builder
-build-dir
+/node_modules
+/.flatpak-builder
+/build-dir
+/local-repo
