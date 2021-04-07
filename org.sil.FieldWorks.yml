@@ -51,24 +51,20 @@ modules:
     build-commands:
       - echo Hello
     modules:
-      - name: libboost-test-dev
+
+      - name: libboost
+        # TODO Should I be installing this to /usr since I don't need to ship boost? Or do we need boost at runtime?
         buildsystem: simple
         build-commands:
           - env; ls -al; pwd
-          - for package in *.deb; do mkdir "${package}-dir" && (cd "${package}-dir" && ar x ../"${package}") && tar -v -C / -x -f "${package}-dir"/data.tar.xz ; done
+          - ./bootstrap.sh
+          # It installs to /usr/local unless I specify a prefix.
+          - ./b2 install variant=release --prefix=/usr
         sources:
-          - type: file
-            url: http://archive.ubuntu.com/ubuntu/pool/universe/b/boost-defaults/libboost-test-dev_1.71.0.0ubuntu2_amd64.deb
-            sha256: 53e09ac817286ffb361a354d6d2072fc1102ebb5d1aeaaaf754d2f8bcdd3d460
-          - type: file
-            url: http://archive.ubuntu.com/ubuntu/pool/universe/b/boost1.71/libboost-test1.71-dev_1.71.0-6ubuntu6_amd64.deb
-            sha256: 65e8a7d6a60b12931ecddc1b2e008296fedc55421533c48d884e07f2b0a6c8d8
-          - type: file
-            url: http://archive.ubuntu.com/ubuntu/pool/universe/b/boost1.71/libboost-test1.71.0_1.71.0-6ubuntu6_amd64.deb
-            sha256: 3fd4afefc4fa0b234c3e237adf198c4bce33df243a93cd43ea4575d436652dc0
-          - type: file
-            url: http://archive.ubuntu.com/ubuntu/pool/main/b/boost1.71/libboost1.71-dev_1.71.0-6ubuntu6_amd64.deb
-            sha256: d3346a9c1eb551c1b0214ee6db4efead588da16e607d1290ab143453a5e8924f
+        - type: archive
+          url: https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.tar.bz2
+          sha512: b7937d50c4512cf13cadd0ca829de36cf2cbc6fb788f45b1d4565ad0753e2b206c545125a5862016c2f16016f2e4a6b687928963b466fff17c3e0a4437142c20
+
       # Remove the libenchant-dev module if the enchant in org.gnome.Sdk is sufficient.
       # - name: libenchant-dev
       #   buildsystem: simple
@@ -652,19 +648,7 @@ modules:
 
 
 
-      # TODO try building boost manually when have time. k i am going to move libboost lower in file then, and i can move it back to the top another time once i get this working. ok so i didnt really look at the output but i guess the build succeeded. try moving this back to the top of the file to replace the boost there.
-      - name: libboost
-        # TODO Should I be installing this to /usr since I don't need to ship boost?
-        buildsystem: simple
-        build-commands:
-          - env; ls -al; pwd
-          - ./bootstrap.sh
-          - ./b2 install variant=release 
-        sources:
-        - type: archive
-          url: https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.tar.bz2
-          sha512: b7937d50c4512cf13cadd0ca829de36cf2cbc6fb788f45b1d4565ad0753e2b206c545125a5862016c2f16016f2e4a6b687928963b466fff17c3e0a4437142c20
-
+      
       
 
       # Note that trying to get fw FwCoreDlgs.csproj to find ECInterfaces.dll was a pain and wasn't solved by environment variables or msbuild properties or a .user file. I needed to change the hintpath from /usr/lib/fieldworks to /whatever, for it to be found. i could have also probably pre-copied it into Output/Release.
