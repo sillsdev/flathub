@@ -673,11 +673,10 @@ modules:
         build-commands:
           - env; ls -al . fw fw/Downloads; pwd
         
-          
-          - cd ${FW_ROOT_PATH} && touch fieldworks-flex.1.gz unicodechareditor.1.gz check-have-build-dependencies && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true Fw-build-package
+          - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true build-package-for-flatpak
           - cd ${FW_ROOT_PATH} && perl -pi -e '/<runtime>/ and s/^/  <dllmap dll="libdl.so" target="libdl.so.2" \/>\n/' $(find -name SIL.LCModel.Core.dll.config)
 
-          - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true install-package 
+          - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true install-for-flatpak 
 
           - mv /app/share/applications/fieldworks-applications.desktop /app/share/applications/org.sil.FieldWorks.desktop 
           - perl -pi -e 's/fieldworks-flex.png/org.sil.FieldWorks.png/g' /app/share/applications/org.sil.FieldWorks.desktop 
@@ -791,6 +790,9 @@ modules:
             strip-components: 1
           - type: patch
             path: patches/fieldworks/Make-package-build-use-specified-config.patch
+            strip-components: 1
+          - type: patch
+            path: patches/fieldworks/Build-Add-flatpak-Makefile-targets.patch
             strip-components: 1
           # - type: patch
           #   path: patches/fieldworks/
