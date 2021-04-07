@@ -673,6 +673,11 @@ modules:
         build-commands:
           - env; ls -al . fw fw/Downloads libcom; pwd
 
+          # Extract nuget packages. May only be needed when using source from git, rather than tarball.
+          # The 'type: archive', 'archive-type: zip' had some trouble working, so manually extract.
+          - for package in *.nupkg; do mkdir -p "${NUGET_DEST}/$(basename "${package}" .nupkg)"; unzip "${package}" -d "${NUGET_DEST}/$(basename "${package}" .nupkg)" ;done
+          - ls -al "${NUGET_DEST}"
+
           # Copy in localizations from fieldworks 9.0 tarball, until we can get them another way.
           - cp -a source-package/fw/Localizations fw/
           - cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/
