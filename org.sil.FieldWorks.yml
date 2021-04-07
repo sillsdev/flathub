@@ -849,6 +849,7 @@ modules:
     #         url: http://archive.ubuntu.com/ubuntu/pool/main/g/gobject-intqrospection/gobject-introspection_1.64.0.orig.tar.xz
     #         sha256: eac05a63091c81adfdc8ef34820bcc7e7778c5b9e34734d344fc9e69ddf4fc82
     #   - name: graphite2
+    #     # FieldWorks 9.0 does not appear to depend on an external graphite.
     #     sources:
     #       - type: archive
     #         url: http://archive.ubuntu.com/ubuntu/pool/main/g/graphite2/graphite2_1.3.13.orig.tar.gz
