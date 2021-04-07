@@ -268,29 +268,30 @@ modules:
               #   url: https://packages.sil.org/ubuntu/pool/main/m/mono5-sil/mono5-sil_5.16.0.179-1+focal1.debian.tar.xz
               #   sha256: b7caa9f89b6a29a2879962075645a2257bae3e7768c1b5f24ff09a692bb5e4ff
 
-      # - name: mono5-sil-from-git-source
-      #   # TODO finish getting this to work, then remove .deb usage.
-      #   post-install:
-      #     - cert-sync /etc/ssl/certs/ca-certificates.crt
-      #   sources:
-      #     - type: git
-      #       url: https://github.com/sillsdev/mono.git
-      #       tag: sil/5.16.0.179
-      #       commit: 76d08936cf7ab1384caf2c012e821f71b3b94b23
-      #     # - type: shell            
-      #     #   commands:
-      #     #     - ./autogen.sh
-      #     #     # DNS trouble
-      #     #     - make get-monolite-latest
-      #     # - type: shell
-      #     #   commands: 
-      #     #     - tee determine-version << "VERSION=$(perl -ne '/AC_INIT\(mono, \[(.*?)\]/ and print $1' configure.ac)""
-      #     #     - grep -E '(^MONO_VERSION|^MONO_CORLIB)' configure.ac tee -a determine-version
-      #     #     - source determine-version && URL=$(perl -ne '/monolite_url = (.*)/ and print $1' mcs/class/Makefile | perl -pe 's/[()]//g) curl --output TARGET ${URL}
-      #     - type: archive
-      #       url: https://download.mono-project.com/monolite/monolite-linux-1051600011-latest.tar.gz
-      #       sha512: b48bb273f5a9107f9bb9795d47277aeaaeb458588a6e011676bb9a152b83759f305cf1031a5e74a62145854ef17026cb1aa20ea9adb5e6b15f275b9d6af585db
-      #       dest: mcs/class/lib/monolite-linux/1051600011
+      - name: mono5-sil-from-git-source
+        # TODO finish getting this to work, then remove .deb usage.  
+        # TODO The submodules will need to have been precloned by flatpak. Confirm.
+        post-install:
+          - cert-sync /etc/ssl/certs/ca-certificates.crt
+        sources:
+          - type: git
+            url: https://github.com/sillsdev/mono.git
+            tag: sil/5.16.0.179
+            commit: 76d08936cf7ab1384caf2c012e821f71b3b94b23
+          # - type: shell            
+          #   commands:
+          #     - ./autogen.sh
+          #     # DNS trouble
+          #     - make get-monolite-latest
+          # - type: shell
+          #   commands: 
+          #     - tee determine-version << "VERSION=$(perl -ne '/AC_INIT\(mono, \[(.*?)\]/ and print $1' configure.ac)""
+          #     - grep -E '(^MONO_VERSION|^MONO_CORLIB)' configure.ac tee -a determine-version
+          #     - source determine-version && URL=$(perl -ne '/monolite_url = (.*)/ and print $1' mcs/class/Makefile | perl -pe 's/[()]//g) curl --output TARGET ${URL}
+          - type: archive
+            url: https://download.mono-project.com/monolite/monolite-linux-1051600011-latest.tar.gz
+            sha512: b48bb273f5a9107f9bb9795d47277aeaaeb458588a6e011676bb9a152b83759f305cf1031a5e74a62145854ef17026cb1aa20ea9adb5e6b15f275b9d6af585db
+            dest: mcs/class/lib/monolite-linux/1051600011
 
 
       # - name: gtk-sharp-from-source
