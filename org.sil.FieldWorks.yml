@@ -294,19 +294,19 @@ modules:
             dest: mcs/class/lib/monolite-linux/1051600011
 
 
-      # - name: gtk-sharp-from-source
-      # # todo try again. Then remove .deb usage.
-      #   config-opts:
-      #     - --disable-gtk-doc
-      #     - --disable-man
-      #   sources:
-      #     - type: git
-      #       url: https://github.com/sillsdev/gtk-sharp.git
-      #       branch: develop
-      #       commit: fcf1dd40d4892be309dd450bcda2026ddece4480
-      #     - type: script
-      #       commands:
-      #         - NOCONFIGURE=1 ./bootstrap-2.12
+      - name: gtk-sharp-from-source
+      # todo try again. Then remove .deb usage.
+        config-opts:
+          - --disable-gtk-doc
+          - --disable-man
+        sources:
+          - type: git
+            url: https://github.com/sillsdev/gtk-sharp.git
+            branch: develop
+            commit: fcf1dd40d4892be309dd450bcda2026ddece4480
+          - type: script
+            commands:
+              - NOCONFIGURE=1 ./bootstrap-2.12
 
       # - name: msbuild-from-source
       #   # so i'm trying to build msbuild from source. i see that its not used by many projects on flathub. and every project that does use it seems to just fetch .deb files and extract them. 
@@ -364,12 +364,12 @@ modules:
           # Same-character-count path to /app since some binary files are going to be modified too.
           - perl -pi -e 's#/opt/mono5-sil#/./././././app#g' /app/bin/*
         sources:
-          - type: file
-            url: http://packages.sil.org/ubuntu/pool/main/m/mono5-sil/mono5-sil_5.16.0.179-1+focal1_amd64.deb
-            sha256: 8e2831c5b2f9b116684056dca13f0ed0d7ace9f461c798629e2cdb51768e0caf
-          - type: file
-            url: http://packages.sil.org/ubuntu/pool/main/g/gtk-sharp5-sil/gtk-sharp5-sil_5.4.0-1+focal1_amd64.deb
-            sha256: 5d7918d583f2d21be195adad9f651ffa29a66f68beb3a7c071250a377555430b
+          # - type: file
+          #   url: http://packages.sil.org/ubuntu/pool/main/m/mono5-sil/mono5-sil_5.16.0.179-1+focal1_amd64.deb
+          #   sha256: 8e2831c5b2f9b116684056dca13f0ed0d7ace9f461c798629e2cdb51768e0caf
+          # - type: file
+          #   url: http://packages.sil.org/ubuntu/pool/main/g/gtk-sharp5-sil/gtk-sharp5-sil_5.4.0-1+focal1_amd64.deb
+          #   sha256: 5d7918d583f2d21be195adad9f651ffa29a66f68beb3a7c071250a377555430b
           - type: file
             url: http://linux.lsdev.sil.org/ubuntu/pool/main/m/mono5-sil-msbuild/mono5-sil-msbuild_15.8+xamarinxplat.2018.07.31.22.43-0xamarin5+ubuntu1804b1_all.deb
             sha256: 758274d8bc438f325fc5fc808c0482ab50eb2bdaf02f61747888e190760753de
