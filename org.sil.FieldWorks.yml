@@ -671,7 +671,15 @@ modules:
             # MSBUILD_ARGS: "-verbosity:normal"
             INSTALLATION_PREFIX: /app
         build-commands:
-          - env; ls -al . fw fw/Downloads; pwd
+          - env; ls -al . fw fw/Downloads libcom; pwd
+
+          # Copy in localizations from fieldworks 9.0 tarball, until we can get them another way.
+          - cp -a source-package/fw/Localizations fw/
+          - cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/
+          - cp -a source-package/fw/Output fw/
+          - cp -a source-package/fw/DistFiles/Templates fw/DistFiles/
+          - cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/
+          - cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
         
           - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true build-package-for-flatpak
           - cd ${FW_ROOT_PATH} && perl -pi -e '/<runtime>/ and s/^/  <dllmap dll="libdl.so" target="libdl.so.2" \/>\n/' $(find -name SIL.LCModel.Core.dll.config)
@@ -684,13 +692,25 @@ modules:
           - mv /app/share/icons/hicolor/64x64/apps/fieldworks-flex.png /app/share/icons/hicolor/64x64/apps/org.sil.FieldWorks.png 
           
         sources:
-          # - type: git
-          #   url: https://github.com/sillsdev/FieldWorks.git
-          #   branch: support/9.0
-          #   dest: fw
+          - type: git
+            url: https://github.com/sillsdev/FieldWorks.git
+            # branch: support/9.0
+            tag: FieldWorks9.0.16
+            dest: fw
+          - type: git
+            url: https://github.com/sillsdev/libcom.git
+            branch: develop
+            dest: libcom
+          - type: git
+            url: https://github.com/sillsdev/FwHelps.git
+            branch: develop
+            dest: fw/DistFiles/Helps
+            
           - type: archive
             url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks/fieldworks_9.0.16.58%2Bfocal1.tar.xz
             sha256: 8487e179d97d7f56fb7cfbade4b40eb31ba6010e64baf8179492fcd26c1912ff
+            dest: source-package
+
           - type: patch
             path: patches/fieldworks-Do-not-block-path.patch
             strip-components: 1
