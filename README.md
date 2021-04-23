@@ -27,14 +27,18 @@ later.
 
 ### Dependencies
 
-Install tools
+Install tools:
 
+```bash
 sudo apt install flatpak-builder
+```
 
-Clone FieldWorks.git repository.
+Clone FieldWorks.git repository to help generate source lists.
 
 Install dotnet5 sdk for a nuget source producing tool:
+```bash
 flatpak install flathub org.freedesktop.Sdk.Extension.dotnet5
+```
 
 ### Build
 
