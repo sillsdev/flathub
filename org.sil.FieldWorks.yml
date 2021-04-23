@@ -473,178 +473,213 @@ modules:
           - env; ls -al; find; pwd
           - touch fetch_l10ns # TODO These l10ns will need downloaded ahead of time
           - make release_build && make install
+          - cd nuget-specific && for package in *.nupkg; do mkdir -p "../packages/$(basename "${package}" .nupkg)"; unzip "${package}" -d "../packages//$(basename "${package}" .nupkg)" ;done
+          - ls -al packages
+          - cp -va source-tarball/DistFiles/localizations DistFiles/
+          - cd build && offNUGET_PACKAGES="$(pwd)/nuget-sources" msbuild FLExBridge.proj /p:GetVersion=false
         sources:
+          - type: git
+            url: https://github.com/sillsdev/flexbridge.git
+            # branch: develop
+            # branch: feature/nuget
+            # branch: hack-nuget-build
+            commit: f1117e3ad45502dd527c465f9862923e700e5a29
+          # TODO Not rely on tarball for localizations
           - type: archive
             url: https://packages.sil.org/ubuntu/pool/main/f/flexbridge/flexbridge_3.0.1+166.orig.tar.xz
             sha256: 31b4389195bf29ddac2d739dda91a21eec47f7b5307de50b78a003a890938ace
+            dest: source-tarball
           - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/common/Chorus_Help.chm
-            dest: lib/common
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/Chorus.exe
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/LibChorus.dll
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/ChorusHub.exe
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/ChorusMerge.exe
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/Mercurial-i686.zip
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/Mercurial-x86_64.zip
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/LibChorus.TestUtilities.dll
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/.guidsForInstaller.xml
-            dest: MercurialExtensions
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/Dummy.txt
-            dest: MercurialExtensions
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/.gitignore
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/.guidsForInstaller.xml
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/.hg_archival.txt
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/.hgignore
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/README.
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/buildcpmap.py
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/cpmap.pyc
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/fixutf8.py
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/fixutf8.pyc
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/fixutf8.pyo
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/osutil.py
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/osutil.pyc
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/osutil.pyo
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/win32helper.py
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/win32helper.pyc
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/win32helper.pyo
-            dest: MercurialExtensions/fixutf8
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/Chorus.exe
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/LibChorus.dll
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/ChorusHub.exe
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/ChorusMerge.exe
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/Mercurial-i686.zip
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/Mercurial-x86_64.zip
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/LibChorus.TestUtilities.dll
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/common/Autofac.dll
-            dest: lib/common
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/IPCFramework.dll
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/IPCFramework.dll
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Core.dll
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Core.Desktop.dll
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.TestUtilities.dll
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Windows.Forms.dll
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Windows.Forms.dll.config
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Windows.Forms.GeckoBrowserAdapter.dll
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Lift.dll
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/L10NSharp.dll
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/NDesk.DBus.dll
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/NDesk.DBus.dll.config
-            dest: lib/ReleaseMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Core.dll
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Core.Desktop.dll
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.TestUtilities.dll
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Windows.Forms.dll
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Windows.Forms.dll.config
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Windows.Forms.GeckoBrowserAdapter.dll
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Lift.dll
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/L10NSharp.dll
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/NDesk.DBus.dll
-            dest: lib/DebugMono
-          - type: file
-            path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/NDesk.DBus.dll.config
-            dest: lib/DebugMono
+            url: https://dist.nuget.org/win-x86-commandline/v5.9.0/nuget.exe
+            sha512: 980b62387ce9540eff0d49ef6dd5b4da121a8648646a465bc6445534e9ec0d7605483fad933b26f9b0b3797db4d4b1ec82ed354b3daf13e1dcc0818292815dca
+            dest: build/
+          # These nuget packages are installed by build/FLExBridge.proj.
+          - flexbridge-sources-nuget-specific.yml
+
+          # Use local nuget packages
+          - type: shell
+            commands:
+              - |
+                tee nuget.config <<< '<?xml version="1.0" encoding="utf-8"?>
+                <configuration>
+                  <packageSources>
+                    <add key="LocalNugetPackages" value="'$(pwd)/nuget-sources'" />
+                  </packageSources>
+                  <disabledPackageSources>
+                    <add key="nuget.org" value="true" />
+                  </disabledPackageSources>
+                </configuration>'
+          # Regenerate: ~/code/flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py flexbridge-sources-nuget.json $(find $HOME/fwrepo/flexbridge -name \*.csproj)
+          - flexbridge-sources-nuget.json
+
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/common/Chorus_Help.chm
+          #   dest: lib/common
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/Chorus.exe
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/LibChorus.dll
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/ChorusHub.exe
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/ChorusMerge.exe
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/Mercurial-i686.zip
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/Mercurial-x86_64.zip
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/LibChorus.TestUtilities.dll
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/.guidsForInstaller.xml
+          #   dest: MercurialExtensions
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/Dummy.txt
+          #   dest: MercurialExtensions
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/.gitignore
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/.guidsForInstaller.xml
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/.hg_archival.txt
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/.hgignore
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/README.
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/buildcpmap.py
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/cpmap.pyc
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/fixutf8.py
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/fixutf8.pyc
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/fixutf8.pyo
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/osutil.py
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/osutil.pyc
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/osutil.pyo
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/win32helper.py
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/win32helper.pyc
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/MercurialExtensions/fixutf8/win32helper.pyo
+          #   dest: MercurialExtensions/fixutf8
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/Chorus.exe
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/LibChorus.dll
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/ChorusHub.exe
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/ChorusMerge.exe
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/Mercurial-i686.zip
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/Mercurial-x86_64.zip
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/LibChorus.TestUtilities.dll
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/common/Autofac.dll
+          #   dest: lib/common
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/IPCFramework.dll
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/IPCFramework.dll
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Core.dll
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Core.Desktop.dll
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.TestUtilities.dll
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Windows.Forms.dll
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Windows.Forms.dll.config
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Windows.Forms.GeckoBrowserAdapter.dll
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/SIL.Lift.dll
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/L10NSharp.dll
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/NDesk.DBus.dll
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/ReleaseMono/NDesk.DBus.dll.config
+          #   dest: lib/ReleaseMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Core.dll
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Core.Desktop.dll
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.TestUtilities.dll
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Windows.Forms.dll
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Windows.Forms.dll.config
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Windows.Forms.GeckoBrowserAdapter.dll
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/SIL.Lift.dll
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/L10NSharp.dll
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/NDesk.DBus.dll
+          #   dest: lib/DebugMono
+          # - type: file
+          #   path: /home/vagrant/fwrepo/flexbridge/lib/DebugMono/NDesk.DBus.dll.config
+          #   dest: lib/DebugMono
           
 
 
