@@ -469,11 +469,11 @@ modules:
             
         build-commands:
           - env; ls -al; find; pwd
-          - touch fetch_l10ns # TODO These l10ns will need downloaded ahead of time
-          - make release_build && make install
           - cd nuget-specific && for package in *.nupkg; do mkdir -p "../packages/$(basename "${package}" .nupkg)"; unzip "${package}" -d "../packages//$(basename "${package}" .nupkg)" ;done
           - ls -al packages
           - cp -va source-tarball/DistFiles/localizations DistFiles/
+          # - touch fetch_l10ns # TODO These l10ns will need downloaded ahead of time
+          # - make release_build && make install
           - cd build && offNUGET_PACKAGES="$(pwd)/nuget-sources" msbuild FLExBridge.proj /p:GetVersion=false
         sources:
           - type: git
