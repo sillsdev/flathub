@@ -33,6 +33,9 @@ sudo apt install flatpak-builder
 
 Clone FieldWorks.git repository.
 
+Install dotnet5 sdk for a nuget source producing tool:
+flatpak install flathub org.freedesktop.Sdk.Extension.dotnet5
+
 ### Build
 
 ```bash
