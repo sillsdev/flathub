@@ -706,7 +706,7 @@ modules:
             # MSBUILD_ARGS: "-verbosity:normal"
             INSTALLATION_PREFIX: /app
         build-commands:
-          - env; ls -al . fw fw/Downloads libcom; pwd
+          - env; ls -al . fw fw/Downloads liblcm libcom; pwd
 
           # Extract nuget packages. May only be needed when using source from git, rather than tarball.
           # The 'type: archive', 'archive-type: zip' had some trouble working, so manually extract.
@@ -737,6 +737,12 @@ modules:
             # branch: support/9.0
             tag: FieldWorks9.0.16
             dest: fw
+          - type: git
+            url: https://github.com/sillsdev/liblcm.git
+            # branch: develop
+            tag: FieldWorks9.0.16
+            commit: 8f04ab5b314e9fa4cfacd4c481b82bc1ee2d6a91
+            dest: liblcm
           - type: git
             url: https://github.com/sillsdev/libcom.git
             branch: develop
