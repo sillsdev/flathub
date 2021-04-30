@@ -431,28 +431,46 @@ modules:
             EC_DOWNLOAD_DEPS: "false"
             # I don't remember if I caused this, but even tho `pkg-config --libs python-2.7` gives '-L/app/lib -lpython2.7', we ended up using '-L/app/lib/python2.7 -lpython2.7' and failing to find -lpython2.7. Override.
             PYTHON_LDFLAGS: "-L/app/lib -lpython2.7"
-            
-            
         config-opts:
           - --prefix=/app
         sources:
-          - type: archive
-            url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks-enc-converters/fieldworks-enc-converters_4.0.8.179+focal1.tar.xz
-            sha256: fc92c3185482ef9626f00ac708c910ff80682ab51fdb67af631d86f3a55b82c8
-          - type: archive
-            path: /home/vagrant/fwrepo/encoding-converters-core/packages.tar
-            dest: packages/
+          - type: git
+            url: https://github.com/silnrsi/encoding-converters-core.git
+            # Using branch master
+            commit: dd2976a5912eae0cb7fee582ce52bdf909a7d1cd
           - type: file
-            path: /home/vagrant/fwrepo/encoding-converters-core/build/nuget.exe
-            dest: build/
-          - type: patch
-            path: ec-dl-deps.patch
-          - type: patch
-            path: Remove-mistaken-Xsl-reference.patch
-            strip-components: 1
-          - type: patch
-            path: ec-Remove-BOM.patch
-            strip-components: 1
+            url: https://api.nuget.org/v3-flatcontainer/Geckofx45.64.Linux/45.0.21/Geckofx45.64.Linux.45.0.21.nupkg
+            sha512: d34f7175793bdfc4dcfa0b404bf7d6f2a27ba29389623a23c4d6383281fedf7f8014474775f4321af21ad9eab2817e5309934b81b918296fb518c23064272dfe
+            dest: nuget-sources/
+          - type: file
+            url: https://api.nuget.org/v3-flatcontainer/Geckofx45.32.Linux/45.0.21/Geckofx45.32.Linux.45.0.21.nupkg
+            sha512: 677c1dea32bd8631e859a7ddb2e72971a5db5561e9bc3ddced9a5bd451395f78719d3001b1cea908025707bb34175ecbc698c9ca965a44535bb4e9c83687832f
+            dest: nuget-sources/
+          - type: file
+            url: https://api.nuget.org/v3-flatcontainer/NUnit/2.6.4/NUnit.2.6.4.nupkg
+            sha512: e0510c05364d512d810d8bc5741462cb8eeef06b45101f81106f5489fd9f9987d07050320d4306c41c9bc76fe186735a8e3544be0b496dc416617cf0bdb99600
+            dest: nuget-sources/
+         
+
+          # - type: archive
+          #   url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks-enc-converters/fieldworks-enc-converters_4.0.8.179+focal1.tar.xz
+          #   sha256: fc92c3185482ef9626f00ac708c910ff80682ab51fdb67af631d86f3a55b82c8
+          # - type: archive
+          #   path: /home/vagrant/fwrepo/encoding-converters-core/packages.tar
+          #   dest: packages/
+          # - type: file
+          #   path: /home/vagrant/fwrepo/encoding-converters-core/build/nuget.exe
+          #   dest: build/
+          # - type: patch
+          #   path: ec-dl-deps.patch
+          # - type: patch
+          #   path: Remove-mistaken-Xsl-reference.patch
+          #   strip-components: 1
+          # - type: patch
+          #   path: ec-Remove-BOM.patch
+          #   strip-components: 1
+
+
 
       - name: flexbridge
         buildsystem: simple
