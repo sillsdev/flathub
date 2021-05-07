@@ -33,11 +33,17 @@ Install tools:
 sudo apt install flatpak-builder
 ```
 
-Clone FieldWorks.git repository to help generate source lists.
+Clone projects to help generate dependency download lists:
+```bash
+git clone https://github.com/silnrsi/encoding-converters-core.git --branch master
+git clone https://github.com/sillsdev/flexbridge.git --branch develop
+git clone https://github.com/sillsdev/FieldWorks.git --branch support/9.0
+```
 
-Install dotnet5 sdk for a nuget source producing tool:
+Install tool flatpak-dotnet-generator.py and dependency dotnet5 sdk:
 ```bash
 flatpak install flathub org.freedesktop.Sdk.Extension.dotnet5
+git clone https://github.com/flatpak/flatpak-builder-tools.git
 ```
 
 ### Build
