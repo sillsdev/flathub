@@ -588,6 +588,9 @@ modules:
           - cp -a source-package/fw/DistFiles/Templates fw/DistFiles/
           - cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/
           - cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
+
+          # Skip problem with localization that I'm still investigating.
+          - perl -ni -e 'print unless /\/t:localize-binaries/' Makefile
         
           - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true build-package-for-flatpak
           - cd ${FW_ROOT_PATH} && perl -pi -e '/<runtime>/ and s/^/  <dllmap dll="libdl.so" target="libdl.so.2" \/>\n/' $(find -name SIL.LCModel.Core.dll.config)
