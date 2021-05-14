@@ -582,6 +582,7 @@ modules:
           - ls -al "${NUGET_DEST}"
 
           # Copy in localizations from fieldworks 9.0 tarball, until we can get them another way.
+          # MANUAL: cp -a source-package/fw/Localizations fw/ && cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/ &&  cp -a source-package/fw/Output fw/ &&  cp -a source-package/fw/DistFiles/Templates fw/DistFiles/ && cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/ && cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
           - cp -a source-package/fw/Localizations fw/
           - cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/
           - cp -a source-package/fw/Output fw/
@@ -592,6 +593,8 @@ modules:
           # Skip problem with localization that I'm still investigating.
           - perl -pi -e 's|([ \t&]*).*/t:localize-binaries.*|\1echo skipping localize-binaries|' fw/Makefile
         
+          # MANUAL: export BUILD_ROOT=$FW_ROOT_PATH BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true ; export LcmLocalArtifactsDir="$BUILD_ROOT/../liblcm/artifacts/$BUILD_CONFIG" ; mkdir -p $LcmLocalArtifactsDir ; cd $FW_ROOT_PATH/Build ;  ${FW_ROOT_PATH}/Build/run-in-environ  msbuild /t:refreshTargets
+          # MANUAL: export PLATFORM=x86_64 && cd $FW_ROOT_PATH/Build && ${FW_ROOT_PATH}/Build/run-in-environ  msbuild  '/t:remakefw' /property:config=$BUILD_CONFIG /property:Platform=$PLATFORM /property:packaging=yes "/p:OutputPath=${FW_ROOT_PATH}/Output/Debug"
           - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true build-package-for-flatpak
           - cd ${FW_ROOT_PATH} && perl -pi -e '/<runtime>/ and s/^/  <dllmap dll="libdl.so" target="libdl.so.2" \/>\n/' $(find -name SIL.LCModel.Core.dll.config)
 
