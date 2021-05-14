@@ -2,8 +2,8 @@
 
 This repository is intended to hold the draft flatpak specification while it's
 being prepared. A number of files should be removed from this repository, and
-a history re-write, before performing a pull request to submit the flatpak
-specification to flathub.
+a significant history re-write, before performing a pull request to submit the 
+flatpak specification to flathub.
 
 ## Multiple branches
 
@@ -27,11 +27,17 @@ later.
 
 ### Dependencies
 
+git clone https://github.com/sillsdev/flathub --branch org.sil.FieldWorks
+flatpak install flathub org.gnome.Sdk//3.36
+flatpak install flathub org.gnome.Platform//3.36
+
 Install tools:
 
 ```bash
 sudo apt install flatpak-builder
 ```
+
+#### Optional dependencies 
 
 Clone projects to help generate dependency download lists:
 ```bash
@@ -52,6 +58,8 @@ git clone https://github.com/flatpak/flatpak-builder-tools.git
 flatpak-builder --user --install --force-clean build-dir org.sil.FieldWorks.yml
 ```
 
+Note that your first build will take time to download and build all dependencies.
+
 Build up to the fieldworks module, apply the sources for fieldworks, but open a
 shell before building fieldworks by appending `--build-shell=fieldworks`
 
@@ -71,4 +79,10 @@ Open a shell inside the FieldWorks flatpak instead of running FieldWorks:
 ```bash
 flatpak run --devel --env=FW_DEBUG=true --command=bash org.sil.FieldWorks
 ```
-l
+## Debugging flatpak FieldWorks
+
+Run FieldWorks from the flatpak by running this command (as copied from FieldWorks launch.json): flatpak run --devel --env=FW_DEBUG=true --env=FW_MONO_OPTS=--debugger-agent=address=127.0.0.1:55555,transport=dt_socket,server=y,suspend=n org.sil.FieldWorks
+
+Then debug target "Attach to local (such as flatpak)" in VSCode.
+
+
