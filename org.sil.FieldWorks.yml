@@ -631,10 +631,6 @@ modules:
             sha256: 8487e179d97d7f56fb7cfbade4b40eb31ba6010e64baf8179492fcd26c1912ff
             dest: source-package
 
-          - type: patch
-            path: patches/fieldworks-Do-not-block-path.patch
-            strip-components: 1
-          
 
           # FW nuget dependencies
           # Preview updates via FieldWorks.git: git log -p -- Build/nuget-{common,linux}/packages.config
