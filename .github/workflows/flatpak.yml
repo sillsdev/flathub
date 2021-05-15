@@ -36,7 +36,7 @@ jobs:
       options: --privileged
     steps:
       - run: |
-          echo Disk space
+          <<<'Disk space'
           pwd
           ls -a /
           df -h
@@ -50,7 +50,7 @@ jobs:
           # sudo apt-get autoremove --assume-yes
           # sudo apt-get clean
           # df -h
-          for package in mozjs78  dejavu-sans-fonts  subversion subversion-libs adobe-source-code-pro-fonts cairo harfbuzz alsa-lib libX11; do
+          for package in mozjs78  dejavu-sans-fonts  adobe-source-code-pro-fonts cairo harfbuzz alsa-lib libX11; do
             echo removing ${package}
             sudo rpm -e --nodeps "${package}"
           done
