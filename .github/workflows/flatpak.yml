@@ -71,6 +71,7 @@ jobs:
             dotnet-runtime-5.0 \
             firefox \
             google-chrome-stable
+            
           sudo apt-get autoremove --assume-yes
           sudo apt-get clean
           # du -sh /usr/share/dotnet /usr/local/lib/android /opt/ghc || true
