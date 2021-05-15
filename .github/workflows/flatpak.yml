@@ -36,7 +36,7 @@ jobs:
       options: --privileged
     steps:
       - run: |
-          <<<'Disk space'
+          # Disk space
           pwd
           ls -a /
           df -h
@@ -49,11 +49,11 @@ jobs:
           # dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
           # sudo apt-get autoremove --assume-yes
           # sudo apt-get clean
-          # df -h
           for package in mozjs78  dejavu-sans-fonts  adobe-source-code-pro-fonts cairo harfbuzz alsa-lib libX11; do
             echo removing ${package}
             sudo rpm -e --nodeps "${package}"
           done
+          df -h
           false
       - uses: actions/checkout@v2
       - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v3
