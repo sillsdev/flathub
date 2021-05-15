@@ -49,9 +49,6 @@ jobs:
           df -h
           # sudo du -sh /*  || true
           
-          echo 'Packages using space:'
-          # rpm --query --all --queryformat '%{size}\t%{name}\n' | sort --numeric-sort --reverse | head --lines=100
-          dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
           sudo apt-get purge --assume-yes \
             ghc-8.10.4 \
             ghc-9.0.1 \
@@ -71,6 +68,10 @@ jobs:
             dotnet-runtime-5.0 \
             firefox \
             google-chrome-stable
+
+          echo 'Packages using space:'
+          # rpm --query --all --queryformat '%{size}\t%{name}\n' | sort --numeric-sort --reverse | head --lines=100
+          dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
             
           sudo apt-get autoremove --assume-yes
           sudo apt-get clean
