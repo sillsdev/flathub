@@ -36,23 +36,22 @@ jobs:
 #       options: --privileged
     steps:
       - run: |
-          : Disk space
+          # Disk space
           pwd
           ls -a /
           df -h
-          du -sh /* /__e/* || true
-          ls /__*
-          # du -sh /usr/share/dotnet /usr/local/lib/android /opt/ghc || true
-          # rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          sudo du -sh /*  || true
+          du -sh /usr/share/dotnet /usr/local/lib/android /opt/ghc || true
+          rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
           echo 'Packages using space:'
-          rpm --query --all --queryformat '%{size}\t%{name}\n' | sort --numeric-sort --reverse | head --lines=100
-          # dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
-          # sudo apt-get autoremove --assume-yes
-          # sudo apt-get clean
-          for package in mozjs78  dejavu-sans-fonts  adobe-source-code-pro-fonts cairo harfbuzz alsa-lib libX11; do
-            echo removing ${package}
-            sudo rpm -e --nodeps "${package}"
-          done
+          # rpm --query --all --queryformat '%{size}\t%{name}\n' | sort --numeric-sort --reverse | head --lines=100
+          dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
+          sudo apt-get autoremove --assume-yes
+          sudo apt-get clean
+          #for package in mozjs78  dejavu-sans-fonts  adobe-source-code-pro-fonts cairo harfbuzz alsa-lib libX11; do
+          #  echo removing ${package}
+          #  sudo rpm -e --nodeps "${package}"
+          #done
           df -h
           false
 #       - uses: actions/checkout@v2
