@@ -31,12 +31,12 @@ jobs:
   flatpak:
     name: "Flatpak"
     runs-on: ubuntu-latest
-    container:
-      image: bilelmoussaoui/flatpak-github-actions:gnome-40
-      options: --privileged
+#     container:
+#       image: bilelmoussaoui/flatpak-github-actions:gnome-40
+#       options: --privileged
     steps:
       - run: |
-          # Disk space
+          : Disk space
           pwd
           ls -a /
           df -h
@@ -55,8 +55,8 @@ jobs:
           done
           df -h
           false
-      - uses: actions/checkout@v2
-      - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v3
-        with: 
-          bundle: org.sil.FieldWorks.flatpak
-          manifest-path: org.sil.FieldWorks.yml
+#       - uses: actions/checkout@v2
+#       - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v3
+#         with: 
+#           bundle: org.sil.FieldWorks.flatpak
+#           manifest-path: org.sil.FieldWorks.yml
