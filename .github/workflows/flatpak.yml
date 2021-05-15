@@ -37,17 +37,19 @@ jobs:
     steps:
       - run: |
           pwd
+          ls -a /
           df -h
-          du -sh /* || true
-          du -sh /usr/share/dotnet /usr/local/lib/android /opt/ghc || true
-          rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          du -sh /* /__e/* || true
+          ls /__*
+          # du -sh /usr/share/dotnet /usr/local/lib/android /opt/ghc || true
+          # rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
           echo 'Packages using space:'
           rpm --query --all --queryformat '%{size}\t%{name}\n' | sort --numeric-sort --reverse | head --lines=100
           # dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
           # sudo apt-get autoremove --assume-yes
           # sudo apt-get clean
           # df -h
-          sudo dnf remove --skip-broken mozjs78 mesa-vulkan-drivers dejavu-sans-fonts xkeyboard-config subversion subversion-libs gsettings-desktop-schemas kbd-misc tpm2-tss adobe-source-code-pro-fonts cairo harfbuzz zstd alsa-lib libX11
+          sudo rpm -e --nodeps mozjs78 mesa-vulkan-drivers dejavu-sans-fonts xkeyboard-config subversion subversion-libs gsettings-desktop-schemas kbd-misc tpm2-tss adobe-source-code-pro-fonts cairo harfbuzz zstd alsa-lib libX11
           false
       - uses: actions/checkout@v2
       - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v3
