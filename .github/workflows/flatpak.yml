@@ -48,13 +48,33 @@ jobs:
           ls -a /
           df -h
           # sudo du -sh /*  || true
-          # du -sh /usr/share/dotnet /usr/local/lib/android /opt/ghc || true
-          #sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          
           echo 'Packages using space:'
           # rpm --query --all --queryformat '%{size}\t%{name}\n' | sort --numeric-sort --reverse | head --lines=100
           dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
+          sudo apt-get remove --assume-yes \
+            ghc-8.10.4 \
+            ghc-9.0.1 \
+            google-cloud-sdk \
+            adoptopenjdk-11-hotspot \
+            google-chrome-stable \
+            dotnet-sdk-5.0 \
+            firefox \
+            adoptopenjdk-8-hotspot \
+            dotnet-sdk-3.1 \
+            powershell \
+            snapd \
+            mono-devel \
+            mongodb-org-server \
+            dotnet-runtime-3.1 \
+            linux-azure-headers-5.4.0-1047 \
+            linux-azure-headers-5.4.0-1046 \
+            dotnet-runtime-5.0 \
+            :
           sudo apt-get autoremove --assume-yes
           sudo apt-get clean
+          # du -sh /usr/share/dotnet /usr/local/lib/android /opt/ghc || true
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
           #for package in mozjs78  dejavu-sans-fonts  adobe-source-code-pro-fonts cairo harfbuzz alsa-lib libX11; do
           #  echo removing ${package}
           #  sudo rpm -e --nodeps "${package}"
