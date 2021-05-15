@@ -67,18 +67,18 @@ jobs:
 #           manifest-path: org.sil.FieldWorks.yml
       - name: Install flatpak dependencies
         run: |
-          # Flatpak deps
+          set -xueo pipefail
           function tryharderto() { i=0; until "$@"; do ((++i > 3)) && false
           echo >&2 Retrying ${i}; sleep 2m; done }
           set -ueo pipefail
           sudo apt-get update
           tryharderto sudo apt-get install flatpak-builder
-          flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
           flatpak install flathub org.gnome.Sdk//3.36
           flatpak install flathub org.gnome.Platform//3.36
       - name: Build flatpak package
         run: |
-          set -ueo pipefail
+          set -xueo pipefail
           pwd
           ls -al
           flatpak-builder --user --force-clean build-dir org.sil.FieldWorks.yml
