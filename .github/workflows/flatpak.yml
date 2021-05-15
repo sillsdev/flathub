@@ -39,6 +39,8 @@ jobs:
           pwd
           df -h
           du -sh /* || true
+          du -sh /usr/share/dotnet /usr/local/lib/android /opt/ghc || true
+          rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
           echo 'Packages using space:'
           rpm --query --all --queryformat '%{size}\t%{name}\n' | sort --numeric-sort --reverse | head --lines=100
           # dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
