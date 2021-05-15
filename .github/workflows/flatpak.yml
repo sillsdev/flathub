@@ -43,7 +43,7 @@ jobs:
           sudo perl -pi -e 's/security.ubuntu.com/azure.archive.ubuntu.com/' /etc/apt/sources.list
       - name: Adjust disk space
         run: |
-          # Disk space
+          set -xueo pipefail
           pwd
           ls -a /
           df -h
@@ -52,7 +52,7 @@ jobs:
           echo 'Packages using space:'
           # rpm --query --all --queryformat '%{size}\t%{name}\n' | sort --numeric-sort --reverse | head --lines=100
           dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
-          sudo apt-get remove --assume-yes \
+          sudo apt-get purge --assume-yes \
             ghc-8.10.4 \
             ghc-9.0.1 \
             google-cloud-sdk \
@@ -63,6 +63,7 @@ jobs:
             powershell \
             snapd \
             mono-devel \
+            monodoc-http \
             mongodb-org-server \
             dotnet-runtime-3.1 \
             linux-azure-headers-5.4.0-1047 \
