@@ -45,7 +45,7 @@ jobs:
           # sudo apt-get autoremove --assume-yes
           # sudo apt-get clean
           # df -h
-          sudo dnf remove mozjs78 mesa-vulkan-drivers dejavu-sans-fonts xkeyboard-config subversion subversion-libs gsettings-desktop-schemas kbd-misc tpm2-tss adobe-source-code-pro-fonts cairo harfbuzz zstd alsa-lib libX11
+          sudo dnf remove --skip-broken mozjs78 mesa-vulkan-drivers dejavu-sans-fonts xkeyboard-config subversion subversion-libs gsettings-desktop-schemas kbd-misc tpm2-tss adobe-source-code-pro-fonts cairo harfbuzz zstd alsa-lib libX11
           false
       - uses: actions/checkout@v2
       - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v3
