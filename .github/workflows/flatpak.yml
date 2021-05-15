@@ -68,8 +68,10 @@ jobs:
       - name: Install flatpak dependencies
         run: |
           # Flatpak deps
+          function tryharderto() { i=0; until "$@"; do ((++i > 3)) && false
+          echo >&2 Retrying ${i}; sleep 2m; done }
           set -ueo pipefail
-          sudo apt-get install flatpak-builder
+          tryharderto sudo apt-get install flatpak-builder
           flatpak install flathub org.gnome.Sdk//3.36
           flatpak install flathub org.gnome.Platform//3.36
       - name: Build flatpak package
