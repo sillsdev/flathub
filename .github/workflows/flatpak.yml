@@ -40,11 +40,12 @@ jobs:
           df -h
           du -sh /* || true
           echo 'Packages using space:'
-          rpm --query --all --queryformat '%{size}\t%{name}\n' | sort --numeric-sort --reverse | head --lines=30
+          rpm --query --all --queryformat '%{size}\t%{name}\n' | sort --numeric-sort --reverse | head --lines=100
           # dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
           # sudo apt-get autoremove --assume-yes
           # sudo apt-get clean
           # df -h
+          sudo dns remove mozjs78 mesa-vulkan-drivers dejavu-sans-fonts xkeyboard-config subversion subversion-libs gsettings-desktop-schemas
           false
       - uses: actions/checkout@v2
       - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v3
