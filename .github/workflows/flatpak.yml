@@ -120,7 +120,7 @@ jobs:
           flatpak --user install --or-update --noninteractive local-repo org.sil.FieldWorks org.sil.FieldWorks.Debug
           source  ./.flatpak-builder/build/fieldworks-1/fw/Src/MasterVersionInfo.txt
           flatpak build-bundle ./local-repo \
-            fieldworks-${FWMAJOR}.${FWMINOR}.${FWREVISION}.${GITHUB_RUN_NUMBER}-experimental-${GITHUB_SHA}.flatpak \
+            fieldworks-${FWMAJOR}.${FWMINOR}.${FWREVISION}.${GITHUB_RUN_NUMBER}-experimental-${GITHUB_SHA::7}.flatpak \
             org.sil.FieldWorks
           sudo find . || true
           mkdir -p artifacts
