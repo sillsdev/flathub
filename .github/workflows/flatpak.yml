@@ -38,16 +38,13 @@ jobs:
       - name: Fix package repositories
         run: |
           set -ueo pipefail
-          ls -al /etc/apt/source*
-          cat /etc/apt/sources.list
-          sudo perl -pi -e 's/security.ubuntu.com/azure.archive.ubuntu.com/' /etc/apt/sources.list
+          # ls -al /etc/apt/source*
+          # cat /etc/apt/sources.list
+          # sudo perl -pi -e 's/security.ubuntu.com/azure.archive.ubuntu.com/' /etc/apt/sources.list
       - name: Adjust disk space
         run: |
           set -xueo pipefail
-          pwd
-          ls -a /
-          df -h
-          # sudo du -sh /*  || true
+          df -h /
           
           sudo apt-get purge --assume-yes \
             ghc-8.10.4 \
@@ -90,7 +87,7 @@ jobs:
           #  echo removing ${package}
           #  sudo rpm -e --nodeps "${package}"
           #done
-          df -h
+          df -h /
       - uses: actions/checkout@v2
 #       - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v3
 #         with: 
@@ -99,19 +96,14 @@ jobs:
       - name: Install flatpak dependencies
         run: |
           set -xueo pipefail
-          function tryharderto() { i=0; until "$@"; do ((++i > 3)) && false
-          echo >&2 Retrying ${i}; sleep 2m; done }
-          set -ueo pipefail
           sudo apt-get update
-          tryharderto sudo apt-get install flatpak-builder
+          sudo apt-get install flatpak-builder
           sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
           sudo flatpak install --assumeyes flathub org.gnome.Sdk//3.36
           sudo flatpak install --assumeyes flathub org.gnome.Platform//3.36
       - name: Build flatpak package
         run: |
           set -xueo pipefail
-          pwd
-          ls -al
           flatpak-builder --user --repo=local-repo --keep-build-dirs --force-clean build-dir org.sil.FieldWorks.yml
       - name: Create flatpak bundle
         run: |
@@ -120,9 +112,8 @@ jobs:
           flatpak --user install --or-update --noninteractive local-repo org.sil.FieldWorks org.sil.FieldWorks.Debug
           source  ./.flatpak-builder/build/fieldworks-1/fw/Src/MasterVersionInfo.txt
           flatpak build-bundle ./local-repo \
-            fieldworks-${FWMAJOR}.${FWMINOR}.${FWREVISION}.${GITHUB_RUN_NUMBER}-experimental-${GITHUB_SHA::7}.flatpak \
+            fieldworks-${FWMAJOR}.${FWMINOR}.${FWREVISION}.${GITHUB_RUN_NUMBER}-experimental-$(date +'%Y%m%d')-${GITHUB_SHA::7}.flatpak \
             org.sil.FieldWorks
-          sudo find . || true
           mkdir -p artifacts
           mv -v fieldworks-*.flatpak artifacts
           ls -al artifacts
