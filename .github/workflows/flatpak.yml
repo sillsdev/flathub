@@ -57,9 +57,7 @@ jobs:
             ghc-9.0.1 \
             google-cloud-sdk \
             adoptopenjdk-11-hotspot \
-            google-chrome-stable \
             dotnet-sdk-5.0 \
-            firefox \
             adoptopenjdk-8-hotspot \
             dotnet-sdk-3.1 \
             powershell \
@@ -70,7 +68,8 @@ jobs:
             linux-azure-headers-5.4.0-1047 \
             linux-azure-headers-5.4.0-1046 \
             dotnet-runtime-5.0 \
-            :
+            firefox \
+            google-chrome-stable
           sudo apt-get autoremove --assume-yes
           sudo apt-get clean
           # du -sh /usr/share/dotnet /usr/local/lib/android /opt/ghc || true
