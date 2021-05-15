@@ -40,9 +40,9 @@ jobs:
           pwd
           ls -a /
           df -h
-          sudo du -sh /*  || true
+          # sudo du -sh /*  || true
           du -sh /usr/share/dotnet /usr/local/lib/android /opt/ghc || true
-          rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
           echo 'Packages using space:'
           # rpm --query --all --queryformat '%{size}\t%{name}\n' | sort --numeric-sort --reverse | head --lines=100
           dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
@@ -53,9 +53,18 @@ jobs:
           #  sudo rpm -e --nodeps "${package}"
           #done
           df -h
-          false
-#       - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 #       - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v3
 #         with: 
 #           bundle: org.sil.FieldWorks.flatpak
 #           manifest-path: org.sil.FieldWorks.yml
+      - run: |
+          # Flatpak deps
+          set -ueo pipefail
+          sudo apt-get install flatpak-builder
+          flatpak install flathub org.gnome.Sdk//3.36
+          flatpak install flathub org.gnome.Platform//3.36
+      - name: Build flatpak package
+        run: |
+          set -ueo pipefail
+          flatpak-builder --user --force-clean build-dir org.sil.FieldWorks.yml
