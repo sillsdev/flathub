@@ -35,6 +35,16 @@ jobs:
       image: bilelmoussaoui/flatpak-github-actions:gnome-40
       options: --privileged
     steps:
+      - run: |
+          pwd
+          df -h
+          du -sh /* || true
+          echo 'Packages using space:'
+          rpm --query --all --queryformat '{size}\t{name}' | sort --numeric-sort --reverse | head --lines=30
+          # dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
+          # sudo apt-get autoremove --assume-yes
+          # sudo apt-get clean
+          # df -h
       - uses: actions/checkout@v2
       - uses: bilelmoussaoui/flatpak-github-actions/flatpak-builder@v3
         with: 
