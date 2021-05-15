@@ -118,10 +118,17 @@ jobs:
           set -xueo pipefail
           flatpak --user remote-add --no-gpg-verify --if-not-exists local-repo ./local-repo
           flatpak --user install --or-update --noninteractive local-repo org.sil.FieldWorks org.sil.FieldWorks.Debug
-          flatpak build-bundle ./local-repo fieldworks-9.0-${GITHUB_RUN_NUMBER}-experimental-${GITHUB_SHA}.flatpak org.sil.FieldWorks 
+          source  ./.flatpak-builder/build/fieldworks-1/fw/Src/MasterVersionInfo.txt
+          flatpak build-bundle ./local-repo \
+            fieldworks-${FWMAJOR}.${FWMINOR}.${FWREVISION}.${GITHUB_RUN_NUMBER}-experimental-${GITHUB_SHA}.flatpak \
+            org.sil.FieldWorks
+          sudo find . || true
+          mkdir -p artifacts
+          mv -v fieldworks-*.flatpak artifacts
+          ls -al artifacts
       - name: Save artifacts
         uses: actions/upload-artifact@v2
         with: 
           name: fw-flatpak-bundle
           path: |
-            fieldworks-9.0-${GITHUB_RUN_NUMBER}-experimental-${GITHUB_SHA}.flatpak
+            artifacts/
