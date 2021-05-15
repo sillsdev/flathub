@@ -35,6 +35,11 @@ jobs:
 #       image: bilelmoussaoui/flatpak-github-actions:gnome-40
 #       options: --privileged
     steps:
+      - name: Fix package repositories
+        run: |
+          set -ueo pipefail
+          ls -al /etc/apt/source*
+          perl -pi -e 's/security.ubuntu.com/azure.archive.ubuntu.com/' /etc/apt/sources.list
       - name: Adjust disk space
         run: |
           # Disk space
