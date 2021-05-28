@@ -37,7 +37,7 @@ finish-args:
   - --socket=pulseaudio
   # wide access during development
   - --socket=system-bus
-  # Don't grant host filesystem access or /opt/mono5-sil can be used and cause problems.
+  # Don't grant host filesystem access or /opt/mono5-sil can be used and cause problems. But we also need read access to get to projects.
   # - --filesystem=host
   # Directory for libpalaso GlobalMutex
   - --filesystem=/var/lock:rw
