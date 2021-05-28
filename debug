@@ -1,3 +1,3 @@
 #!/bin/bash
 
-FW_DEBUG=yes flatpak run --devel --env=FW_MONO_OPTS=--debugger-agent=address=127.0.0.1:55555,transport=dt_socket,server=y,suspend=n org.sil.FieldWorks
+flatpak run --devel --env=FW_DEBUG=true --env=FW_MONO_OPTS=--debugger-agent=address=127.0.0.1:55555,transport=dt_socket,server=y,suspend=n org.sil.FieldWorks

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ueo pipefail
+set -xueo pipefail
 
 # Delete the build dirs from last time. But then --keep-build-dirs, not --delete-build-dirs so that the build dirs from this time are left in place for optional inspection.
 rm -rf .flatpak-builder/build 
