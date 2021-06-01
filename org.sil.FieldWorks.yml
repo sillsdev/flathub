@@ -421,8 +421,6 @@ modules:
             sha256: 498d6331bc25853c86f6ae9afeec178192ef91f8b3d539e7593b09b079801ed0
       - name: fieldworks-enc-converters
         # TODO Does building EC still say "make[1]: /usr/lib/fieldworks/icu-bin/icu-config: Command not found"?
-        # TODO clean up instructions and sources to not refer to /home/vagrant
-        # download deps on host:  sudo apt-get install automake g++ python-dev libicu-dev mono-sil icu-dev-fw && cd /home/vagrant/fwrepo/encoding-converters-core &&  (. environ && ./autogen.sh && make download_dependencies && tar cf packages.tar packages )
         buildsystem: autotools
         build-options:
           build-args:
@@ -477,17 +475,10 @@ modules:
                     <add key="nuget.org" value="true" />
                   </disabledPackageSources>
                 </configuration>'
-         
 
           # - type: archive
           #   url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks-enc-converters/fieldworks-enc-converters_4.0.8.179+focal1.tar.xz
           #   sha256: fc92c3185482ef9626f00ac708c910ff80682ab51fdb67af631d86f3a55b82c8
-          # - type: archive
-          #   path: /home/vagrant/fwrepo/encoding-converters-core/packages.tar
-          #   dest: packages/
-          # - type: file
-          #   path: /home/vagrant/fwrepo/encoding-converters-core/build/nuget.exe
-          #   dest: build/
           # - type: patch
           #   path: ec-dl-deps.patch
           # - type: patch
