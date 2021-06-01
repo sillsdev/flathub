@@ -113,10 +113,10 @@
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.flexbridge.ipcframework/1.1.0-ci0028/sil.flexbridge.ipcframework.1.1.0-ci0028.nupkg",
-        "sha512": "16ed96999855117c38587431e101a9c6ed9e6b3d5039f25a0892652edf656fb69681dcf8a2830e5370b0801356220a6797061b917d25134a14374454fdcb4f54",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.flexbridge.ipcframework/1.1.0/sil.flexbridge.ipcframework.1.1.0.nupkg",
+        "sha512": "c3ea3cc35f50d565895cfb44a65fbe1580ef0a34b443670d591b3902b18da700d86cdf5c79673e918350a066c32200b796cd0205fb9c099b86bdeb85936856dc",
         "dest": "nuget-sources",
-        "dest-filename": "sil.flexbridge.ipcframework.1.1.0-ci0028.nupkg"
+        "dest-filename": "sil.flexbridge.ipcframework.1.1.0.nupkg"
     },
     {
         "type": "file",
@@ -183,6 +183,13 @@
     },
     {
         "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/gitversion.msbuild/5.6.8/gitversion.msbuild.5.6.8.nupkg",
+        "sha512": "5e6da668298198ddb9f4a39c24370f61b7267676b4acb2de7c3c98b3b7a163ec1ea9fae9a43b04f63188534d7245733d46e9e19197a9665389949669e1efb258",
+        "dest": "nuget-sources",
+        "dest-filename": "gitversion.msbuild.5.6.8.nupkg"
+    },
+    {
+        "type": "file",
         "url": "https://api.nuget.org/v3-flatcontainer/enchant.net/1.4.2/enchant.net.1.4.2.nupkg",
         "sha512": "ed65330bf1e1d2881160b1f56f1bcc086ebbb207ea5d2fb65777283e529f7b5cee4293e05842501d1cff352b9a1b69cd22e48b165dd5c7da8b6085c64f589469",
         "dest": "nuget-sources",
@@ -225,10 +232,10 @@
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.releasetasks/2.3.4/sil.releasetasks.2.3.4.nupkg",
-        "sha512": "8b1a1277ad92f3aea234173249f591aae3bf64e6f2ef6076dc71c714673f6897498cd146d36723d8a9de6576313b65a68ac93e332fe7afc03842cb53f17f1c16",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.releasetasks/2.5.0/sil.releasetasks.2.5.0.nupkg",
+        "sha512": "461acfe39cc268d38b798a5c95ce3df55fcda37c33eddcf85f98225dd865025defab88dd3db6ab9a7677f572dce616ab7e76c197a41e36445c9d3a1d8d7fc59d",
         "dest": "nuget-sources",
-        "dest-filename": "sil.releasetasks.2.3.4.nupkg"
+        "dest-filename": "sil.releasetasks.2.5.0.nupkg"
     },
     {
         "type": "file",
@@ -299,13 +306,6 @@
         "sha512": "b20388f8c46ff21ef98b4b59a58b3f21e2c559d658d650870b7489f455e2f3ff841ca17a63cb943fd77c57c6daf9e8f4e5124447bbf6dac5bd181acbe2a95476",
         "dest": "nuget-sources",
         "dest-filename": "sil.core.8.0.0.nupkg"
-    },
-    {
-        "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.core/7.0.1-beta0028/sil.core.7.0.1-beta0028.nupkg",
-        "sha512": "0590d0c11d14d20449685535a241a1f9f8632b3e6ecafee1a3fa53e7951444fe3a9ce0b5916346f71581125afd1f3ae319d62e13269bb77c75b438abe6962e4f",
-        "dest": "nuget-sources",
-        "dest-filename": "sil.core.7.0.1-beta0028.nupkg"
     },
     {
         "type": "file",
