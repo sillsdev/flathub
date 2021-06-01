@@ -398,19 +398,22 @@ modules:
               - type: git
                 url: https://salsa.debian.org/deiv-guest/giflib.git
                 commit: de2120737dbbeb00728054232a21c6b03c1ae687
-           
-
 
       - name: icu-fw
-        buildsystem: autotools
+        buildsystem: simple
+        build-commands: 
+          - env; ls -al; pwd
+          # FW ICU should install to paths like /app/lib/fieldworks/lib/libicuuc.so .
+          # The icu-fw package debian/rules file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build expects icu-config to be here, such as in _init.mak.lnx and environ. 
+          - ./configure --prefix=/app/lib/fieldworks --bindir=/app/lib/fieldworks/icu-bin --sbindir=/app/lib/fieldworks/icu-bin
+          - make
+          - make install
         subdir: source
         sources:
           - type: archive
             url: https://packages.sil.org/ubuntu/pool/main/i/icu-fw/icu-fw_54.1.1.44.orig.tar.xz
             sha256: 324af10d4aaea7213d0c6f407e9edeb6c512345f636517521db5423e55e56c7c
 
-
-     
       - name: libteckit-dev
         sources:
           - type: archive
