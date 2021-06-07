@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# Duplicate output to a log file
+exec &> >(tee /tmp/flatpak-build-fw-$(date +"%F-%H%M%S").log)
+
 set -xueo pipefail
 
 # Delete the build dirs from last time. But then --keep-build-dirs, not --delete-build-dirs so that the build dirs from this time are left in place for optional inspection.
