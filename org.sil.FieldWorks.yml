@@ -556,17 +556,20 @@ modules:
           build-args:
             - --share=network
           env:
-            PREFIX: /app
-            PERL5LIB: /app/perl-modules/lib/perl5
+            PREFIX: '/app'
+            PERL5LIB: '/app/perl-modules/lib/perl5'
             # DESTDIR: /app # libcom was picking this up
             # MONO_PREFIX: /usr/lib/sdk/mono5
             # MONO_SILPKGDIR: /usr/lib/sdk/mono5
-            MONO_PREFIX: /app
-            MONO_SILPKGDIR: /app
-            NUGET_DEST: fw/packages
-            FW_ROOT_PATH: /run/build/fieldworks/fw
-            MSBUILD_ARGS: "-verbosity:detailed"
-            INSTALLATION_PREFIX: /app
+            MONO_PREFIX: '/app'
+            MONO_SILPKGDIR: '/app'
+            NUGET_DEST: 'fw/packages'
+            FW_ROOT_PATH: '/run/build/fieldworks/fw'
+            MSBUILD_ARGS: '-verbosity:detailed'
+            INSTALLATION_PREFIX: '/app'
+            # 20210603 the debian packaging sets this. i dont think it's important for what we need but it's worth a try to help.
+            RUNMODE: 'PACKAGING'
+            FW_PACKAGE_DEBUG: 'true'
         build-commands:
           - env; ls -al . fw fw/Downloads liblcm libcom; pwd
 
