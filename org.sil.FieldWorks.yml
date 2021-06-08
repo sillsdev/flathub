@@ -511,7 +511,8 @@ modules:
           - cp -va source-tarball/DistFiles/localizations DistFiles/
           # - touch fetch_l10ns # TODO These l10ns will need downloaded ahead of time
           # - make release_build && make install
-          - cd build && offNUGET_PACKAGES="$(pwd)/nuget-sources" msbuild FLExBridge.proj /p:GetVersion=false /p:Configuration=Debug
+          # TODO The version information could still be extracted with something like dotnet running GitVersion.CommandLine; see https://github.com/sillsdev/flexbridge/issues/318 .
+          - cd build && msbuild FLExBridge.proj -p:Configuration=Debug -p:DisableGitVersionTask=true -p:GitVersion_SemVer=1.2.3 -p:Version=1.2.3
           - cp -va flexbridge output/Debug/
           # temp two perl lines until get a patch into fb
           - perl -pi -e 's|(XDG_CONFIG_HOME.*)|\1\nPREFIX ?= /usr|' Makefile
@@ -522,7 +523,9 @@ modules:
           - type: git
             url: https://github.com/sillsdev/flexbridge.git
             # branch: develop
-            branch: feature/nuget
+            # branch: feature/nuget
+            # TODO temporarily using task/gv until merged into feature/nuget.
+            branch: task/gv
             # branch: hack-nuget-build
             # commit: f1117e3ad45502dd527c465f9862923e700e5a29
           # TODO Not rely on tarball for localizations
