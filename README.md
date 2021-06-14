@@ -149,6 +149,71 @@ And I haven't found a solution yet. It works on one machine and not another.
 You can check if you have org.sil.FieldWorks.Debug installed to get debugging
 symbols in /app/lib/debug in the flatpak by running `flatpak list --all | cat`.
 
+### Manual unmanaged debugging
+
+Open the FieldWorks flatpak environment to bash, and write a .gdbinit file:
+
+```bash
+host: flatpak run --devel --env=FW_DEBUG=true --command=bash  org.sil.FieldWorks
+```
+
+Create file in flatpak of ~/.gdbinit containing:
+```
+handle SIGXCPU SIG33 SIG35 SIG36 SIG37 SIG38 SIGPWR SIG38 nostop noprint
+
+define mono_backtrace
+ select-frame 0
+ set $i = 0
+ while ($i < $arg0)
+   set $foo = (char*) mono_pmip ($pc)
+   if ($foo)
+     printf "#%d %p in %s\n", $i, $pc, $foo
+   else
+     frame
+   end
+   up-silently
+   set $i = $i + 1
+ end
+end
+
+define mono_stack
+ set $mono_thread = mono_thread_current ()
+ if ($mono_thread == 0x00)
+   printf "No mono thread associated with this thread\n"
+ else
+   set $ucp = malloc (sizeof (ucontext_t))
+   call (void) getcontext ($ucp)
+   call (void) mono_print_thread_dump ($ucp)
+   call (void) free ($ucp)
+ end
+end
+
+add-auto-load-safe-path /opt/mono5-sil/bin/mono-sgen-gdb.py
+add-auto-load-safe-path /app/bin/mono-sgen-gdb.py
+```
+
+Then either start debugging by launching mono from gdb, or using gdbserver:
+
+#### Directly with GDB
+
+```bash
+flatpak: FW_COMMAND_PREFIX=gdb FW_MONO_COMMAND=/app/bin/mono-sgen FW_MONO_OPTS='--' fieldworks-flex
+flatpak: (gdb) b UniscribeEngine::FindBreakPoint
+flatpak: (gdb) run --debug /app/lib/fieldworks/FieldWorks.exe -app Flex
+```
+
+#### With gdbserver
+
+Start gdbserver in flatpak, similarly to how it will listen to vscode, but then run the gdb client in the flatpak:
+
+```bash
+flatpak: FW_COMMAND_PREFIX="gdbserver 127.0.0.1:9999" FW_MONO_COMMAND=/app/bin/mono-sgen nohup fieldworks-flex &
+flatpak: gdb /app/bin/mono-sgen
+flatpak: (gdb) target remote 127.0.0.1:9999
+flatpak: (gdb) b UniscribeEngine::FindBreakPoint
+flatpak: (gdb) c
+```
+
 ## Pushing
 
 Pushing to FieldWorks.git branch feature/flatpak, bypassing gerrit, is done with:
