@@ -27,6 +27,10 @@ runtime: org.gnome.Platform
 # Target a runtime that is most similar to Ubuntu 20.04, for which we can easily build and test on without flatpak.
 runtime-version: "3.36"
 sdk: org.gnome.Sdk
+# Not sure if this may help get mono debugging working again:
+# sdk-extensions:
+#   - org.freedesktop.Sdk.Extension.mono5
+#   - org.freedesktop.Sdk.Extension.dotnet
 
 writable-sdk: true
 command: fieldworks-flex
