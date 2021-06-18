@@ -133,19 +133,6 @@ flatpak run --devel --env=FW_DEBUG=true --env=FW_COMMAND_PREFIX="gdbserver 127.0
 
 Debug target "Attach to local gdbserver" in VSCode.
 
-Currently there is an error saying 
-
-> Unable to read JIT descriptor from remote memory
-
-and
-
-> Warning:
-> Cannot insert breakpoint -1.
-> Cannot access memory at address 0xdd8b0
->
-> Command aborted.
-
-And I haven't found a solution yet. It works on one machine and not another.
 You can check if you have org.sil.FieldWorks.Debug installed to get debugging
 symbols in /app/lib/debug in the flatpak by running `flatpak list --all | cat`.
 
@@ -157,7 +144,7 @@ Open the FieldWorks flatpak environment to bash, and write a .gdbinit file:
 host: flatpak run --devel --env=FW_DEBUG=true --command=bash  org.sil.FieldWorks
 ```
 
-Create file in flatpak of ~/.gdbinit containing:
+Create file in flatpak of ~/.gdbinit containing: (Ok this may not at all be necessary)
 ```
 handle SIGXCPU SIG33 SIG35 SIG36 SIG37 SIG38 SIGPWR SIG38 nostop noprint
 
@@ -194,7 +181,7 @@ add-auto-load-safe-path /app/bin/mono-sgen-gdb.py
 
 Then either start debugging by launching mono from gdb, or using gdbserver:
 
-#### Directly with GDB
+#### In flatpak, directly with GDB
 
 ```bash
 flatpak: FW_COMMAND_PREFIX=gdb FW_MONO_COMMAND=/app/bin/mono-sgen FW_MONO_OPTS='--' fieldworks-flex
@@ -212,6 +199,76 @@ flatpak: gdb /app/bin/mono-sgen
 flatpak: (gdb) target remote 127.0.0.1:9999
 flatpak: (gdb) b UniscribeEngine::FindBreakPoint
 flatpak: (gdb) c
+```
+
+#### With gdb, across flatak boundary
+
+Note: Currently this has an error.
+
+```bash
+host: flatpak run --devel --env=FW_DEBUG=true org.sil.FieldWorks
+host: pgrep --full FieldWorks.exe # find PID
+host: gdb /opt/mono5-sil/bin/mono-sgen
+host: (gdb) attach PID
+```
+
+##### Example with gedit
+
+```bash
+host: flatpak run --devel org.gnome.gedit
+host: ps faxww|grep gedit # Identify the PID for the right gedit.
+```
+Either
+```bash
+host: gdb
+host: (gdb) attach PID
+```
+This gives errors like
+
+> warning: "target:/app/bin/gedit": could not open as an executable file: Operation not permitted.                                                            
+> warning: `target:/app/bin/gedit': can't open to read symbols: Operation not permitted.
+> warning: Could not load vsyscall page because no executable was specified                                                                                    
+> warning: Target and debugger are in different PID namespaces; thread lists and other data are likely unreliable.  Connect to gdbserver inside the container.
+
+Or
+```bash
+host: gdb .local/share/flatpak/app/org.gnome.gedit/x86_64/stable/cd0da06d4896fabaa97f2fdecae39b5a5efe8461b0784f2ff2b17610994120af/files/bin/gedit
+host: (gdb) attach PID
+```
+This gives errors like
+
+> Error while mapping shared library sections:
+> Could not open `target:/app/lib/gedit/libgedit-40.0.so' as an executable file: Operation not permitted            
+> ...
+> warning: Unable to find dynamic linker breakpoint function.
+> GDB will be unable to debug shared library initializers
+> and track explicitly loaded dynamic code.
+> warning: Target and debugger are in different PID namespaces; thread lists and other data are likely unreliable.  Connect to gdbserver inside the container.
+
+So this approach may not work for FW either.
+
+#### With gdbserver, across flatpak boundary
+
+This does work, in Ubuntu 20.04.
+
+```bash
+host: flatpak run --devel --env=FW_DEBUG=true --command=bash org.sil.FieldWorks
+flatpak: FW_COMMAND_PREFIX="gdbserver 127.0.0.1:9999" FW_MONO_COMMAND=/app/bin/mono-sgen fieldworks-flex
+host: gdb 
+host: (gdb) target remote 127.0.0.1:9999
+host: (gdb) b UniscribeEngine::FindBreakPoint
+host: (gdb) c
+```
+
+##### Example with gedit
+
+This does work, in Ubuntu 20.04.
+
+```bash
+host: flatpak run --devel --command=bash  --share=network org.gnome.gedit 
+flatpak: gdbserver 127.0.0.1:9999 gedit
+host: gdb
+host: (gdb) target remote 127.0.0.1:9999
 ```
 
 ## Pushing
