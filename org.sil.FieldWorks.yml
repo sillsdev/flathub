@@ -46,8 +46,6 @@ finish-args:
   # Directory for libpalaso GlobalMutex
   - --filesystem=/var/lock:rw
 modules:
-#TODO flatpak run org.freedesktop.appstream-glib validate
-#TODO check .desktop file, application icon, adjust permissions -  https://github.com/flathub/flathub/wiki/App-Requirements
   - name: hello
     buildsystem: simple
     build-commands:
@@ -249,30 +247,9 @@ modules:
             sha256: b62c0e7937551d0cc02b8fd5cb0f544f9405bafc9a54d3808ed4594812edef43
 
 
-      # TODO stringtable.cs does something related to /usr and XDG environment variables. Is that going to have trouble in flatpak? Similar with Src/FwParatextLexiconPlugin/ParatextLexiconPluginDirectoryFinder.cs, that will need adjuted.
-
-
-
-      #   - name: mono5-sil-from-source # alternative approach from mono5-si-from-git-source below, but probably prefer using git.
-      # Note that may need to do a make get-monolite-latest after autogen.sh. 
-      #     build-options:
-      #       prefix: /usr
-      #     env:
-      #       MONO_PREFIX: /usr
-      #     post-install:
-      #       - cert-sync /etc/ssl/certs/ca-certificates.crt
-      #     sources:
-      #       - type: archive
-      #         url: https://packages.sil.org/ubuntu/pool/main/m/mono5-sil/mono5-sil_5.16.0.179.orig.tar.gz
-      #         sha256: 1da30e1cc36d0d83646a4932ca91592e5f3ec4196884d416f9e1c5ac306e264c
-      # TODO i probably nede to apply patches too (not if i use our mono git)
-              # - type: archive
-              #   url: https://packages.sil.org/ubuntu/pool/main/m/mono5-sil/mono5-sil_5.16.0.179-1+focal1.debian.tar.xz
-              #   sha256: b7caa9f89b6a29a2879962075645a2257bae3e7768c1b5f24ff09a692bb5e4ff
-
+      
       - name: mono5-sil-from-git-source
         # TODO finish getting this to work, then remove .deb usage.  
-        # TODO The submodules will need to have been precloned by flatpak. Confirm.
         post-install:
           - cert-sync /etc/ssl/certs/ca-certificates.crt
         sources:
@@ -311,8 +288,8 @@ modules:
               - NOCONFIGURE=1 ./bootstrap-2.12
 
       # - name: msbuild-from-source
-      #   # so i'm trying to build msbuild from source. i see that its not used by many projects on flathub. and every project that does use it seems to just fetch .deb files and extract them. 
-      #   # it looks like i can get and use msbuild.dll from a dotnet, for example dotnet 3.1 or so provides msbuild 16.4.0+e901037fe (which i can run if i do something like mono ./sdk/3.1.112/MSBuild.dll ). could i install msbuild by fetching and extracting a dotnet tarball? and maybe this is no better than just grabbing the sil or mono-project msbuild .deb ?
+      #   # I'm trying to build msbuild from source here. But I see that each of the few projects on flathub that uses msbuild appears to just fetch .deb files and extract them, rather than build msbuild.
+      #   # It looks like I can get and use msbuild.dll from dotnet, for example dotnet 3.1 or so provides msbuild 16.4.0+e901037fe (which I can run if I do something like mono ./sdk/3.1.112/MSBuild.dll ). Could I install msbuild by fetching and extracting a dotnet tarball? Tho maybe this is no better than just grabbing the SIL or mono-project msbuild .deb ?
       #   env:
       #     - __PUBLISH_RID: linux-x64
       #   # no-autogen: true
@@ -340,38 +317,20 @@ modules:
       #       commands:
       #        - perl -pi -e '/commandLine=/ and s/"$/ -p:RuntimeIdentifiers=linux-x64 --runtime linux-x64"/ and print'  build/build.sh
       #        - ./build.sh --hostType mono --configuration Release --skip_tests -p:DisableNerdbankVersioning=true -p:BUILD_SOURCEVERSION=8af44c5b9e727c096833a88fae05c3ddb76716d0 -p:RuntimeIdentifiers=linux-x64 --runtime linux-x64
-      #     # arr i guess just install an etc os-release file at build time.
+      #     # Argh I guess just install an etc os-release file at build time.
       #     - type: file
       #       dest: /etc
       #       path: /etc/os-release
 
-      #   - name: gtk-sharp5-sil-from-source # Note: probably prefer "gtk-sharp-from-source" module instead that uses git
-      #     build-options:
-      #       prefix: /usr
-      #       config-opts:
-      #         - --disable-man
-      #         - --disable-gtk-doc
-      #     env:
-      #       MONO_PREFIX: /usr
-      #     sources:
-      #       - type: archive
-      #         url: https://packages.sil.org/ubuntu/pool/main/g/gtk-sharp5-sil/gtk-sharp5-sil_5.4.0.orig.tar.gz
-      #         sha256: bae918b0cf91703703244606dc89daba8919a60de688c1f29584fe172ad418a0
-      - name: mono5-sil
+      
+      - name: mono5-sil-msbuild
         buildsystem: simple
         build-commands:
           # Extract opt/mono5-sil/* into /app/
           - for package in *.deb; do mkdir "${package}-dir" && (cd "${package}-dir" && ar x ../"${package}") && tar -C /app -x -f "${package}-dir"/data.tar.xz --strip-components=3 ./opt/mono5-sil; done
-          - find /app . -name msbuild # debug. ok rm this line.
           # Same-character-count path to /app since some binary files are going to be modified too.
           - perl -pi -e 's#/opt/mono5-sil#/./././././app#g' /app/bin/*
         sources:
-          # - type: file
-          #   url: http://packages.sil.org/ubuntu/pool/main/m/mono5-sil/mono5-sil_5.16.0.179-1+focal1_amd64.deb
-          #   sha256: 8e2831c5b2f9b116684056dca13f0ed0d7ace9f461c798629e2cdb51768e0caf
-          # - type: file
-          #   url: http://packages.sil.org/ubuntu/pool/main/g/gtk-sharp5-sil/gtk-sharp5-sil_5.4.0-1+focal1_amd64.deb
-          #   sha256: 5d7918d583f2d21be195adad9f651ffa29a66f68beb3a7c071250a377555430b
           - type: file
             url: http://linux.lsdev.sil.org/ubuntu/pool/main/m/mono5-sil-msbuild/mono5-sil-msbuild_15.8+xamarinxplat.2018.07.31.22.43-0xamarin5+ubuntu1804b1_all.deb
             sha256: 758274d8bc438f325fc5fc808c0482ab50eb2bdaf02f61747888e190760753de
@@ -395,7 +354,7 @@ modules:
               - patch -i debian/patches/revert-GifQuantizeBuffer-remove-from-lib.patch
               # Skip building documentation
               - "echo >doc/Makefile all:"
-              # Install into /app so it gets picked up by libgdiplus before another giflib that doesnt have GifQuantizeBuffer. Maybe I should fiddle with libgdiplus's libdir instead.
+              # Install into /app so it gets picked up by libgdiplus before another giflib that doesnt have GifQuantizeBuffer. Maybe I should adjust libgdiplus's libdir instead.
               - make PREFIX=/app
               - make PREFIX=/app install
             sources:
@@ -424,7 +383,6 @@ modules:
             url: https://packages.sil.org/ubuntu/pool/main/t/teckit/teckit_2.5.10+20.04.orig.tar.gz
             sha256: 498d6331bc25853c86f6ae9afeec178192ef91f8b3d539e7593b09b079801ed0
       - name: fieldworks-enc-converters
-        # TODO Does building EC still say "make[1]: /usr/lib/fieldworks/icu-bin/icu-config: Command not found"?
         buildsystem: autotools
         build-options:
           build-args:
@@ -480,17 +438,6 @@ modules:
                   </disabledPackageSources>
                 </configuration>'
 
-          # - type: archive
-          #   url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks-enc-converters/fieldworks-enc-converters_4.0.8.179+focal1.tar.xz
-          #   sha256: fc92c3185482ef9626f00ac708c910ff80682ab51fdb67af631d86f3a55b82c8
-          # - type: patch
-          #   path: ec-dl-deps.patch
-          # - type: patch
-          #   path: Remove-mistaken-Xsl-reference.patch
-          #   strip-components: 1
-          # - type: patch
-          #   path: ec-Remove-BOM.patch
-          #   strip-components: 1
 
       - name: flexbridge
         buildsystem: simple
@@ -621,16 +568,13 @@ modules:
           env:
             PREFIX: '/app'
             PERL5LIB: '/app/perl-modules/lib/perl5'
-            # DESTDIR: /app # libcom was picking this up
-            # MONO_PREFIX: /usr/lib/sdk/mono5
-            # MONO_SILPKGDIR: /usr/lib/sdk/mono5
             MONO_PREFIX: '/app'
             MONO_SILPKGDIR: '/app'
             NUGET_DEST: 'fw/packages'
             FW_ROOT_PATH: '/run/build/fieldworks/fw'
             MSBUILD_ARGS: '-verbosity:detailed'
             INSTALLATION_PREFIX: '/app'
-            # 20210603 the debian packaging sets this. i dont think it's important for what we need but it's worth a try to help.
+            # The debian packaging sets RUNMODE=PACKAGING. i dont think it's important for what we need but it's worth a try to help.
             RUNMODE: 'PACKAGING'
             FW_PACKAGE_DEBUG: 'true'
         build-commands:
@@ -710,9 +654,6 @@ modules:
           # ./tc-sources tc-inputs.yml fieldworks-sources-tc.yml
           - fieldworks-sources-tc.yml
 
-          # - type: patch
-          #   path: patches/fieldworks/lcm-core-libdl-dllmap.patch
-          #   strip-components: 1
 
 
     #   - name: gobject-introspection
