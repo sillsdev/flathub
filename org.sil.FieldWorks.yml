@@ -56,13 +56,108 @@ finish-args:
   # Directory for libpalaso GlobalMutex.
   - --filesystem=/var/lock:rw
   # TODO Do we need write access to /var/lib/fieldworks for writing systems?
-modules:
-  - name: hello
-    buildsystem: simple
-    build-commands:
-      - echo Hello
-    modules:
 
+
+
+
+modules:
+  - name: fieldworks
+    # Note that trying to get fw FwCoreDlgs.csproj to find ECInterfaces.dll was a pain and wasn't solved by environment variables or msbuild properties or a .user file. I needed to change the hintpath from /usr/lib/fieldworks to /whatever, for it to be found. i could have also probably pre-copied it into Output/Release.
+    buildsystem: simple
+    build-options:
+      build-args:
+        - --share=network
+      env:
+        PREFIX: '/app'
+        PERL5LIB: '/app/perl-modules/lib/perl5'
+        MONO_PREFIX: '/app'
+        MONO_SILPKGDIR: '/app'
+        NUGET_DEST: 'fw/packages'
+        FW_ROOT_PATH: '/run/build/fieldworks/fw'
+        MSBUILD_ARGS: '-verbosity:detailed'
+        INSTALLATION_PREFIX: '/app'
+        # The debian packaging sets RUNMODE=PACKAGING. i dont think it's important for what we need but it's worth a try to help.
+        RUNMODE: 'PACKAGING'
+        FW_PACKAGE_DEBUG: 'true'
+    build-commands:
+      - env; ls -al . fw fw/Downloads liblcm libcom; pwd
+
+      # Extract nuget packages. May only be needed when using source from git, rather than tarball.
+      # The 'type: archive', 'archive-type: zip' had some trouble working, so manually extract.
+      - for package in *.nupkg; do mkdir -p "${NUGET_DEST}/$(basename "${package}" .nupkg)"; unzip "${package}" -d "${NUGET_DEST}/$(basename "${package}" .nupkg)" ;done
+      - ls -al "${NUGET_DEST}"
+
+      # Copy in localizations from fieldworks 9.0 tarball, until we can get them another way.
+      # MANUAL: cp -a source-package/fw/Localizations fw/ && cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/ &&  cp -a source-package/fw/Output fw/ &&  cp -a source-package/fw/DistFiles/Templates fw/DistFiles/ && cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/ && cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
+      - cp -a source-package/fw/Localizations fw/
+      - cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/
+      - cp -a source-package/fw/Output fw/
+      - cp -a source-package/fw/DistFiles/Templates fw/DistFiles/
+      - cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/
+      - cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
+
+      # Skip problem with localization that I'm still investigating.
+      - perl -pi -e 's|([ \t&]*).*/t:localize-binaries.*|\1echo skipping localize-binaries|' fw/Makefile
+    
+      # MANUAL: export BUILD_ROOT=$FW_ROOT_PATH BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true ; export LcmLocalArtifactsDir="$BUILD_ROOT/../liblcm/artifacts/$BUILD_CONFIG" ; mkdir -p $LcmLocalArtifactsDir ; cd $FW_ROOT_PATH/Build ;  ${FW_ROOT_PATH}/Build/run-in-environ  msbuild /t:refreshTargets
+      # MANUAL: export PLATFORM=x86_64 && cd $FW_ROOT_PATH/Build && ${FW_ROOT_PATH}/Build/run-in-environ  msbuild  '/t:remakefw' /property:config=$BUILD_CONFIG /property:Platform=$PLATFORM /property:packaging=yes "/p:OutputPath=${FW_ROOT_PATH}/Output/Debug"
+      # LDFLAGS="$(/app/lib/fieldworks/bin/icu-config --ldflags) ${LDFLAGS}" CPPFLAGS="$(/app/lib/fieldworks/bin/icu-config --cppflags) ${CPPFLAGS}"
+      - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true build-package-for-flatpak
+      - cd ${FW_ROOT_PATH} && perl -pi -e '/<runtime>/ and s/^/  <dllmap dll="libdl.so" target="libdl.so.2" \/>\n/' $(find -name SIL.LCModel.Core.dll.config)
+
+      - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true install-for-flatpak 
+
+      - mv -v /app/share/applications/fieldworks-applications.desktop /app/share/applications/org.sil.FieldWorks.desktop 
+      - perl -pi -e 's/fieldworks-flex.png/org.sil.FieldWorks.png/g' /app/share/applications/org.sil.FieldWorks.desktop 
+      - mv -v /app/share/icons/hicolor/128x128/apps/fieldworks-flex.png /app/share/icons/hicolor/128x128/apps/org.sil.FieldWorks.png 
+      - mv -v /app/share/icons/hicolor/64x64/apps/fieldworks-flex.png /app/share/icons/hicolor/64x64/apps/org.sil.FieldWorks.png 
+      
+    sources:
+      - type: git
+        url: https://github.com/sillsdev/FieldWorks.git
+        # branch: support/9.0
+        # tag: FieldWorks9.0.16
+        # For now build the latest on feature/flatpak.
+        branch: feature/flatpak
+        dest: fw
+      - type: git
+        url: https://github.com/sillsdev/liblcm.git
+        # branch: develop
+        tag: FieldWorks9.0.16
+        commit: 8f04ab5b314e9fa4cfacd4c481b82bc1ee2d6a91
+        dest: liblcm
+      - type: git
+        url: https://github.com/sillsdev/libcom.git
+        branch: develop
+        dest: libcom
+      - type: git
+        url: https://github.com/sillsdev/FwHelps.git
+        branch: develop
+        dest: fw/DistFiles/Helps
+        
+      - type: archive
+        url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks/fieldworks_9.0.16.58%2Bfocal1.tar.xz
+        sha256: 8487e179d97d7f56fb7cfbade4b40eb31ba6010e64baf8179492fcd26c1912ff
+        dest: source-package
+
+
+      # FW nuget dependencies
+      # Preview updates via FieldWorks.git: git log -p -- Build/nuget-{common,linux}/packages.config
+      # To regenerate input sources:
+      # ./nuget-sources ~/fwrepo/fw/Build/nuget-linux/packages.config packages fieldworks-sources-nuget-linux.yml
+      # ./nuget-sources ~/fwrepo/fw/Build/nuget-common/packages.config packages fieldworks-sources-nuget-common.yml
+      - fieldworks-sources-nuget-common.yml
+      - fieldworks-sources-nuget-linux.yml
+        
+      # FW dependencies
+      # Find updates via FieldWorks.git with a command like: git log -p FieldWorks9.0.13..FieldWorks9.0.16 -- Build/mkall.targets
+      # Manually apply changes by editing tc-inputs.yml.
+      # Regenerate input sources:
+      # ./tc-sources tc-inputs.yml fieldworks-sources-tc.yml
+      - fieldworks-sources-tc.yml
+
+
+    modules:
       - name: libboost
         # TODO Should I be installing this to /usr since I don't need to ship boost? Or do we need boost at runtime?
         buildsystem: simple
@@ -238,26 +333,12 @@ modules:
                 #     sha256: bdb3820005dc3c02ec8b1e2916a1d060f65f44d30ba48ab88704c3380d5a47b8
       
       - name: wget
+      # TODO is wget also used when running FW or just building? if only when building, perhaps only install into /usr ?
         buildsystem: autotools
         sources:
           - type: archive
             url: https://ftp.gnu.org/gnu/wget/wget-1.20.3.tar.gz
             sha512: e8b82b40e270296228094a78d47f81580bdbdea9e6b93fd61b37dccb39430aeb9bda5397dc53a31c952a61629383c7e2a8c8abf414c8a4dd369af6ecf2717e6c
-
-      - name: python-2.7
-        # Build Python 2 without cleaning away parts that we still need, like shared-modules/python2.7 does.
-        config-opts:
-          - --enable-shared
-          - --with-system-expat
-          - --with-system-ffi
-          - --enable-unicode=ucs4
-        post-install:
-          - chmod 644 ${FLATPAK_DEST}/lib/libpython2.7.so.1.0
-        sources:
-          - type: archive
-            url: https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tar.xz
-            sha256: b62c0e7937551d0cc02b8fd5cb0f544f9405bafc9a54d3808ed4594812edef43
-
 
       
       - name: mono5-sil-from-git-source
@@ -286,7 +367,6 @@ modules:
 
 
       - name: gtk-sharp-from-source
-      # todo try again. Then remove .deb usage.
         config-opts:
           - --disable-gtk-doc
           - --disable-man
@@ -336,6 +416,7 @@ modules:
 
       
       - name: mono5-sil-msbuild
+        # TODO this is only needed during development. install to /usr instead of /app so dont ship it.
         buildsystem: simple
         build-commands:
           # Extract opt/mono5-sil/* into /app/
@@ -389,11 +470,7 @@ modules:
             url: https://packages.sil.org/ubuntu/pool/main/i/icu-fw/icu-fw_54.1.1.44.orig.tar.xz
             sha256: 324af10d4aaea7213d0c6f407e9edeb6c512345f636517521db5423e55e56c7c
 
-      - name: libteckit-dev
-        sources:
-          - type: archive
-            url: https://packages.sil.org/ubuntu/pool/main/t/teckit/teckit_2.5.10+20.04.orig.tar.gz
-            sha256: 498d6331bc25853c86f6ae9afeec178192ef91f8b3d539e7593b09b079801ed0
+
       - name: fieldworks-enc-converters
         buildsystem: autotools
         build-options:
@@ -449,6 +526,12 @@ modules:
                     <add key="nuget.org" value="true" />
                   </disabledPackageSources>
                 </configuration>'
+        modules:
+          - name: libteckit-dev
+            sources:
+              - type: archive
+                url: https://packages.sil.org/ubuntu/pool/main/t/teckit/teckit_2.5.10+20.04.orig.tar.gz
+                sha256: 498d6331bc25853c86f6ae9afeec178192ef91f8b3d539e7593b09b079801ed0
 
 
       - name: flexbridge
@@ -484,16 +567,16 @@ modules:
           #   done
           # - perl -pi -e 's#<Target Name="VersionNumbers" .*<\/Target>#<Target Name="VersionNumbers" DependsOnTargets="RestoreBuildTasks;GetVersion">    <WriteLinesToFile File="$(RootDir)/gitversion.properties" Overwrite="true"      Lines="BuildVersion=$(GitVersion_SemVer).$(BUILD_NUMBER)"      Condition="$(GetVersion)"/>    <Exec Command='for project in $(find src -name \*.csproj); do              objDir="$(dirname "$project")"/obj              mkdir -vp "\${objDir}"              cp -va gitversion.properties "\${objDir}"            done' WorkingDirectory="$(RootDir)" />  </Target>#s' build/FLExBridge.proj
 
-  # <Target Name="VersionNumbers" DependsOnTargets="RestoreBuildTasks;GetVersion">
-  #   <WriteLinesToFile File="$(RootDir)/gitversion.properties" Overwrite="true"
-  #     Lines="BuildVersion=$(GitVersion_SemVer).$(BUILD_NUMBER)"
-  #     Condition="$(GetVersion)"/>
-  #   <Exec Command='for project in $(find src -name \*.csproj); do
-  #             objDir="$(dirname "$project")"/obj
-  #             mkdir -vp "${objDir}"
-  #             cp -va gitversion.properties "${objDir}"
-  #           done' WorkingDirectory="$(RootDir)" />
-  # </Target>
+          # <Target Name="VersionNumbers" DependsOnTargets="RestoreBuildTasks;GetVersion">
+          #   <WriteLinesToFile File="$(RootDir)/gitversion.properties" Overwrite="true"
+          #     Lines="BuildVersion=$(GitVersion_SemVer).$(BUILD_NUMBER)"
+          #     Condition="$(GetVersion)"/>
+          #   <Exec Command='for project in $(find src -name \*.csproj); do
+          #             objDir="$(dirname "$project")"/obj
+          #             mkdir -vp "${objDir}"
+          #             cp -va gitversion.properties "${objDir}"
+          #           done' WorkingDirectory="$(RootDir)" />
+          # </Target>
           # - for objDir in $(find -name obj); do cp -va gitversion.properties "${objDir}";done
           # TODO The version information could still be extracted with something like dotnet running GitVersion.CommandLine; see https://github.com/sillsdev/flexbridge/issues/318 .
           - cd build && msbuild FLExBridge.proj -p:Configuration=Debug -p:DisableGitVersionTask=true -p:GitVersion_SemVer=1.2.3 -p:Version=1.2.3 -p:WriteVersionInfoToBuildLog=false
@@ -568,103 +651,23 @@ modules:
           #     - |
           #       perl -pi -e 's#install: fetch_l10ns#install:#' Makefile
 
-            
+        modules:
+
+          - name: python-2.7
+            # Build Python 2 without cleaning away parts that we still need, like shared-modules/python2.7 does.
+            config-opts:
+              - --enable-shared
+              - --with-system-expat
+              - --with-system-ffi
+              - --enable-unicode=ucs4
+            post-install:
+              - chmod 644 ${FLATPAK_DEST}/lib/libpython2.7.so.1.0
+            sources:
+              - type: archive
+                url: https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tar.xz
+                sha256: b62c0e7937551d0cc02b8fd5cb0f544f9405bafc9a54d3808ed4594812edef43
 
 
-      # Note that trying to get fw FwCoreDlgs.csproj to find ECInterfaces.dll was a pain and wasn't solved by environment variables or msbuild properties or a .user file. I needed to change the hintpath from /usr/lib/fieldworks to /whatever, for it to be found. i could have also probably pre-copied it into Output/Release.
-      - name: fieldworks
-        buildsystem: simple
-        build-options:
-          build-args:
-            - --share=network
-          env:
-            PREFIX: '/app'
-            PERL5LIB: '/app/perl-modules/lib/perl5'
-            MONO_PREFIX: '/app'
-            MONO_SILPKGDIR: '/app'
-            NUGET_DEST: 'fw/packages'
-            FW_ROOT_PATH: '/run/build/fieldworks/fw'
-            MSBUILD_ARGS: '-verbosity:detailed'
-            INSTALLATION_PREFIX: '/app'
-            # The debian packaging sets RUNMODE=PACKAGING. i dont think it's important for what we need but it's worth a try to help.
-            RUNMODE: 'PACKAGING'
-            FW_PACKAGE_DEBUG: 'true'
-        build-commands:
-          - env; ls -al . fw fw/Downloads liblcm libcom; pwd
-
-          # Extract nuget packages. May only be needed when using source from git, rather than tarball.
-          # The 'type: archive', 'archive-type: zip' had some trouble working, so manually extract.
-          - for package in *.nupkg; do mkdir -p "${NUGET_DEST}/$(basename "${package}" .nupkg)"; unzip "${package}" -d "${NUGET_DEST}/$(basename "${package}" .nupkg)" ;done
-          - ls -al "${NUGET_DEST}"
-
-          # Copy in localizations from fieldworks 9.0 tarball, until we can get them another way.
-          # MANUAL: cp -a source-package/fw/Localizations fw/ && cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/ &&  cp -a source-package/fw/Output fw/ &&  cp -a source-package/fw/DistFiles/Templates fw/DistFiles/ && cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/ && cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
-          - cp -a source-package/fw/Localizations fw/
-          - cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/
-          - cp -a source-package/fw/Output fw/
-          - cp -a source-package/fw/DistFiles/Templates fw/DistFiles/
-          - cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/
-          - cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
-
-          # Skip problem with localization that I'm still investigating.
-          - perl -pi -e 's|([ \t&]*).*/t:localize-binaries.*|\1echo skipping localize-binaries|' fw/Makefile
-        
-          # MANUAL: export BUILD_ROOT=$FW_ROOT_PATH BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true ; export LcmLocalArtifactsDir="$BUILD_ROOT/../liblcm/artifacts/$BUILD_CONFIG" ; mkdir -p $LcmLocalArtifactsDir ; cd $FW_ROOT_PATH/Build ;  ${FW_ROOT_PATH}/Build/run-in-environ  msbuild /t:refreshTargets
-          # MANUAL: export PLATFORM=x86_64 && cd $FW_ROOT_PATH/Build && ${FW_ROOT_PATH}/Build/run-in-environ  msbuild  '/t:remakefw' /property:config=$BUILD_CONFIG /property:Platform=$PLATFORM /property:packaging=yes "/p:OutputPath=${FW_ROOT_PATH}/Output/Debug"
-          # LDFLAGS="$(/app/lib/fieldworks/bin/icu-config --ldflags) ${LDFLAGS}" CPPFLAGS="$(/app/lib/fieldworks/bin/icu-config --cppflags) ${CPPFLAGS}"
-          - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true build-package-for-flatpak
-          - cd ${FW_ROOT_PATH} && perl -pi -e '/<runtime>/ and s/^/  <dllmap dll="libdl.so" target="libdl.so.2" \/>\n/' $(find -name SIL.LCModel.Core.dll.config)
-
-          - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true install-for-flatpak 
-
-          - mv -v /app/share/applications/fieldworks-applications.desktop /app/share/applications/org.sil.FieldWorks.desktop 
-          - perl -pi -e 's/fieldworks-flex.png/org.sil.FieldWorks.png/g' /app/share/applications/org.sil.FieldWorks.desktop 
-          - mv -v /app/share/icons/hicolor/128x128/apps/fieldworks-flex.png /app/share/icons/hicolor/128x128/apps/org.sil.FieldWorks.png 
-          - mv -v /app/share/icons/hicolor/64x64/apps/fieldworks-flex.png /app/share/icons/hicolor/64x64/apps/org.sil.FieldWorks.png 
-          
-        sources:
-          - type: git
-            url: https://github.com/sillsdev/FieldWorks.git
-            # branch: support/9.0
-            # tag: FieldWorks9.0.16
-            # For now build the latest on feature/flatpak.
-            branch: feature/flatpak
-            dest: fw
-          - type: git
-            url: https://github.com/sillsdev/liblcm.git
-            # branch: develop
-            tag: FieldWorks9.0.16
-            commit: 8f04ab5b314e9fa4cfacd4c481b82bc1ee2d6a91
-            dest: liblcm
-          - type: git
-            url: https://github.com/sillsdev/libcom.git
-            branch: develop
-            dest: libcom
-          - type: git
-            url: https://github.com/sillsdev/FwHelps.git
-            branch: develop
-            dest: fw/DistFiles/Helps
-            
-          - type: archive
-            url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks/fieldworks_9.0.16.58%2Bfocal1.tar.xz
-            sha256: 8487e179d97d7f56fb7cfbade4b40eb31ba6010e64baf8179492fcd26c1912ff
-            dest: source-package
-
-
-          # FW nuget dependencies
-          # Preview updates via FieldWorks.git: git log -p -- Build/nuget-{common,linux}/packages.config
-          # To regenerate input sources:
-          # ./nuget-sources ~/fwrepo/fw/Build/nuget-linux/packages.config packages fieldworks-sources-nuget-linux.yml
-          # ./nuget-sources ~/fwrepo/fw/Build/nuget-common/packages.config packages fieldworks-sources-nuget-common.yml
-          - fieldworks-sources-nuget-common.yml
-          - fieldworks-sources-nuget-linux.yml
-            
-          # FW dependencies
-          # Find updates via FieldWorks.git with a command like: git log -p FieldWorks9.0.13..FieldWorks9.0.16 -- Build/mkall.targets
-          # Manually apply changes by editing tc-inputs.yml.
-          # Regenerate input sources:
-          # ./tc-sources tc-inputs.yml fieldworks-sources-tc.yml
-          - fieldworks-sources-tc.yml
 
 
 
