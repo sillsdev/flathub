@@ -35,16 +35,27 @@ sdk: org.gnome.Sdk
 writable-sdk: true
 command: fieldworks-flex
 finish-args:
-  - --share=network
   - --socket=x11
   - --share=ipc
+  # FieldWorks can synchronize project data over the network.
+  - --share=network
+  # FieldWorks allows playing sound files and audio writing systems, and recording audio writing systems.
   - --socket=pulseaudio
-  # wide access during development
-  - --socket=system-bus
-  # Don't grant host filesystem access or /opt/mono5-sil can be used and cause problems. But we also need read access to get to projects.
-  # - --filesystem=host
-  # Directory for libpalaso GlobalMutex
+  # wide access during development. todo.
+  # - --socket=system-bus
+  # Users need to be able to import data. This may include restoring backup files or choosing photos for a dictionary.
+  - --filesystem=home:ro
+  # Data including projects.
+  - --filesystem=xdg-data/fieldworks:rw
+  # Configuration and settings of FieldWorks and included components.
+  - --filesystem=xdg-config/fieldworks:rw
+  - --filesystem=xdg-data/SIL:rw
+  - --filesystem=~/.mono/registry/CurrentUser/software/sil:rw
+  # Default location to write a backup in the backup dialog.
+  - --filesystem=xdg-documents/fieldworks/backups:rw
+  # Directory for libpalaso GlobalMutex.
   - --filesystem=/var/lock:rw
+  # TODO Do we need write access to /var/lib/fieldworks for writing systems?
 modules:
   - name: hello
     buildsystem: simple
