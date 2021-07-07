@@ -271,6 +271,13 @@ host: gdb
 host: (gdb) target remote 127.0.0.1:9999
 ```
 
+## Validate appdata
+
+```bash
+flatpak install flathub org.freedesktop.appstream-glib
+flatpak run org.freedesktop.appstream-glib validate .../fw/DistFiles/Linux/fieldworks-applications.desktop.appdata.xml
+```
+
 ## Pushing
 
 Pushing to FieldWorks.git branch feature/flatpak, bypassing gerrit, is done with:
