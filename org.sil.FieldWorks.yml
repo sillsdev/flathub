@@ -65,8 +65,6 @@ modules:
     # Note that trying to get fw FwCoreDlgs.csproj to find ECInterfaces.dll was a pain and wasn't solved by environment variables or msbuild properties or a .user file. I needed to change the hintpath from /usr/lib/fieldworks to /whatever, for it to be found. i could have also probably pre-copied it into Output/Release.
     buildsystem: simple
     build-options:
-      build-args:
-        - --share=network
       env:
         PREFIX: '/app'
         PERL5LIB: '/app/perl-modules/lib/perl5'
@@ -474,8 +472,6 @@ modules:
       - name: fieldworks-enc-converters
         buildsystem: autotools
         build-options:
-          build-args:
-            - --share=network
           prepend-ld-library-path: /app/lib/fieldworks/lib
           env:
             FIELDWORKS: "1"
@@ -539,8 +535,6 @@ modules:
         build-options:
           # TODO trying prefix here to hopefully land fb in the right place.
           prefix: /app
-          build-args:
-            - --share=network
           env:
             PREFIX: /app
             # TODO Probably remove perl5lib?
