@@ -362,6 +362,20 @@ modules:
             url: https://download.mono-project.com/monolite/monolite-linux-1051600011-latest.tar.gz
             sha512: b48bb273f5a9107f9bb9795d47277aeaaeb458588a6e011676bb9a152b83759f305cf1031a5e74a62145854ef17026cb1aa20ea9adb5e6b15f275b9d6af585db
             dest: mcs/class/lib/monolite-linux/1051600011
+        modules:
+          - name: python-2.7
+            # Build Python 2 without cleaning away parts that we still need, like shared-modules/python2.7 does.
+            config-opts:
+              - --enable-shared
+              - --with-system-expat
+              - --with-system-ffi
+              - --enable-unicode=ucs4
+            post-install:
+              - chmod 644 ${FLATPAK_DEST}/lib/libpython2.7.so.1.0
+            sources:
+              - type: archive
+                url: https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tar.xz
+                sha256: b62c0e7937551d0cc02b8fd5cb0f544f9405bafc9a54d3808ed4594812edef43
 
 
       - name: gtk-sharp-from-source
@@ -644,23 +658,6 @@ modules:
           #   commands:
           #     - |
           #       perl -pi -e 's#install: fetch_l10ns#install:#' Makefile
-
-        modules:
-
-          - name: python-2.7
-            # Build Python 2 without cleaning away parts that we still need, like shared-modules/python2.7 does.
-            config-opts:
-              - --enable-shared
-              - --with-system-expat
-              - --with-system-ffi
-              - --enable-unicode=ucs4
-            post-install:
-              - chmod 644 ${FLATPAK_DEST}/lib/libpython2.7.so.1.0
-            sources:
-              - type: archive
-                url: https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tar.xz
-                sha256: b62c0e7937551d0cc02b8fd5cb0f544f9405bafc9a54d3808ed4594812edef43
-
 
 
 
