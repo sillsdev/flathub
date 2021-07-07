@@ -37,7 +37,7 @@ command: fieldworks-flex
 finish-args:
   - --socket=x11
   - --share=ipc
-  # FieldWorks can synchronize project data over the network.
+  # FieldWorks can synchronize project data over the network with other users.
   - --share=network
   # FieldWorks allows playing sound files and audio writing systems, and recording audio writing systems.
   - --socket=pulseaudio
