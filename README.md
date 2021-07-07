@@ -282,5 +282,6 @@ flatpak run org.freedesktop.appstream-glib validate .../fw/DistFiles/Linux/field
 
 Pushing to FieldWorks.git branch feature/flatpak, bypassing gerrit, is done with:
 ```bash
+git pull --rebase
 git push --force origin feature/flatpak:refs/heads/feature/flatpak
 ```
