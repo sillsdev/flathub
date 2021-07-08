@@ -50,8 +50,17 @@ git clone https://github.com/sillsdev/FieldWorks.git --branch support/9.0
 
 Install tool flatpak-dotnet-generator.py and dependency dotnet5 sdk:
 ```bash
-flatpak install flathub org.freedesktop.Sdk.Extension.dotnet5
+flatpak install flathub org.freedesktop.Sdk.Extension.dotnet5 org.freedesktop.Sdk/x86_64/20.08
 git clone https://github.com/flatpak/flatpak-builder-tools.git
+# Until feature/multiple-csproj PR #206 is merged:
+cd flatpak-builder-tools
+git remote add marksvc https://github.com/marksvc/flatpak-builder-tools.git
+git fetch --all && git checkout marksvc/feature/multiple-csproj
+```
+
+Install xonsh to run some dependency-url-generating scripts.
+```bash
+sudo apt install xonsh
 ```
 
 ### Build
