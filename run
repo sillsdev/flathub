@@ -1,3 +1,6 @@
 #!/bin/bash
 
-flatpak run --devel --env=FW_DEBUG=true org.sil.FieldWorks
+# Share path to projects dir in dev repo in case projects dir is set to that location on dev machine.
+DEV_PROJECTS_PATH="${HOME}"/fwrepo/fw/DistFiles/Projects
+
+flatpak run --devel --env=FW_DEBUG=true --filesystem="${DEV_PROJECTS_PATH}" org.sil.FieldWorks
