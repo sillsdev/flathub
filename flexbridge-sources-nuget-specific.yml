@@ -1,9 +1,9 @@
   # These nuget packages need extracted into packages/package-name-without-version/ .
   - type: file
-    url: https://api.nuget.org/v3-flatcontainer/GitVersionTask/5.3.4/GitVersionTask.5.3.4.nupkg
-    sha512: 0bbab054be399212b4a9840f5f79d4a2e2a82297706cd0739be2a868b3d0c856229bb15df900a437478e2805337dfe205951aa31ecd0a7828bae7d2c0742f69c
+    url: https://api.nuget.org/v3-flatcontainer/GitVersion.MsBuild/5.6.10/GitVersion.MsBuild.5.6.10.nupkg
+    sha512: 9148ad80c714bf7d0fd660f607e9089f6941062c6393e6f753d95f105b5ef05a732781d0d1c8a2556680d9a0dadae363b06980c2d0f4089e0a591b29418c5b99
     dest: nuget-specific/
-    dest-filename: GitVersionTask.nupkg
+    dest-filename: GitVersion.MsBuild.nupkg
   - type: file
     url: https://api.nuget.org/v3-flatcontainer/SIL.BuildTasks/2.5.0/SIL.BuildTasks.2.5.0.nupkg
     sha512: 88def0001dbd63ff244c09a245df4c12b1e549729f4ce8a76afba5e0bb3fc795d13c84cf613bdff451ca4a0d72ecd4169b443494a84bc72d3b469071d7612cae
@@ -19,3 +19,8 @@
     sha512: c04181ea6ee33a9a6af2cdcba09454f855d0cac5b66898ba2248d4bd2de2433404508ed6cd0aaa2458d891050da3806ff85c7c36a936c79eb03af4763d9833c2
     dest: nuget-specific/
     dest-filename: NUnit.Console.nupkg
+  - type: file
+    url: https://api.nuget.org/v3-flatcontainer/BuildDependencyTasks/0.4.3/BuildDependencyTasks.0.4.3.nupkg
+    sha512: e936cfd251c6da0494d275dfac87a60039e90cb1cbd48cae48ebe9fff439478a49735051a59aba07c4bcf69d6b73a54bfc73bfab38fb295d540d1e351aaecdd5
+    dest: nuget-specific/
+    dest-filename: BuildDependencyTasks.nupkg

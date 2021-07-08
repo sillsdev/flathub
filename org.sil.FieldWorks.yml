@@ -614,9 +614,10 @@ modules:
             # branch: feature/nuget
             # TODO temporarily using task/gv until merged into feature/nuget.
             #branch: task/gv
-            branch: task/flatpak
+            #branch: task/flatpak
             # branch: hack-nuget-build
             # commit: f1117e3ad45502dd527c465f9862923e700e5a29
+            branch: develop
           # TODO Not rely on tarball for localizations
           - type: archive
             url: https://packages.sil.org/ubuntu/pool/main/f/flexbridge/flexbridge_3.0.1+166.orig.tar.xz
@@ -626,7 +627,7 @@ modules:
             url: https://dist.nuget.org/win-x86-commandline/v5.9.0/nuget.exe
             sha512: 980b62387ce9540eff0d49ef6dd5b4da121a8648646a465bc6445534e9ec0d7605483fad933b26f9b0b3797db4d4b1ec82ed354b3daf13e1dcc0818292815dca
             dest: build/
-          # These nuget packages are installed by build/FLExBridge.proj.
+          # These nuget packages are installed by build/FLExBridge.proj. Check on current packages and versions needed with: grep NuGetCommand build/FLExBridge.proj
           - flexbridge-sources-nuget-specific.yml
 
           # Use local nuget packages
