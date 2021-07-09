@@ -646,6 +646,10 @@ modules:
           # Regenerate: Set flexbridge git dir to newer code. Then run: ~/code/flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py flexbridge-sources-nuget.json $(find $HOME/fwrepo/flexbridge -name \*.csproj)
           - flexbridge-sources-nuget.json
 
+          # Dependencies specified from FLExBridge.dep
+          # Determine what is needed by running in the flexbridge repo: msbuild /t:DownloadDependencies build/FLExBridge.proj && cat build/FLExBridge.files
+          - flexbridge-sources-deps.yml
+
           # - type: file
           #   path: fb-gitversion.py
           # - type: shell
