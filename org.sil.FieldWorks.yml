@@ -586,6 +586,11 @@ modules:
           #           done' WorkingDirectory="$(RootDir)" />
           # </Target>
           # - for objDir in $(find -name obj); do cp -va gitversion.properties "${objDir}";done
+
+          - echo DEBUG1
+          - msbuild /t:DownloadDependencies build/FLExBridge.proj
+          - echo DEBUG2
+
           # TODO The version information could still be extracted with something like dotnet running GitVersion.CommandLine; see https://github.com/sillsdev/flexbridge/issues/318 .
           - cd build && msbuild FLExBridge.proj -p:Configuration=Debug -p:DisableGitVersionTask=true -p:GitVersion_SemVer=1.2.3 -p:Version=1.2.3 -p:WriteVersionInfoToBuildLog=false
           - cp -va flexbridge output/Debug/
