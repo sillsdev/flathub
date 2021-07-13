@@ -150,7 +150,6 @@ modules:
 
     modules:
       - name: libboost
-        # TODO Remove from final product if installing to /usr doesn't already do that. Unless we use boost in the production code and need it at runtime. ?
         buildsystem: simple
         build-options:
           prefix: /usr
@@ -161,6 +160,10 @@ modules:
           - ./bootstrap.sh
           # It installs to /usr/local unless I specify a prefix.
           - ./b2 install variant=release --prefix=/usr
+        cleanup:
+          # Remove module at the end of packaging to not ship it.
+          # TODO Unless we use boost in the production code and need it at runtime. ?
+          - '*'
         sources:
         - type: archive
           url: https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.bz2
