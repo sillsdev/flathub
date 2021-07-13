@@ -303,7 +303,11 @@ modules:
           - type: archive
             url: https://ftp.gnu.org/gnu/wget/wget-1.20.3.tar.gz
             sha512: e8b82b40e270296228094a78d47f81580bdbdea9e6b93fd61b37dccb39430aeb9bda5397dc53a31c952a61629383c7e2a8c8abf414c8a4dd369af6ecf2717e6c
-
+          - type: shell
+            # Help directory structure so wget doesn't fail when making /usr/share/man/manN since /usr/share/man is a symlink to runtime/docs/man, which doesn't exist. Similar with /usr/share/info .
+            commands:
+              - mkdir -p /usr/share/runtime/docs/man
+              - mkdir -p /usr/share/runtime/docs/info
       - name: mono5-sil-from-git-source
         post-install:
           - cert-sync /etc/ssl/certs/ca-certificates.crt
