@@ -43,7 +43,7 @@ finish-args:
   - --socket=pulseaudio
   # wide access during development. todo.
   # - --socket=system-bus
-  # Users need to be able to import data. This may include restoring backup files or choosing photos for a dictionary.
+  # Users need to be able to import data. This may include restoring backup files or choosing photos for a dictionary. A better approach may be to use Portals to receive permission for a specific file when the user specfies it ( https://docs.flatpak.org/en/latest/sandbox-permissions.html#portals ), tho perhaps that may not work well in cases where a user is merely linking to/referencing a file, not copying it into their project or otherwise using it only one time.
   - --filesystem=home:ro
   # Data including projects.
   - --filesystem=xdg-data/fieldworks:rw
@@ -52,7 +52,9 @@ finish-args:
   - --filesystem=xdg-data/SIL:rw
   - --filesystem=~/.mono/registry/CurrentUser/software/sil:rw
   # Default location to write a backup in the backup dialog.
-  - --filesystem=xdg-documents/fieldworks/backups:rw
+  - --filesystem=xdg-documents/fieldworks/backups:create
+  # Users can create a launcher to a specific project by clicking File - Project Management - Create Shortcut on Desktop.
+  - --filesystem=xdg-desktop:rw
   # Directory for libpalaso GlobalMutex.
   - --filesystem=/var/lock:rw
   # TODO Do we need write access to /var/lib/fieldworks for writing systems?
