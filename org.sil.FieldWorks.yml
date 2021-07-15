@@ -53,6 +53,7 @@ finish-args:
   - --filesystem=~/.mono/registry/CurrentUser/software/sil:rw
   # Default location to write a backup in the backup dialog.
   - --filesystem=xdg-documents/fieldworks/backups:create
+  - --filesystem=xdg-documents/fieldworks:create
   # Users can create a launcher to a specific project by clicking File - Project Management - Create Shortcut on Desktop.
   - --filesystem=xdg-desktop:rw
   # Directory for libpalaso GlobalMutex.
