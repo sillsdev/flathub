@@ -43,7 +43,11 @@ sudo apt install flatpak-builder
 
 Clone projects to help generate dependency download lists:
 ```bash
-git clone https://github.com/silnrsi/encoding-converters-core.git --branch master
+git clone https://github.com/silnrsi/encoding-converters-core.git --branch master &&
+  cd encoding-converters-core &&
+  git remote add marksvc https://github.com/marksvc/encoding-converters-core.git &&
+  git fetch --all && 
+  git checkout marksvc/task/flatpak
 git clone https://github.com/sillsdev/flexbridge.git --branch develop
 git clone https://github.com/sillsdev/FieldWorks.git --branch support/9.0
 ```
