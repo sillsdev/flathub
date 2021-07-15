@@ -39,7 +39,7 @@ finish-args:
   - --share=ipc
   # FieldWorks can synchronize project data over the network with other users.
   - --share=network
-  # FieldWorks allows playing sound files and audio writing systems, and recording audio writing systems.
+  # FieldWorks allows playing sound files and playing and recording in audio writing systems.
   - --socket=pulseaudio
   # wide access during development. todo.
   # - --socket=system-bus
