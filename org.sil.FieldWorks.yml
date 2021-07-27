@@ -41,11 +41,9 @@ finish-args:
   - --share=network
   # FieldWorks allows playing sound files and playing and recording in audio writing systems.
   - --socket=pulseaudio
-  # wide access during development. todo.
-  # - --socket=system-bus
   # Users need to be able to import data. This may include restoring backup files or choosing photos for a dictionary. A better approach may be to use Portals to receive permission for a specific file when the user specfies it ( https://docs.flatpak.org/en/latest/sandbox-permissions.html#portals ), tho perhaps that may not work well in cases where a user is merely linking to/referencing a file, not copying it into their project or otherwise using it only one time.
   - --filesystem=home:ro
-  # Data including projects.
+  # Data, including projects.
   - --filesystem=xdg-data/fieldworks:rw
   # Configuration and settings of FieldWorks and included components.
   - --filesystem=xdg-config/fieldworks:rw
