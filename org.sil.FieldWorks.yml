@@ -602,5 +602,32 @@ modules:
       #     #   commands:
       #     #     - |
       #     #       perl -pi -e 's#install: fetch_l10ns#install:#' Makefile
+    
+      - name: xchm
+        # Help file viewer
+        sources:
+          - type: git
+            url: https://github.com/rzvncj/xCHM
+            # Version used in Ubuntu 20.04.
+            tag: "1.31"
+            commit: e983d11fd546c961501f736b2c6f93178c92fa97
+        modules:
+          - name: chmlib
+            sources:
+              - type: git
+                url: https://github.com/jedwing/CHMLib
+                # Latest commit, from 2009-07-03.
+                commit: 2bef8d063ec7d88a8de6fd9f0513ea42ac0fa21f
+              - type: script
+                commands:
+                  - autoreconf --install
+          - name: wxWidgets
+            sources:
+              - type: git
+                url: https://github.com/wxWidgets/wxWidgets
+                # Version used in Ubuntu 20.04.
+                tag: v3.0.4
+                commit: 721d62adde3f8ba8704a9cf56efeb050f652dfbf
+
 
 
