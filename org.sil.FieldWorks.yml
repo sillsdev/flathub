@@ -57,6 +57,8 @@ finish-args:
   # Directory for libpalaso GlobalMutex.
   - --filesystem=/var/lock:rw
   # TODO Do we need write access to /var/lib/fieldworks for writing systems?
+  # xchm wants to write to files ~/.xchmXXXXXX and ~/.xchm or it shows errors it exit. So we need to either grant home:rw, get xchm changed to not need to write files to the root of home, or switch to another chm viewer.
+  - --filesystem=home:rw
 
 modules:
   - name: fieldworks
