@@ -125,7 +125,7 @@ jobs:
           path: |
             artifacts/
       - name: Publish artifacts as release
-        uses: softprops/action-gh-release
+        uses: softprops/action-gh-release@v0.1.7
         with:
           name: fieldworks-experimental
           body: "Automatically generated FieldWorks flatpak build for internal testing. Not for use on production machines or with real data."
