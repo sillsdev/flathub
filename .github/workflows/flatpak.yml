@@ -124,3 +124,13 @@ jobs:
           name: fw-flatpak-bundle
           path: |
             artifacts/
+      - name: Publish artifacts as release
+        uses: softprops/action-gh-release
+        with:
+          name: fieldworks-experimental
+          body: "Automatically generated FieldWorks flatpak build for internal testing. Not for use on production machines or with real data."
+          prerelease: true
+          files: artifacts/*
+          fail_on_unmatched_files: true
+          
+          
