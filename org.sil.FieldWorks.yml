@@ -132,8 +132,8 @@ modules:
         branch: develop
         dest: fw/DistFiles/Helps
       - type: archive
-        url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks/fieldworks_9.0.16.58%2Bfocal1.tar.xz
-        sha256: 8487e179d97d7f56fb7cfbade4b40eb31ba6010e64baf8179492fcd26c1912ff
+        url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks/fieldworks_9.0.17.119%2Bfocal1.tar.xz
+        sha256: be2c572abaaaaa95aaac563777ad4d3642f9dda2517058a369a7b564ab944534
         dest: source-package
 
       # FW nuget dependencies
