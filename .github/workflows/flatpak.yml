@@ -125,12 +125,16 @@ jobs:
           path: |
             artifacts/
       - name: Publish artifacts as release
-        uses: softprops/action-gh-release@v0.1.7
+        uses: ncipollo/release-action@v1.8.6
         with:
-          name: fieldworks-experimental
-          body: "Automatically generated FieldWorks flatpak build for internal testing. Not for use on production machines or with real data."
+          artifacts: "artifacts/*"
           prerelease: true
-          files: artifacts/*
-          fail_on_unmatched_files: true
-          
-          
+          # Branch to build from
+          commit: org.sil.FieldWorks
+          # New tag name to use
+          tag: lastest-experimental
+          allowUpdates: true
+          artifactErrorsFailBuild: true
+          name: fieldworks-experimental
+          body: "Automatically generated FieldWorks flatpak package for internal testing. Not for use on production machines or with real data."
+          token: ${{ secrets.GITHUB_TOKEN }}
