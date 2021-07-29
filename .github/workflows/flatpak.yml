@@ -93,11 +93,15 @@ jobs:
       - name: Determine package version
         run: |
           set -xueo pipefail
+          cat ./.flatpak-builder/build/fieldworks-1/fw/Src/MasterVersionInfo.txt
           source ./.flatpak-builder/build/fieldworks-1/fw/Src/MasterVersionInfo.txt
           # VERSION_SUFFIX will be empty, or set to FWBETAVERSION but with a dash before it.
           VERSION_SUFFIX="${FWBETAVERSION:+"-${FWBETAVERSION}"}"
           PACKAGE_VERSION="${FWMAJOR}.${FWMINOR}.${FWREVISION}.${GITHUB_RUN_NUMBER}${VERSION_SUFFIX}-experimental-$(date +'%Y%m%d')-${GITHUB_SHA::7}"
           TAG_NAME="v${FWMAJOR}.${FWMINOR}.${FWREVISION}.${GITHUB_RUN_NUMBER}${VERSION_SUFFIX}-experimental"
+          echo set tag name to ${TAG_NAME} via: "v${FWMAJOR}.${FWMINOR}.${FWREVISION}.${GITHUB_RUN_NUMBER}${VERSION_SUFFIX}-experimental"
+          echo "github env is"
+          cat "${GITHUB_ENV}"
           echo >> "${GITHUB_ENV}" << END
             FWMAJOR="${FWMAJOR}"
             FWMINOR="${FWMINOR}"
@@ -107,6 +111,19 @@ jobs:
             PACKAGE_VERSION="${PACKAGE_VERSION}"
             TAG_NAME="${TAG_NAME}"
           END
+          # echo "github env is"
+          # cat "${GITHUB_ENV}"
+          # echo >> "${GITHUB_ENV}" "FWMAJOR=${FWMAJOR}"
+          # echo >> "${GITHUB_ENV}" "FWMINOR=${FWMINOR}"
+          # echo >> "${GITHUB_ENV}" "FWREVISION=${FWREVISION}"
+          # echo >> "${GITHUB_ENV}" "FWBETAVERSION=${FWBETAVERSION}"
+          # echo >> "${GITHUB_ENV}" "VERSION_SUFFIX=${VERSION_SUFFIX}"
+          # echo >> "${GITHUB_ENV}" "PACKAGE_VERSION=${PACKAGE_VERSION}"
+          # echo >> "${GITHUB_ENV}" "TAG_NAME=${TAG_NAME}"
+          echo "now github env is"
+          cat "${GITHUB_ENV}"
+
+
       - name: Create flatpak bundle
         run: |
           set -xueo pipefail
