@@ -62,7 +62,8 @@ finish-args:
   # Directory for libpalaso GlobalMutex.
   - --filesystem=/var/lock:rw
   # xchm wants to write to files ~/.xchmXXXXXX and ~/.xchm or it shows errors it exit. So we need to either grant
-  # home:rw, get xchm changed to not need to write files to the root of home, or switch to another chm viewer.
+  # home:rw, get xchm changed to not need to write files to the root of home, or switch to another chm viewer. Check
+  # on a newer xchm version, too.
   - --filesystem=home:rw
   # TODO Because apt/deb FieldWorks 9 installations may have custom FEC data in /var/lib/fieldworks/{registry,SIL} ,
   # then instead of having FEC install to the flatpak "/var/lib/fieldworks/..." locations, have FEC install to some
@@ -567,7 +568,7 @@ modules:
       #     #   Look for Mercurial in the nuget package SIL.Chorus.Mercurial.
       #     - perl -ni -e 'print unless /Mercurial-/' Makefile
       #     # TODO don't try to install Chorus_Help.chm until it's available.
-      #     #   Probably need to how the Chorus git repo downloads it in the DownloadDependencies target in Chorus.proj.
+      #     #   Probably need to do it how the Chorus git repo downloads it in the DownloadDependencies target in Chorus.proj.
       #     - perl -ni -e 'print unless /Chorus_Help.chm/' Makefile
       #     # TODO don't try to install localizations until available
       #     - perl -ni -e 'print unless /localizations/' Makefile
