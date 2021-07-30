@@ -470,6 +470,7 @@ modules:
             # XDG_DATA_HOME.
             commands: 
               - |
+                set -xueo pipefail
                 # Adjust prefix
                 # Note: EncCnvtrs/AutoConfigDialog.cs wants to find a help file in a path specified by the RootDir
                 # registry key, but it doesn't look like that help file is even being installed for Linux. So it may
