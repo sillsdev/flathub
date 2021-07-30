@@ -51,6 +51,8 @@ jobs:
       - name: TESTING2 Determine package version
         run: |
           set -xueo pipefail
+          echo "vars: SOME_VAR $SOME_VAR , ANOTHER_VAR $ANOTHER_VAR , THIS_VAR $THIS_VAR ."
+          echo "envs: SOME_VAR ${{ env.SOME_VAR }}, ANOTHER_VAR ${{ env.ANOTHER_VAR }}, THIS_VAR ${{ env.THIS_VAR }}."
           echo "github env is"
           cat "${GITHUB_ENV}"
           echo done
