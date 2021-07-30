@@ -44,7 +44,8 @@ jobs:
           echo >> "${GITHUB_ENV}" << END
             ANOTHER_VAR=def
           END
-          echo "THIS_VAR=ghi" >> "${GITHUB_ENV}"
+          echo "THIS_VAR=ghi" >> 
+          echo >>"${GITHUB_ENV}" "THAT_VAR=jkl"
           
           echo "now github env is"
           cat "${GITHUB_ENV}"
