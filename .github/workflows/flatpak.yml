@@ -31,34 +31,7 @@ jobs:
   flatpak:
     name: "Flatpak"
     runs-on: ubuntu-latest
-#     container:
-#       image: bilelmoussaoui/flatpak-github-actions:gnome-40
-#       options: --privileged
     steps:
-      - name: TESTING1 Determine package version
-        run: |
-          set -xueo pipefail
-          SOME_VAR="abc"
-          echo "github env is"
-          cat "${GITHUB_ENV}"
-          echo >> "${GITHUB_ENV}" << END
-            ANOTHER_VAR=def
-          END
-          echo "THIS_VAR=ghi" >> "${GITHUB_ENV}"
-          echo >>"${GITHUB_ENV}" "THAT_VAR=jkl"
-          
-          echo "now github env is"
-          cat "${GITHUB_ENV}"
-      - name: TESTING2 Determine package version
-        run: |
-          # set -xueo pipefail
-          echo "vars: SOME_VAR $SOME_VAR , ANOTHER_VAR $ANOTHER_VAR , THIS_VAR $THIS_VAR ."
-          echo "envs: SOME_VAR ${{ env.SOME_VAR }}, ANOTHER_VAR ${{ env.ANOTHER_VAR }}, THIS_VAR ${{ env.THIS_VAR }}."
-          echo "github env is"
-          cat "${GITHUB_ENV}"
-          echo done
-          exit 1
-
       - name: Adjust disk space
         run: |
           set -xueo pipefail
@@ -124,30 +97,13 @@ jobs:
           PACKAGE_VERSION="${FWMAJOR}.${FWMINOR}.${FWREVISION}.${GITHUB_RUN_NUMBER}${VERSION_SUFFIX}-experimental-$(date +'%Y%m%d')-${GITHUB_SHA::7}"
           TAG_NAME="v${FWMAJOR}.${FWMINOR}.${FWREVISION}.${GITHUB_RUN_NUMBER}${VERSION_SUFFIX}-experimental"
           echo set tag name to ${TAG_NAME} via: "v${FWMAJOR}.${FWMINOR}.${FWREVISION}.${GITHUB_RUN_NUMBER}${VERSION_SUFFIX}-experimental"
-          echo "github env is"
-          cat "${GITHUB_ENV}"
-          echo >> "${GITHUB_ENV}" << END
-            FWMAJOR="${FWMAJOR}"
-            FWMINOR="${FWMINOR}"
-            FWREVISION="${FWREVISION}"
-            FWBETAVERSION="${FWBETAVERSION}"
-            VERSION_SUFFIX="${VERSION_SUFFIX}"
-            PACKAGE_VERSION="${PACKAGE_VERSION}"
-            TAG_NAME="${TAG_NAME}"
-          END
-          # echo "github env is"
-          # cat "${GITHUB_ENV}"
-          # echo >> "${GITHUB_ENV}" "FWMAJOR=${FWMAJOR}"
-          # echo >> "${GITHUB_ENV}" "FWMINOR=${FWMINOR}"
-          # echo >> "${GITHUB_ENV}" "FWREVISION=${FWREVISION}"
-          # echo >> "${GITHUB_ENV}" "FWBETAVERSION=${FWBETAVERSION}"
-          # echo >> "${GITHUB_ENV}" "VERSION_SUFFIX=${VERSION_SUFFIX}"
-          # echo >> "${GITHUB_ENV}" "PACKAGE_VERSION=${PACKAGE_VERSION}"
-          # echo >> "${GITHUB_ENV}" "TAG_NAME=${TAG_NAME}"
-          echo "now github env is"
-          cat "${GITHUB_ENV}"
-
-
+          echo >> "${GITHUB_ENV}" "FWMAJOR=${FWMAJOR}"
+          echo >> "${GITHUB_ENV}" "FWMINOR=${FWMINOR}"
+          echo >> "${GITHUB_ENV}" "FWREVISION=${FWREVISION}"
+          echo >> "${GITHUB_ENV}" "FWBETAVERSION=${FWBETAVERSION}"
+          echo >> "${GITHUB_ENV}" "VERSION_SUFFIX=${VERSION_SUFFIX}"
+          echo >> "${GITHUB_ENV}" "PACKAGE_VERSION=${PACKAGE_VERSION}"
+          echo >> "${GITHUB_ENV}" "TAG_NAME=${TAG_NAME}"
       - name: Create flatpak bundle
         run: |
           set -xueo pipefail
