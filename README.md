@@ -29,8 +29,8 @@ later.
 
 git clone https://github.com/sillsdev/flathub --branch org.sil.FieldWorks
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub org.gnome.Sdk//3.36
-flatpak install flathub org.gnome.Platform//3.36
+flatpak --user install flathub org.gnome.Sdk//3.36
+flatpak --user install flathub org.gnome.Platform//3.36
 flatpak update
 
 Install tools:
@@ -43,20 +43,20 @@ sudo apt install flatpak-builder
 
 Clone projects to help generate dependency download lists:
 ```bash
+git clone https://github.com/sillsdev/flexbridge.git --branch develop
+git clone https://github.com/sillsdev/FieldWorks.git --branch support/9.0
 git clone https://github.com/silnrsi/encoding-converters-core.git --branch master &&
   cd encoding-converters-core &&
   git remote add marksvc https://github.com/marksvc/encoding-converters-core.git &&
   git fetch --all && 
   git checkout marksvc/task/flatpak
-git clone https://github.com/sillsdev/flexbridge.git --branch develop
-git clone https://github.com/sillsdev/FieldWorks.git --branch support/9.0
 ```
 
 Install tool flatpak-dotnet-generator.py and dependency dotnet5 sdk:
 ```bash
 flatpak install flathub org.freedesktop.Sdk.Extension.dotnet5 org.freedesktop.Sdk/x86_64/20.08
 git clone https://github.com/flatpak/flatpak-builder-tools.git
-# Until feature/multiple-csproj PR #206 is merged:
+# Until feature/multiple-csproj PR #206 is merged, use unmerged branch:
 cd flatpak-builder-tools
 git remote add marksvc https://github.com/marksvc/flatpak-builder-tools.git
 git fetch --all && git checkout marksvc/feature/multiple-csproj
@@ -75,11 +75,8 @@ sudo apt install xonsh
 
 Note that your first build will take time to download and build all dependencies.
 
-Build up to the fieldworks module, apply the sources for fieldworks, but open a
+You can build up to the fieldworks module, apply the sources for fieldworks, but open a
 shell before building fieldworks by appending `--build-shell=fieldworks`
-
-Also provide access to the debugging symbols package, and clean up build
-results better, by using the build script: `./build`
 
 ## Testing
 
@@ -89,39 +86,76 @@ Run FieldWorks in the result (optionally with additional debugging):
 flatpak run --devel --env=FW_DEBUG=true org.sil.FieldWorks
 ```
 
+or 
+
+```bash
+./run
+```
+
 Open a shell inside the FieldWorks flatpak instead of running FieldWorks:
 
 ```bash
 flatpak run --devel --env=FW_DEBUG=true --command=bash org.sil.FieldWorks
 ```
 
+or
+
+```bash
+./run --command=bash
+```
+
 ### Fetch flatpak to test without building it
+
+#### From github releases
+
+This can be done without logging into github.
+
+- Go to a release in the list at https://github.com/sillsdev/flathub/releases
+- Download the fieldworks .flatpak file, and optionally the -Debug.flatpak and -Locale.flatpak files.
+
+#### From github actions
+
+This can only be done with adequate access.
 
 - View the list of FW flatpak builds at
   https://github.com/sillsdev/flathub/actions?query=branch%3Aorg.sil.FieldWorks .
 - Open the most recent successful build.
-- Under artifacts, download 'fw-flatpak-bundle'. You need to be logged into
-  github to do this until we adjust permissions.
-- Unzip and install the downloaded FW: 
+- Under artifacts, download 'fw-flatpak-bundle'.
+- Extract bundle:
   ```bash
   unzip fw-flatpak-bundle.zip
+  ```
+
+#### Install from downloaded files
+
+- Install the downloaded FW: 
+  ```bash
   for f in fieldworks*.flatpak; do flatpak --user install --assumeyes $f; done
   ```
-- Update any other flatpaks in case helpful for consistency of testing: `flatpak update`
-- Run flatpak FW: `flatpak run org.sil.FieldWorks`
+- Update any other flatpaks in case helpful for consistency of testing. Probably most significant is that the runtimes be the latest version.
+  ```bash
+  flatpak update
+  ```
+- Run flatpak FW: 
+  ```bash
+  flatpak run org.sil.FieldWorks
+  ```
 
 ## Debugging flatpak FieldWorks
 
 Switch FieldWorks to the feature/flatpak branch:
-`cd ~/fwrepo/fw && git fetch && git checkout feature/flatpak`
+```bash
+cd ~/fwrepo/fw && git fetch && git checkout feature/flatpak
+```
 
 Make an expected directory if you haven't built FW on the machine yet:
-`mkdir -p  Output_x86_64/Debug`
+```bash
+mkdir -p  Output_x86_64/Debug
+```
 
 Open the FieldWorks workspace in VSCode. 
 
-Note: Debugging now appears to be broken for managed debugging. And I can only get
-unmanaged debugging to work on one machine and not another. :-/
+Note: Debugging now appears to be broken for managed debugging. Need to investigate why the vscode debugger isn't connecting to FW in the flatpak correctly.
 
 ### Managed debugging
 
@@ -293,7 +327,9 @@ flatpak run org.freedesktop.appstream-glib validate .../fw/DistFiles/Linux/field
 
 ## Pushing
 
-Pushing to FieldWorks.git branch feature/flatpak, bypassing gerrit, is done with:
+The FW repo uses gerrit for code review. Bypass gerrit when pushing to branch feature/flatpak. 
+
+Pushing to FieldWorks.git branch feature/flatpak, bypassing gerrit, is done with the following. It will be important to first fetch and rebase to make sure not to orphan any remote commits.
 ```bash
 git pull --rebase
 git push --force origin feature/flatpak:refs/heads/feature/flatpak
