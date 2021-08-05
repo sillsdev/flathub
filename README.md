@@ -106,31 +106,23 @@ or
 
 ### Fetch flatpak to test without building it
 
-#### From github releases
+Note that flatpak packages can be installed system-wide or for the current user. Instructions here usually use the current-user flatpak area. If you run into trouble where it looks like something is installed,  but flatpak is complaining that it isn't, it might just be that it's installed in the _system-wide_ area, but you need to do it for the _current-user_ flatpak area.
 
-This can be done without logging into github.
-
+- If you haven't enabled access to the flathub package repository, add it by following instructions at https://flatpak.org/setup/ , such as:
+  ```bash
+  sudo apt install flatpak
+  flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  ```
+  Some flatpak features will only start to become available the next time you log into your computer (probably like installed applications showing up in the start menu), but it probably isn't significant for the following steps.
 - Go to a release in the list at https://github.com/sillsdev/flathub/releases
 - Download the fieldworks .flatpak file, and optionally the -Debug.flatpak and -Locale.flatpak files.
-
-#### From github actions
-
-This can only be done with adequate access.
-
-- View the list of FW flatpak builds at
-  https://github.com/sillsdev/flathub/actions?query=branch%3Aorg.sil.FieldWorks .
-- Open the most recent successful build.
-- Under artifacts, download 'fw-flatpak-bundle'.
-- Extract bundle:
+- Install the runtime FW is using:
   ```bash
-  unzip fw-flatpak-bundle.zip
+  flatpak --user install flathub org.gnome.Platform//3.36
   ```
-
-#### Install from downloaded files
-
 - Install the downloaded FW: 
   ```bash
-  for f in fieldworks*.flatpak; do flatpak --user install --assumeyes $f; done
+  for f in fieldworks*.flatpak; do flatpak --user install --assumeyes "${f}"; done
   ```
 - Update any other flatpaks in case helpful for consistency of testing. Probably most significant is that the runtimes be the latest version.
   ```bash
@@ -139,6 +131,19 @@ This can only be done with adequate access.
 - Run flatpak FW: 
   ```bash
   flatpak run org.sil.FieldWorks
+  ```
+
+#### Or from github actions
+
+The flatpak can be downloaded from github releases without logging into github. It can also be downloaded as a github actions artifacts, but only with adequate access. To fetch the FW flatpak artifacts directly from the github actions area, do the following.
+
+- View the list of FW flatpak builds at
+  https://github.com/sillsdev/flathub/actions?query=branch%3Aorg.sil.FieldWorks .
+- Open the most recent successful build.
+- Under artifacts, download 'fw-flatpak-bundle'.
+- Extract bundle:
+  ```bash
+  unzip fw-flatpak-bundle.zip
   ```
 
 ## Debugging flatpak FieldWorks
