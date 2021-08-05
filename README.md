@@ -334,3 +334,5 @@ Pushing to FieldWorks.git branch feature/flatpak, bypassing gerrit, is done with
 git pull --rebase
 git push --force origin feature/flatpak:refs/heads/feature/flatpak
 ```
+
+The sillsdev/flathub.git repository just uses github to manage the git repository.
