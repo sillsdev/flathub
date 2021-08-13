@@ -36,6 +36,8 @@ writable-sdk: true
 command: fieldworks-flex
 finish-args:
   - --socket=x11
+  - --socket=fallback-x11
+  - --socket=wayland
   - --share=ipc
   # FieldWorks can synchronize project data over the network with other users.
   - --share=network
@@ -73,8 +75,12 @@ finish-args:
   # Shared writing system and encoding converters data location used by FieldWorks Debian packages, that may have
   # user-created data. Be able to read from this location in order to migrate from it.
   - --filesystem=/var/lib/fieldworks:ro
+  - --filesystem=xdg-run/dconf
+  - --filesystem=xdg-config/dconf:ro
+  - --env=GTK_IM_MODULE_FILE=/app/lib/gtk-2.0/2.10.0/immodules.cache
 
 modules:
+  - shared-modules/gtk2/gtk2.json
   - name: fieldworks
     buildsystem: simple
     build-options:
@@ -290,27 +296,6 @@ modules:
                   - type: archive
                     url: http://archive.ubuntu.com/ubuntu/pool/main/c/cairomm/cairomm_1.12.2.orig.tar.gz
                     sha256: 45c47fd4d0aa77464a75cdca011143fea3ef795c4753f6e860057da5fb8bd599
-          - name: gtk+2.0
-            sources:
-              - type: archive
-                url: http://archive.ubuntu.com/ubuntu/pool/main/g/gtk+2.0/gtk+2.0_2.24.32.orig.tar.xz
-                sha256: b6c8a93ddda5eabe3bfee1eb39636c9a03d2a56c7b62828b359bf197943c582e
-            modules:
-              - name: gdk-pixbuf
-                buildsystem: meson
-                build-commands:
-                  - env; ls -al; pwd;echo DEBUG2 I dont expect this to show up.
-                sources:
-                  - type: git
-                    url: https://salsa.debian.org/gnome-team/gdk-pixbuf.git
-                    commit: 3f0d33cab4fe203f5c8cbeed13af70346ee2b5b4
-                    tag: debian/2.40.0+dfsg-1
-                  - type: shell
-                    commands:
-                      - |
-                        for PATCH_FILE in $(cat debian/patches/series); do
-                          patch -p1 -i debian/patches/${PATCH_FILE}
-                        done
 
       - name: wget
         buildsystem: autotools
