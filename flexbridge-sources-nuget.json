@@ -57,13 +57,6 @@
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/geckofx45.32.linux/45.0.37/geckofx45.32.linux.45.0.37.nupkg",
-        "sha512": "da1c39c4d0609ff337c0559f4520eb5757f8bf750ae48e1b64807781e4c094128366e991c69cbc35a08767c1d1b4175b53448d9c2de77c38c5f93d46b7e66508",
-        "dest": "nuget-sources",
-        "dest-filename": "geckofx45.32.linux.45.0.37.nupkg"
-    },
-    {
-        "type": "file",
         "url": "https://api.nuget.org/v3-flatcontainer/system.valuetuple/4.5.0/system.valuetuple.4.5.0.nupkg",
         "sha512": "fa00ebb5045d12c51274f64411c551981beceb1266a8606a4731063109b95ea1f15939197bf3d2ba899db61e593dc39bfce876908bba34286823525093ae3d8e",
         "dest": "nuget-sources",
@@ -124,13 +117,6 @@
         "sha512": "ed65330bf1e1d2881160b1f56f1bcc086ebbb207ea5d2fb65777283e529f7b5cee4293e05842501d1cff352b9a1b69cd22e48b165dd5c7da8b6085c64f589469",
         "dest": "nuget-sources",
         "dest-filename": "enchant.net.1.4.2.nupkg"
-    },
-    {
-        "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/geckofx45.64.linux/45.0.37/geckofx45.64.linux.45.0.37.nupkg",
-        "sha512": "517c1204b4f750533b8d010d66a9fc808bc52d4624996730fd8986534e4b3e4f23062710bec07b49f1ffedd242e6d2118f97bf987595fb07885213547a835cb8",
-        "dest": "nuget-sources",
-        "dest-filename": "geckofx45.64.linux.45.0.37.nupkg"
     },
     {
         "type": "file",
@@ -236,6 +222,13 @@
         "sha512": "c2b7f92c15f5a2627ff0789829bcb6dae055ecc3c27f0c57598dfdc36f156498d874dd426f77a24e4916939800924756f8dfc0d218129aab623e8030b1bd3baa",
         "dest": "nuget-sources",
         "dest-filename": "newtonsoft.json.11.0.1.nupkg"
+    },
+    {
+        "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/geckofx60.64.linux/60.0.51/geckofx60.64.linux.60.0.51.nupkg",
+        "sha512": "925e967224481c60bb7d5765148f8d97968950a08fffe4196dcd24dab2ecbc102ca0a3b8762915c42c975d62ea6860fcdcb931f861d3e74edfe1550743855631",
+        "dest": "nuget-sources",
+        "dest-filename": "geckofx60.64.linux.60.0.51.nupkg"
     },
     {
         "type": "file",
