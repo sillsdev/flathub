@@ -36,7 +36,7 @@ jobs:
         run: |
           set -xueo pipefail
           df -h /
-          
+
           sudo apt-get purge --assume-yes \
             ghc-8.10.4 \
             ghc-9.0.1 \
@@ -68,7 +68,7 @@ jobs:
 
           # echo 'Packages using space:'
           # dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
-            
+
           sudo apt-get autoremove --assume-yes
           sudo apt-get clean
           # du -sh /usr/share/dotnet /usr/local/lib/android /opt/ghc || true
@@ -117,7 +117,7 @@ jobs:
           ls -al artifacts
       - name: Save artifacts
         uses: actions/upload-artifact@v2
-        with: 
+        with:
           name: fw-flatpak-bundle
           path: |
             artifacts/
