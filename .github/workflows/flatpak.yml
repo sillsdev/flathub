@@ -124,6 +124,8 @@ jobs:
           path: |
             artifacts/
       - name: Publish artifacts as Github release
+        # don't run this step for PRs
+        if: ${{ github.head_ref != '' }}
         uses: ncipollo/release-action@v1.8.6
         with:
           artifacts: "artifacts/*"
