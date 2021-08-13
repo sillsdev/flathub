@@ -36,7 +36,7 @@ jobs:
         run: |
           set -xueo pipefail
           df -h /
-          
+
           sudo apt-get purge --assume-yes \
             ghc-8.10.4 \
             ghc-9.0.1 \
@@ -68,13 +68,15 @@ jobs:
 
           # echo 'Packages using space:'
           # dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
-            
+
           sudo apt-get autoremove --assume-yes
           sudo apt-get clean
           # du -sh /usr/share/dotnet /usr/local/lib/android /opt/ghc || true
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
           # df -h /
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - name: Install flatpak dependencies
         run: |
           set -xueo pipefail
@@ -117,11 +119,13 @@ jobs:
           ls -al artifacts
       - name: Save artifacts
         uses: actions/upload-artifact@v2
-        with: 
+        with:
           name: fw-flatpak-bundle
           path: |
             artifacts/
       - name: Publish artifacts as Github release
+        # don't run this step for PRs
+        if: ${{ github.head_ref != '' }}
         uses: ncipollo/release-action@v1.8.6
         with:
           artifacts: "artifacts/*"

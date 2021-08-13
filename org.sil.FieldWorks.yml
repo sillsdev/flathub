@@ -36,6 +36,8 @@ writable-sdk: true
 command: fieldworks-flex
 finish-args:
   - --socket=x11
+  - --socket=fallback-x11
+  - --socket=wayland
   - --share=ipc
   # FieldWorks can synchronize project data over the network with other users.
   - --share=network
@@ -73,8 +75,12 @@ finish-args:
   # Shared writing system and encoding converters data location used by FieldWorks Debian packages, that may have
   # user-created data. Be able to read from this location in order to migrate from it.
   - --filesystem=/var/lib/fieldworks:ro
+  - --filesystem=xdg-run/dconf
+  - --filesystem=xdg-config/dconf:ro
+  - --env=GTK_IM_MODULE_FILE=/app/lib/gtk-2.0/2.10.0/immodules.cache
 
 modules:
+  - shared-modules/gtk2/gtk2.json
   - name: fieldworks
     buildsystem: simple
     build-options:
@@ -109,20 +115,20 @@ modules:
 
       # Skip problem with localization that I'm still investigating.
       - perl -pi -e 's|([ \t&]*).*/t:localize-binaries.*|\1echo skipping localize-binaries|' fw/Makefile
-    
+
       # MANUAL: export BUILD_ROOT=$FW_ROOT_PATH BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true ; export LcmLocalArtifactsDir="$BUILD_ROOT/../liblcm/artifacts/$BUILD_CONFIG" ; mkdir -p $LcmLocalArtifactsDir ; cd $FW_ROOT_PATH/Build ;  ${FW_ROOT_PATH}/Build/run-in-environ  msbuild /t:refreshTargets
       # MANUAL: export PLATFORM=x86_64 && cd $FW_ROOT_PATH/Build && ${FW_ROOT_PATH}/Build/run-in-environ  msbuild  '/t:remakefw' /property:config=$BUILD_CONFIG /property:Platform=$PLATFORM /property:packaging=yes "/p:OutputPath=${FW_ROOT_PATH}/Output/Debug"
       # LDFLAGS="$(/app/lib/fieldworks/bin/icu-config --ldflags) ${LDFLAGS}" CPPFLAGS="$(/app/lib/fieldworks/bin/icu-config --cppflags) ${CPPFLAGS}"
       - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true build-package-for-flatpak
       - cd ${FW_ROOT_PATH} && perl -pi -e '/<runtime>/ and s/^/  <dllmap dll="libdl.so" target="libdl.so.2" \/>\n/' $(find -name SIL.LCModel.Core.dll.config)
 
-      - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true install-for-flatpak 
+      - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true install-for-flatpak
 
-      - mv -v /app/share/applications/fieldworks-applications.desktop /app/share/applications/org.sil.FieldWorks.desktop 
-      - perl -pi -e 's/fieldworks-flex.png/org.sil.FieldWorks.png/g' /app/share/applications/org.sil.FieldWorks.desktop 
-      - mv -v /app/share/icons/hicolor/128x128/apps/fieldworks-flex.png /app/share/icons/hicolor/128x128/apps/org.sil.FieldWorks.png 
-      - mv -v /app/share/icons/hicolor/64x64/apps/fieldworks-flex.png /app/share/icons/hicolor/64x64/apps/org.sil.FieldWorks.png 
-      
+      - mv -v /app/share/applications/fieldworks-applications.desktop /app/share/applications/org.sil.FieldWorks.desktop
+      - perl -pi -e 's/fieldworks-flex.png/org.sil.FieldWorks.png/g' /app/share/applications/org.sil.FieldWorks.desktop
+      - mv -v /app/share/icons/hicolor/128x128/apps/fieldworks-flex.png /app/share/icons/hicolor/128x128/apps/org.sil.FieldWorks.png
+      - mv -v /app/share/icons/hicolor/64x64/apps/fieldworks-flex.png /app/share/icons/hicolor/64x64/apps/org.sil.FieldWorks.png
+
     sources:
       - type: git
         url: https://github.com/sillsdev/FieldWorks.git
@@ -157,7 +163,7 @@ modules:
       # ./nuget-sources ~/fwrepo/fw/Build/nuget-common/packages.config packages fieldworks-sources-nuget-common.yml
       - fieldworks-sources-nuget-common.yml
       - fieldworks-sources-nuget-linux.yml
-        
+
       # FW dependencies
       # Find updates via FieldWorks.git with a command like: git log -p FieldWorks9.0.13..FieldWorks9.0.16 -- Build/mkall.targets
       # Manually apply changes by editing tc-inputs.yml.
@@ -211,9 +217,9 @@ modules:
       #     - type: file
       #       url: http://archive.ubuntu.com/ubuntu/pool/main/h/hunspell/libhunspell-1.7-0_1.7.0-2build2_amd64.deb
       #       sha256: a8851da5816b31753f0682bb78d98c5d29ec7ef22cf14546876eb0e8f668f295
-      
+
       - name: dbus-glib # for gecko
-        sources: 
+        sources:
           - type: git
             url: https://salsa.debian.org/debian/dbus-glib.git
             tag: debian/0.110-5
@@ -290,27 +296,6 @@ modules:
                   - type: archive
                     url: http://archive.ubuntu.com/ubuntu/pool/main/c/cairomm/cairomm_1.12.2.orig.tar.gz
                     sha256: 45c47fd4d0aa77464a75cdca011143fea3ef795c4753f6e860057da5fb8bd599
-          - name: gtk+2.0
-            sources:
-              - type: archive
-                url: http://archive.ubuntu.com/ubuntu/pool/main/g/gtk+2.0/gtk+2.0_2.24.32.orig.tar.xz
-                sha256: b6c8a93ddda5eabe3bfee1eb39636c9a03d2a56c7b62828b359bf197943c582e
-            modules:
-              - name: gdk-pixbuf
-                buildsystem: meson
-                build-commands:
-                  - env; ls -al; pwd;echo DEBUG2 I dont expect this to show up.
-                sources:
-                  - type: git
-                    url: https://salsa.debian.org/gnome-team/gdk-pixbuf.git
-                    commit: 3f0d33cab4fe203f5c8cbeed13af70346ee2b5b4
-                    tag: debian/2.40.0+dfsg-1
-                  - type: shell
-                    commands:
-                      - |
-                        for PATCH_FILE in $(cat debian/patches/series); do
-                          patch -p1 -i debian/patches/${PATCH_FILE}
-                        done
 
       - name: wget
         buildsystem: autotools
@@ -372,9 +357,9 @@ modules:
             commands:
               - NOCONFIGURE=1 ./bootstrap-2.12
 
-      
+
       - name: mono5-sil-msbuild
-        # It was challenging to build msbuild from source. And every other project appears to fetch binaries rather than build msbuild. 
+        # It was challenging to build msbuild from source. And every other project appears to fetch binaries rather than build msbuild.
         # TODO this is only needed during development. install to /usr instead of /app so dont ship it.
         buildsystem: simple
         build-commands:
@@ -386,7 +371,7 @@ modules:
           - type: file
             url: http://linux.lsdev.sil.org/ubuntu/pool/main/m/mono5-sil-msbuild/mono5-sil-msbuild_15.8+xamarinxplat.2018.07.31.22.43-0xamarin5+ubuntu1804b1_all.deb
             sha256: 758274d8bc438f325fc5fc808c0482ab50eb2bdaf02f61747888e190760753de
-      
+
       - name: libgdiplus5-sil-from-source
         build-options:
           prefix: /app
@@ -416,10 +401,10 @@ modules:
 
       - name: icu-fw
         buildsystem: simple
-        build-commands: 
+        build-commands:
           - env; ls -al; pwd
           # FW ICU should install to paths like /app/lib/fieldworks/lib/libicuuc.so .
-          # The icu-fw package debian/rules file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build expects icu-config to be here, such as in _init.mak.lnx and environ. 
+          # The icu-fw package debian/rules file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build expects icu-config to be here, such as in _init.mak.lnx and environ.
           - ./configure --prefix=/app/lib/fieldworks --bindir=/app/lib/fieldworks/icu-bin --sbindir=/app/lib/fieldworks/icu-bin
           - make
           - make install
@@ -463,12 +448,12 @@ modules:
             # match REGROOT. It looks like some things (like src/AppDataMover/Program.cs) will have trouble if the
             # directory doesn't exist or can't be written to. Tho it looks like AppDataMover is only used in Windows,
             # not Linux. We probably can't just switch the C# and C++ programs to use XDG_DATA_HOME, because although
-            # they could write to it, they wouldn't have their initial files. And we can't just change the 
+            # they could write to it, they wouldn't have their initial files. And we can't just change the
             # Makefile.in to use XDG_DATA_HOME or similar because it can't install to a location like /home/foo.
             # Using this solution at present: Let Makefile.in copy the initial files to /var/lib/fieldworks. On FW
             # first-run, copy those initial files into XDG_DATA_HOME. Have C# read+write the files there in
             # XDG_DATA_HOME.
-            commands: 
+            commands:
               - |
                 set -xueo pipefail
                 # Adjust prefix
@@ -565,7 +550,7 @@ modules:
       #     # TODO The version information could still be extracted with something like dotnet running GitVersion.CommandLine; see https://github.com/sillsdev/flexbridge/issues/318 .
       #     - cd build && msbuild FLExBridge.proj -p:Configuration=Debug -p:DisableGitVersionTask=true -p:GitVersion_SemVer=1.2.3 -p:Version=1.2.3 -p:WriteVersionInfoToBuildLog=false
       #     - cp -va flexbridge output/Debug/
-      #     # TODO don't try to install  Mercurial-x86_64.zip until it's available. 
+      #     # TODO don't try to install  Mercurial-x86_64.zip until it's available.
       #     #   Look for Mercurial in the nuget package SIL.Chorus.Mercurial.
       #     - perl -ni -e 'print unless /Mercurial-/' Makefile
       #     # TODO don't try to install Chorus_Help.chm until it's available.
@@ -639,7 +624,7 @@ modules:
       #     #   commands:
       #     #     - |
       #     #       perl -pi -e 's#install: fetch_l10ns#install:#' Makefile
-    
+
       - name: xchm
         # Help file viewer
         sources:
@@ -665,6 +650,3 @@ modules:
                 # Version used in Ubuntu 20.04.
                 tag: v3.0.4
                 commit: 721d62adde3f8ba8704a9cf56efeb050f652dfbf
-
-
-
