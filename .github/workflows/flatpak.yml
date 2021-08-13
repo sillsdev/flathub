@@ -75,6 +75,8 @@ jobs:
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
           # df -h /
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - name: Install flatpak dependencies
         run: |
           set -xueo pipefail
