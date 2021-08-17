@@ -429,7 +429,6 @@ modules:
             url: https://packages.sil.org/ubuntu/pool/main/i/icu-fw/icu-fw_54.1.1.44.orig.tar.xz
             sha256: 324af10d4aaea7213d0c6f407e9edeb6c512345f636517521db5423e55e56c7c
 
-
       - name: fieldworks-enc-converters
         #(TODO apply/move/something) Note that trying to get fw FwCoreDlgs.csproj to find ECInterfaces.dll was a pain and wasn't solved by environment variables or msbuild properties or a .user file. I needed to change the hintpath from /usr/lib/fieldworks to /whatever, for it to be found. i could have also probably pre-copied it into Output/Release.
         buildsystem: autotools
@@ -633,6 +632,44 @@ modules:
                 # Version used in Ubuntu 20.04.
                 tag: v3.0.4
                 commit: 721d62adde3f8ba8704a9cf56efeb050f652dfbf
-
-
-
+      - name: fonts-sil-doulos
+        # From https://software.sil.org/doulos/download/previous-versions/
+        buildsystem: simple
+        build-commands:
+          - mkdir -p /app/share/fonts/truetype/doulos
+          - cp -a *.ttf /app/share/fonts/truetype/doulos
+        sources:
+          - type: archive
+            url: https://software.sil.org/downloads/r/doulos/DoulosSIL-5.000.zip
+            sha512: 3698b3f330d34cfa2be93f9dfc87c113a0b3e174a40ce9c2277bb452161cda61aab4688338ab3aeaaaa3cc684cedc58bbb3f066392e3911246a230d1a9fb02f3
+      - name: fonts-sil-charis
+        # From https://software.sil.org/charis/download/previous-versions/
+        buildsystem: simple
+        build-commands:
+          - mkdir -p /app/share/fonts/truetype/charis
+          - cp -a *.ttf /app/share/fonts/truetype/charis
+        sources:
+          - type: archive 
+            url: https://software.sil.org/downloads/r/charis/CharisSIL-5.000.zip
+            sha512: f85da6c9b93c0ef81617241219b208ca262c12fcecae1d447163b7aff31ea8bfc3f09636dcfc0a322c86201a0d551288884e4017fded5bb71bbb54c8093faaed
+      - name: fonts-sil-galatia
+        # From https://software.sil.org/galatia/#downloads
+        buildsystem: simple
+        build-commands:
+          - mkdir -p /app/share/fonts/truetype/galatia
+          - cp -a *.ttf /app/share/fonts/truetype/galatia
+        sources:
+          - type: archive
+            url: https://software.sil.org/downloads/r/galatia/GalatiaSIL-2.1.zip
+            sha512: ff408660ab892d04e81db24f4395ffb1e3732921a2277173dfcc1b080338c68d22aa004f3838959ece724114ff0e5cf3be101c41341ec5ba22a1736458e25672
+      - name: fonts-sil-ezra
+        # From https://software.sil.org/ezra/
+        buildsystem: simple
+        build-commands:
+          - mkdir -p /app/share/fonts/truetype/ezra
+          - cp -a *.ttf /app/share/fonts/truetype/ezra
+        sources:
+          - type: archive
+            url: https://software.sil.org/downloads/r/ezra/EzraSIL-2.51.zip
+            sha512: 404f273a078ce89b84c1fcb91a7d9b729a80934b1327eb62d6625db245fcd4e96400c5fb5350014011771bfeac3191481b6c95e724232355b031f46eb51aab15
+      
