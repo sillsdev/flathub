@@ -101,7 +101,7 @@ modules:
       # Copy in localizations from fieldworks 9.0 tarball, until we can get them another way.
       # MANUAL: cp -a source-package/fw/Localizations fw/ && cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/ &&  cp -a source-package/fw/Output fw/ &&  cp -a source-package/fw/DistFiles/Templates fw/DistFiles/ && cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/ && cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
       - cp -a source-package/fw/Localizations fw/
-      - cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/
+      # crowdin.zip is now a source.  - cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/
       - cp -a source-package/fw/Output fw/
       - cp -a source-package/fw/DistFiles/Templates fw/DistFiles/
       - cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/
