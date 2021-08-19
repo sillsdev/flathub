@@ -105,7 +105,7 @@ modules:
       - cp -a source-package/fw/Output fw/
       - cp -a source-package/fw/DistFiles/Templates fw/DistFiles/
       - cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/
-      - cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
+      # probably dont need now since crowdin.zip? - cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
 
       # Skip problem with localization that I'm still investigating.
       - perl -pi -e 's|([ \t&]*).*/t:localize-binaries.*|\1echo skipping localize-binaries|' fw/Makefile
