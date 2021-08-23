@@ -145,6 +145,10 @@ modules:
         url: https://github.com/sillsdev/FwHelps.git
         branch: develop
         dest: fw/DistFiles/Helps
+      - type: git
+        url: https://github.com/sillsdev/FwLocalizations.git
+        branch: develop
+        dest: fw/Localizations
       - type: archive
         url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks/fieldworks_9.0.17.119%2Bfocal1.tar.xz
         sha256: be2c572abaaaaa95aaac563777ad4d3642f9dda2517058a369a7b564ab944534
