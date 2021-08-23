@@ -104,7 +104,7 @@ modules:
       # crowdin.zip is now a source.  - cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/
       - cp -a source-package/fw/Output fw/
       - cp -a source-package/fw/DistFiles/Templates fw/DistFiles/
-      - cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/
+      # should be coming from palaso and chorus nuget packages - cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/
       # probably dont need now since crowdin.zip? - cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
 
       # Skip problem with localization that I'm still investigating.
