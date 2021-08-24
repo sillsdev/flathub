@@ -108,7 +108,7 @@ modules:
       # probably dont need now since crowdin.zip? - cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
 
       # Skip problem with localization that is still in progress.
-      - perl -pi -e 's|([ \t&]*).*/t:localize-binaries.*|\1echo skipping localize-binaries|' fw/Makefile
+      - perl -pi -e 's|([ \t&]*).*-t:localize-binaries.*|\1echo skipping localize-binaries|' fw/Makefile
     
       # MANUAL: export BUILD_ROOT=$FW_ROOT_PATH BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true ; export LcmLocalArtifactsDir="$BUILD_ROOT/../liblcm/artifacts/$BUILD_CONFIG" ; mkdir -p $LcmLocalArtifactsDir ; cd $FW_ROOT_PATH/Build ;  ${FW_ROOT_PATH}/Build/run-in-environ  msbuild /t:refreshTargets
       # MANUAL: export PLATFORM=x86_64 && cd $FW_ROOT_PATH/Build && ${FW_ROOT_PATH}/Build/run-in-environ  msbuild  '/t:remakefw' /property:config=$BUILD_CONFIG /property:Platform=$PLATFORM /property:packaging=yes "/p:OutputPath=${FW_ROOT_PATH}/Output/Debug"
