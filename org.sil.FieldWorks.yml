@@ -98,21 +98,31 @@ modules:
       - for package in *.nupkg; do mkdir -p "${NUGET_DEST}/$(basename "${package}" .nupkg)"; unzip "${package}" -d "${NUGET_DEST}/$(basename "${package}" .nupkg)" ;done
       - ls -al "${NUGET_DEST}"
 
+
+      # So this isn't getting unzipped as early as it may be avail on workstation build. Try unzipping it now and see if that makes l10n activity any better.  TODO take this out again if it makes no difference
+      - cd ${FW_ROOT_PATH}/Downloads && unzip LCM.zip
+
       # Copy in localizations from fieldworks 9.0 tarball, until we can get them another way.
       # MANUAL: cp -a source-package/fw/Localizations fw/ && cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/ &&  cp -a source-package/fw/Output fw/ &&  cp -a source-package/fw/DistFiles/Templates fw/DistFiles/ && cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/ && cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
       # probably dont need now since crowdin.zip? - cp -a source-package/fw/Localizations fw/
       # crowdin.zip is now a source.  - cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/
-      - cp -a source-package/fw/Output fw/
-      - cp -a source-package/fw/DistFiles/Templates fw/DistFiles/
+      # is this not needed now ? - cp -a source-package/fw/Output fw/
+      # Is this not needed now?  - cp -a source-package/fw/DistFiles/Templates fw/DistFiles/
       # should be coming from palaso and chorus nuget packages - cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/
       # probably dont need now since crowdin.zip? - cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
 
+      #- echo DEBUG2;cat fw/Makefile
       # Skip problem with localization that is still in progress.
-      - perl -pi -e 's|([ \t&]*).*-t:localize-binaries.*|\1echo skipping localize-binaries|' fw/Makefile
+      #ok dont skip localize-binaries and get things to work.  - perl -pi -e 's|([ \t&]*).*-t:localize-binaries.*|\1echo skipping localize-binaries|' fw/Makefile
+      #- echo DEBUG3;cat fw/Makefile
     
       # MANUAL: export BUILD_ROOT=$FW_ROOT_PATH BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true ; export LcmLocalArtifactsDir="$BUILD_ROOT/../liblcm/artifacts/$BUILD_CONFIG" ; mkdir -p $LcmLocalArtifactsDir ; cd $FW_ROOT_PATH/Build ;  ${FW_ROOT_PATH}/Build/run-in-environ  msbuild /t:refreshTargets
       # MANUAL: export PLATFORM=x86_64 && cd $FW_ROOT_PATH/Build && ${FW_ROOT_PATH}/Build/run-in-environ  msbuild  '/t:remakefw' /property:config=$BUILD_CONFIG /property:Platform=$PLATFORM /property:packaging=yes "/p:OutputPath=${FW_ROOT_PATH}/Output/Debug"
       # LDFLAGS="$(/app/lib/fieldworks/bin/icu-config --ldflags) ${LDFLAGS}" CPPFLAGS="$(/app/lib/fieldworks/bin/icu-config --cppflags) ${CPPFLAGS}"
+
+      # Apply any outstanding FwBuildTasks code changes. (This is not normal, but useful when developing.)
+      - cd ${FW_ROOT_PATH}/Build/Src/FwBuildTasks && ${FW_ROOT_PATH}/Build/run-in-environ msbuild
+
       - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true build-package-for-flatpak
       - cd ${FW_ROOT_PATH} && perl -pi -e '/<runtime>/ and s/^/  <dllmap dll="libdl.so" target="libdl.so.2" \/>\n/' $(find -name SIL.LCModel.Core.dll.config)
 
@@ -149,10 +159,10 @@ modules:
         url: https://github.com/sillsdev/FwLocalizations.git
         branch: develop
         dest: fw/Localizations
-      - type: archive
-        url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks/fieldworks_9.0.17.119%2Bfocal1.tar.xz
-        sha256: be2c572abaaaaa95aaac563777ad4d3642f9dda2517058a369a7b564ab944534
-        dest: source-package
+      #- type: archive
+      #  url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks/fieldworks_9.0.17.119%2Bfocal1.tar.xz
+      #  sha256: be2c572abaaaaa95aaac563777ad4d3642f9dda2517058a369a7b564ab944534
+      #  dest: source-package
       - type: file
         url: https://github.com/sillsdev/FwLocalizations/releases/download/v9.0.17-14-g37c0f8f/crowdin.zip
         sha512: 08586f7479d5c99d668d4ec92a1824e02f2982683abf3d13549e07dc1378eaf1204547a1ce6cf9a29f4a9ee418aeaf558e00a13e25e9bd41a0de880a20de1f39
@@ -348,8 +358,10 @@ modules:
         sources:
           - type: git
             url: https://github.com/sillsdev/mono.git
-            tag: sil/5.16.0.179
-            commit: 76d08936cf7ab1384caf2c012e821f71b3b94b23
+            # tag: sil/5.16.0.179
+            #commit: 76d08936cf7ab1384caf2c012e821f71b3b94b23
+            # TODO release a new version of mono5-sil with the additional fixes!
+            commit: 3bb5d7c98c3bc6f977bc7960f3a541bc0acba715
           - type: archive
             # Update URL by doing: cd .../path/to/mono-repo && .../determine-monolite-url
             url: https://download.mono-project.com/monolite/monolite-linux-1051600011-latest.tar.gz
