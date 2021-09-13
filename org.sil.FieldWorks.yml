@@ -133,6 +133,9 @@ modules:
       - mv -v /app/share/icons/hicolor/128x128/apps/fieldworks-flex.png /app/share/icons/hicolor/128x128/apps/org.sil.FieldWorks.png 
       - mv -v /app/share/icons/hicolor/64x64/apps/fieldworks-flex.png /app/share/icons/hicolor/64x64/apps/org.sil.FieldWorks.png 
       
+    cleanup:
+      - '/include'
+      - '*.a'
     sources:
       - type: git
         url: https://github.com/sillsdev/FieldWorks.git
@@ -269,6 +272,9 @@ modules:
       - name: gtkmm2.4
         config-opts:
           - --disable-documentation
+        cleanup:
+          - '/include'
+          - '*.a'
         sources:
           - type: archive
             url: http://archive.ubuntu.com/ubuntu/pool/universe/g/gtkmm2.4/gtkmm2.4_2.24.5.orig.tar.xz
@@ -277,6 +283,9 @@ modules:
           - name: atkmm1.6
             config-opts:
               - --disable-documentation
+            cleanup:
+              - '/include'
+              - '*.a'
             sources:
               - type: archive
                 url: http://archive.ubuntu.com/ubuntu/pool/main/a/atkmm1.6/atkmm1.6_2.28.0.orig.tar.xz
@@ -285,6 +294,9 @@ modules:
               - name: glibmm2.4
                 config-opts:
                   - --disable-documentation
+                cleanup:
+                  - '/include'
+                  - '*.a'
                 sources:
                   - type: archive
                     url: http://archive.ubuntu.com/ubuntu/pool/main/g/glibmm2.4/glibmm2.4_2.64.2.orig.tar.xz
@@ -293,6 +305,9 @@ modules:
                   - name: libsigc++-2.0
                     config-opts:
                       - --disable-documentation
+                    cleanup:
+                      - '/include'
+                      - '*.a'
                     sources:
                       - type: archive
                         url: http://archive.ubuntu.com/ubuntu/pool/main/libs/libsigc++-2.0/libsigc++-2.0_2.10.2.orig.tar.xz
@@ -300,6 +315,9 @@ modules:
           - name: pangomm
             config-opts:
               - --disable-documentation
+            cleanup:
+              - '/include'
+              - '*.a'
             sources:
               - type: archive
                 url: http://archive.ubuntu.com/ubuntu/pool/main/p/pangomm/pangomm_2.42.0.orig.tar.xz
@@ -308,11 +326,17 @@ modules:
               - name: cairomm
                 config-opts:
                   - --disable-documentation
+                cleanup:
+                  - '/include'
+                  - '*.a'
                 sources:
                   - type: archive
                     url: http://archive.ubuntu.com/ubuntu/pool/main/c/cairomm/cairomm_1.12.2.orig.tar.gz
                     sha256: 45c47fd4d0aa77464a75cdca011143fea3ef795c4753f6e860057da5fb8bd599
           - name: gtk+2.0
+            cleanup:
+              - '/include'
+              - '*.a'
             sources:
               - type: archive
                 url: http://archive.ubuntu.com/ubuntu/pool/main/g/gtk+2.0/gtk+2.0_2.24.32.orig.tar.xz
@@ -355,6 +379,9 @@ modules:
       - name: mono5-sil-from-git-source
         post-install:
           - cert-sync /etc/ssl/certs/ca-certificates.crt
+        cleanup:
+          - '/include'
+          - '*.a'
         sources:
           - type: git
             url: https://github.com/sillsdev/mono.git
@@ -377,6 +404,8 @@ modules:
               - --enable-unicode=ucs4
             post-install:
               - chmod 644 ${FLATPAK_DEST}/lib/libpython2.7.so.1.0
+            cleanup:
+              - '*.o'
             sources:
               - type: archive
                 url: https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tar.xz
@@ -516,7 +545,6 @@ modules:
             url: https://dist.nuget.org/win-x86-commandline/v3.4.4/nuget.exe
             sha512: 3b404655c39cfc39334c8437ff2c7d6007e23262daa7bb34863fdd6f2e7da9a89ab97176a52b1e8a99327fde3e9decc29c450664492af73680f5a715a72aacf3
             dest: build/
-
           # Use local nuget packages
           - type: shell
             commands:
@@ -650,6 +678,9 @@ modules:
                 commands:
                   - autoreconf --install
           - name: wxWidgets
+            cleanup:
+              - '/include'
+              - '*.a'
             sources:
               - type: git
                 url: https://github.com/wxWidgets/wxWidgets
