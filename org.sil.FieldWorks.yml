@@ -135,6 +135,7 @@ modules:
       
     cleanup:
       - '/include'
+      - '/lib/*/include'
       - '*.a'
     sources:
       - type: git
@@ -238,6 +239,9 @@ modules:
       #       sha256: a8851da5816b31753f0682bb78d98c5d29ec7ef22cf14546876eb0e8f668f295
       
       - name: dbus-glib # for gecko
+        cleanup:
+          - '/include'
+          - '*.a'
         sources: 
           - type: git
             url: https://salsa.debian.org/debian/dbus-glib.git
@@ -246,6 +250,9 @@ modules:
 
       - name: libxklavier-dev
         buildsystem: autotools
+        cleanup:
+          - '/include'
+          - '*.a'
         sources:
           - type: git
             url: https://salsa.debian.org/gnome-team/libxklavier.git
@@ -274,6 +281,7 @@ modules:
           - --disable-documentation
         cleanup:
           - '/include'
+          - '/lib/*/include'
           - '*.a'
         sources:
           - type: archive
@@ -285,6 +293,7 @@ modules:
               - --disable-documentation
             cleanup:
               - '/include'
+              - '/lib/*/include'
               - '*.a'
             sources:
               - type: archive
@@ -296,6 +305,7 @@ modules:
                   - --disable-documentation
                 cleanup:
                   - '/include'
+                  - '/lib/*/include'
                   - '*.a'
                 sources:
                   - type: archive
@@ -307,6 +317,7 @@ modules:
                       - --disable-documentation
                     cleanup:
                       - '/include'
+                      - '/lib/*/include'
                       - '*.a'
                     sources:
                       - type: archive
@@ -317,6 +328,7 @@ modules:
               - --disable-documentation
             cleanup:
               - '/include'
+              - '/lib/*/include'
               - '*.a'
             sources:
               - type: archive
@@ -328,6 +340,7 @@ modules:
                   - --disable-documentation
                 cleanup:
                   - '/include'
+                  - '/lib/*/include'
                   - '*.a'
                 sources:
                   - type: archive
@@ -336,6 +349,7 @@ modules:
           - name: gtk+2.0
             cleanup:
               - '/include'
+              - '/lib/*/include'
               - '*.a'
             sources:
               - type: archive
@@ -346,6 +360,9 @@ modules:
                 buildsystem: meson
                 build-commands:
                   - env; ls -al; pwd;echo DEBUG2 I dont expect this to show up.
+                cleanup:
+                  - '/include'
+                  - '*.a'
                 sources:
                   - type: git
                     url: https://salsa.debian.org/gnome-team/gdk-pixbuf.git
@@ -405,6 +422,8 @@ modules:
             post-install:
               - chmod 644 ${FLATPAK_DEST}/lib/libpython2.7.so.1.0
             cleanup:
+              - '/include'
+              - '*.a'
               - '*.o'
             sources:
               - type: archive
@@ -416,6 +435,9 @@ modules:
         config-opts:
           - --disable-gtk-doc
           - --disable-man
+        cleanup:
+          - '/include'
+          - '*.a'
         sources:
           - type: git
             url: https://github.com/sillsdev/gtk-sharp.git
@@ -447,6 +469,9 @@ modules:
             MONO_PREFIX: /app
         config-opts:
           - --with-pango
+        cleanup:
+          - '/include'
+          - '*.a'
         sources:
           - type: archive
             url: https://packages.sil.org/ubuntu/pool/main/libg/libgdiplus5-sil/libgdiplus5-sil_5.6.0.orig.tar.gz
@@ -462,6 +487,9 @@ modules:
               # Install into /app so it gets picked up by libgdiplus before another giflib that doesnt have GifQuantizeBuffer. Maybe I should adjust libgdiplus's libdir instead.
               - make PREFIX=/app
               - make PREFIX=/app install
+            cleanup:
+              - '/include'
+              - '*.a'
             sources:
               - type: git
                 url: https://salsa.debian.org/deiv-guest/giflib.git
@@ -477,6 +505,8 @@ modules:
           - make
           - make install
         subdir: source
+        cleanup:
+          - '/lib/*/include'
         sources:
           - type: archive
             url: https://packages.sil.org/ubuntu/pool/main/i/icu-fw/icu-fw_54.1.1.44.orig.tar.xz
@@ -560,6 +590,9 @@ modules:
                 </configuration>'
         modules:
           - name: libteckit-dev
+            cleanup:
+              - '/include'
+              - '*.a'
             sources:
               - type: archive
                 url: https://packages.sil.org/ubuntu/pool/main/t/teckit/teckit_2.5.10+20.04.orig.tar.gz
@@ -661,6 +694,9 @@ modules:
 
       - name: xchm
         # Help file viewer
+        cleanup:
+          - '/include'
+          - '*.a'
         sources:
           - type: git
             url: https://github.com/rzvncj/xCHM
@@ -669,6 +705,9 @@ modules:
             commit: e983d11fd546c961501f736b2c6f93178c92fa97
         modules:
           - name: chmlib
+            cleanup:
+              - '/include'
+              - '*.a'
             sources:
               - type: git
                 url: https://github.com/jedwing/CHMLib
@@ -680,6 +719,7 @@ modules:
           - name: wxWidgets
             cleanup:
               - '/include'
+              - '/lib/wx/include'
               - '*.a'
             sources:
               - type: git
