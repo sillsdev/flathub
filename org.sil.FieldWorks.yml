@@ -270,16 +270,17 @@ modules:
                   patch -p1 -i debian/patches/${PATCH_FILE}
                 done
 
-      - name: libjbig0
-        # TODO try omitting out libjbig0. Every reference to jbig at flathub is to compile something (eg imagemagic) --without-jbig
-        buildsystem: simple
-        build-commands:
-          - env; ls -al; pwd
-          - for package in *.deb; do mkdir "${package}-dir" && (cd "${package}-dir" && ar x ../"${package}") && tar -v -C / -x -f "${package}-dir"/data.tar.xz ; done
-        sources:
-          - type: file
-            url: http://archive.ubuntu.com/ubuntu/pool/main/j/jbigkit/libjbig0_2.1-3.1build1_amd64.deb
-            sha256: f19d3e72dad9a418ca71ef58ee94b258616abbdbab3d1c5e2ed98fb8f14622a8
+      # TODO ok so test now that jbig is commented out
+      # - name: libjbig0
+      #   # TODO try omitting out libjbig0. Every reference to jbig at flathub is to compile something (eg imagemagic) --without-jbig. When testing, insert images into a fw document that are png,jpg,and gif. Or maybe resx processing of image files will fail.
+      #   buildsystem: simple
+      #   build-commands:
+      #     - env; ls -al; pwd
+      #     - for package in *.deb; do mkdir "${package}-dir" && (cd "${package}-dir" && ar x ../"${package}") && tar -v -C / -x -f "${package}-dir"/data.tar.xz ; done
+      #   sources:
+      #     - type: file
+      #       url: http://archive.ubuntu.com/ubuntu/pool/main/j/jbigkit/libjbig0_2.1-3.1build1_amd64.deb
+      #       sha256: f19d3e72dad9a418ca71ef58ee94b258616abbdbab3d1c5e2ed98fb8f14622a8
 
       - name: gtkmm2.4
         config-opts:
