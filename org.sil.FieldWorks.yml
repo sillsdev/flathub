@@ -1,4 +1,4 @@
-# FieldWorks flatpak build specification
+# FieldWorks flatpak package build specification
 #
 # Copyright (c) 2021 SIL International. MIT License.
 #
@@ -87,10 +87,13 @@ modules:
         FW_ROOT_PATH: '/run/build/fieldworks/fw'
         MSBUILD_ARGS: '-verbosity:detailed'
         INSTALLATION_PREFIX: '/app'
-        # The debian packaging sets RUNMODE=PACKAGING. i dont think it's important for what we need but it's worth a try to help.
+        # The debian packaging sets RUNMODE=PACKAGING. I dont think it's important for what we need but it's worth a try
+        # to help. TODO look at `environ` and evaluate if it's significant.
         RUNMODE: 'PACKAGING'
         FW_PACKAGE_DEBUG: 'true'
     build-commands:
+      # TODO because i'm changing from /var/lib/fieldworks to a new location for shared writing systems, i will probably want to _migrate_ thaht content in if cthe target directiry doesnt exist yet. oh that's done. but it would be good to test. also what happens if an Ubuntu fw user has /var/lib/fieldworks set in their registry?
+      # MANUAL rm ~/fwrepo/fw/Output ~/fwrepo/fw/Obj_x86_64 ~/fwrepo/fw/Output_x86_64  ~/fwrepo/fw/Localizations/Output ~/fwrepo/fw/Localizations/l10ns   -rf ; [[ -f ~/fwrepo/fw/Downloads/Crowdin.zip ]] || wget https://github.com/sillsdev/FwLocalizations/releases/download/v9.0.17-14-g37c0f8f/crowdin.zip -O ~/fwrepo/fw/Downloads/Crowdin.zip ; export FW_PACKAGE_DEBUG=true ; Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug MSBUILD_ARGS='-verbosity:detailed' build-package-for-flatpak |& tee /tmp/log-fw-$(date -Is|tr : -).txt
       - env; ls -al . fw fw/Downloads liblcm libcom; pwd
 
       # Extract nuget packages. May only be needed when using source from git, rather than tarball.
@@ -179,16 +182,17 @@ modules:
       # FW nuget dependencies
       # Preview updates via FieldWorks.git: git log -p -- Build/nuget-{common,linux}/packages.config
       # To regenerate input sources:
-      # ./nuget-sources ~/fwrepo/fw/Build/nuget-linux/packages.config packages fieldworks-sources-nuget-linux.yml
-      # ./nuget-sources ~/fwrepo/fw/Build/nuget-common/packages.config packages fieldworks-sources-nuget-common.yml
+      #   ./nuget-sources ~/fwrepo/fw/Build/nuget-linux/packages.config packages fieldworks-sources-nuget-linux.yml
+      #   ./nuget-sources ~/fwrepo/fw/Build/nuget-common/packages.config packages fieldworks-sources-nuget-common.yml
       - fieldworks-sources-nuget-common.yml
       - fieldworks-sources-nuget-linux.yml
         
       # FW dependencies
-      # Find updates via FieldWorks.git with a command like: git log -p FieldWorks9.0.13..FieldWorks9.0.16 -- Build/mkall.targets
+      # Find updates via FieldWorks.git with a command like: 
+      #   git log -p FieldWorks9.0.13..FieldWorks9.0.16 -- Build/mkall.targets
       # Manually apply changes by editing tc-inputs.yml.
       # Regenerate input sources:
-      # ./tc-sources tc-inputs.yml fieldworks-sources-tc.yml
+      #   ./tc-sources tc-inputs.yml fieldworks-sources-tc.yml
       - fieldworks-sources-tc.yml
 
     modules:
@@ -238,7 +242,8 @@ modules:
       #       url: http://archive.ubuntu.com/ubuntu/pool/main/h/hunspell/libhunspell-1.7-0_1.7.0-2build2_amd64.deb
       #       sha256: a8851da5816b31753f0682bb78d98c5d29ec7ef22cf14546876eb0e8f668f295
       
-      - name: dbus-glib # for gecko
+      - name: dbus-glib 
+        # For Gecko.
         cleanup:
           - '/include'
           - '*.a'
@@ -483,7 +488,8 @@ modules:
               - patch -i debian/patches/revert-GifQuantizeBuffer-remove-from-lib.patch
               # Skip building documentation
               - "echo >doc/Makefile all:"
-              # Install into /app so it gets picked up by libgdiplus before another giflib that doesnt have GifQuantizeBuffer. Maybe I should adjust libgdiplus's libdir instead.
+              # Install into /app so it gets picked up by libgdiplus before another giflib that doesnt have
+              # GifQuantizeBuffer. Maybe I should adjust libgdiplus's libdir instead.
               - make PREFIX=/app
               - make PREFIX=/app install
             cleanup:
@@ -499,8 +505,9 @@ modules:
         build-commands: 
           - env; ls -al; pwd
           # FW ICU should install to paths like /app/lib/fieldworks/lib/libicuuc.so .
-          # The icu-fw package debian/rules file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build expects icu-config to be here, such as in _init.mak.lnx and environ. 
           - ./configure --prefix=/app/lib/fieldworks --bindir=/app/lib/fieldworks/icu-bin --sbindir=/app/lib/fieldworks/icu-bin
+          # The icu-fw package debian/rules file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build expects
+          # icu-config to be here, such as in _init.mak.lnx and environ. 
           - make
           - make install
         subdir: source
@@ -512,7 +519,7 @@ modules:
             sha256: 324af10d4aaea7213d0c6f407e9edeb6c512345f636517521db5423e55e56c7c
 
       - name: fieldworks-enc-converters
-        #(TODO apply/move/something) Note that trying to get fw FwCoreDlgs.csproj to find ECInterfaces.dll was a pain and wasn't solved by environment variables or msbuild properties or a .user file. I needed to change the hintpath from /usr/lib/fieldworks to /whatever, for it to be found. i could have also probably pre-copied it into Output/Release.
+        #(TODO apply/move/something this comment.) Note that trying to get fw FwCoreDlgs.csproj to find ECInterfaces.dll was a pain and wasn't solved by environment variables or msbuild properties or a .user file. I needed to change the hintpath from /usr/lib/fieldworks to /whatever, for it to be found. i could have also probably pre-copied it into Output/Release.
         buildsystem: autotools
         build-options:
           prepend-ld-library-path: /app/lib/fieldworks/lib
@@ -521,15 +528,17 @@ modules:
             PYTHON_VERSION: "2.7"
             EC_DOWNLOAD_NUGETEXE: "false"
             EC_DOWNLOAD_DEPS: "true"
-            # I don't remember if I caused this, but even tho `pkg-config --libs python-2.7` gives '-L/app/lib -lpython2.7', we ended up using '-L/app/lib/python2.7 -lpython2.7' and failing to find -lpython2.7. Override.
+            # I don't remember if I caused this, but even tho `pkg-config --libs python-2.7` gives 
+            # '-L/app/lib -lpython2.7', we ended up using '-L/app/lib/python2.7 -lpython2.7' and failing to find 
+            # -lpython2.7. Override.
             PYTHON_LDFLAGS: "-L/app/lib -lpython2.7"
         config-opts:
           - --prefix=/app
         sources:
+          # TODO Use silnrsi repo master branch once needed changes are merged.
           # - type: git
           #   url: https://github.com/silnrsi/encoding-converters-core.git
           #   # Using branch master
-          #   # Note that some fixing may be needed to get a more recent master commit to build.
           #   commit: 255360a25864d33e7305574e721aa66aab330905
           - type: git
             url: https://github.com/marksvc/encoding-converters-core.git
