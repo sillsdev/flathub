@@ -535,7 +535,7 @@ modules:
           - type: git
             url: https://github.com/marksvc/encoding-converters-core.git
             # branch task/flatpak
-            commit: 23674ad47ce53539ee047665873991bff2fa32c2
+            commit: ea8fafeb9729736310bb23dc2ee07190d4ab5dd0
           - type: shell
             # FieldWorks Encoding Converters expects a shared directory where multiple users and applications on the
             # same computer can write shared data to. This has been /var/lib/fieldworks when using FieldWorks as
