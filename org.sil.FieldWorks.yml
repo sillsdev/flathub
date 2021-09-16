@@ -96,11 +96,6 @@ modules:
       # MANUAL rm ~/fwrepo/fw/Output ~/fwrepo/fw/Obj_x86_64 ~/fwrepo/fw/Output_x86_64  ~/fwrepo/fw/Localizations/Output ~/fwrepo/fw/Localizations/l10ns   -rf ; [[ -f ~/fwrepo/fw/Downloads/Crowdin.zip ]] || wget https://github.com/sillsdev/FwLocalizations/releases/download/v9.0.17-14-g37c0f8f/crowdin.zip -O ~/fwrepo/fw/Downloads/Crowdin.zip ; export FW_PACKAGE_DEBUG=true ; Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug MSBUILD_ARGS='-verbosity:detailed' build-package-for-flatpak |& tee /tmp/log-fw-$(date -Is|tr : -).txt
       - env; ls -al . fw fw/Downloads liblcm libcom; pwd
 
-      # Extract nuget packages. May only be needed when using source from git, rather than tarball.
-      # The 'type: archive', 'archive-type: zip' had some trouble working, so manually extract.
-      - for package in *.nupkg; do mkdir -p "${NUGET_DEST}/$(basename "${package}" .nupkg)"; unzip "${package}" -d "${NUGET_DEST}/$(basename "${package}" .nupkg)" ;done
-      - ls -al "${NUGET_DEST}"
-
 
       # So this isn't getting unzipped as early as it may be avail on workstation build. Try unzipping it now and see if that makes l10n activity any better.  TODO take this out again if it makes no difference
 
@@ -188,6 +183,12 @@ modules:
       #   ./nuget-sources ~/fwrepo/fw/Build/nuget-common/packages.config packages fieldworks-sources-nuget-common.yml
       - fieldworks-sources-nuget-common.yml
       - fieldworks-sources-nuget-linux.yml
+      - type: shell
+        # Extract nuget packages. The 'type: archive', 'archive-type: zip' had some trouble working, so manually extract.
+        commands: 
+          - |
+            for package in *.nupkg; do mkdir -p "${NUGET_DEST}/$(basename "${package}" .nupkg)"; unzip "${package}" -d "${NUGET_DEST}/$(basename "${package}" .nupkg)" ;done
+            ls -al "${NUGET_DEST}"
         
       # FW dependencies
       # Find updates via FieldWorks.git with a command like: 
