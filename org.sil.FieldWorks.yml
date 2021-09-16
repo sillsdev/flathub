@@ -96,22 +96,7 @@ modules:
       # MANUAL rm ~/fwrepo/fw/Output ~/fwrepo/fw/Obj_x86_64 ~/fwrepo/fw/Output_x86_64  ~/fwrepo/fw/Localizations/Output ~/fwrepo/fw/Localizations/l10ns   -rf ; [[ -f ~/fwrepo/fw/Downloads/Crowdin.zip ]] || wget https://github.com/sillsdev/FwLocalizations/releases/download/v9.0.17-14-g37c0f8f/crowdin.zip -O ~/fwrepo/fw/Downloads/Crowdin.zip ; export FW_PACKAGE_DEBUG=true ; Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug MSBUILD_ARGS='-verbosity:detailed' build-package-for-flatpak |& tee /tmp/log-fw-$(date -Is|tr : -).txt
       - env; ls -al . fw fw/Downloads liblcm libcom; pwd
 
-
       # So this isn't getting unzipped as early as it may be avail on workstation build. Try unzipping it now and see if that makes l10n activity any better.  TODO take this out again if it makes no difference
-
-      # Copy in localizations from fieldworks 9.0 tarball, until we can get them another way.
-      # MANUAL: cp -a source-package/fw/Localizations fw/ && cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/ &&  cp -a source-package/fw/Output fw/ &&  cp -a source-package/fw/DistFiles/Templates fw/DistFiles/ && cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/ && cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
-      # probably dont need now since crowdin.zip? - cp -a source-package/fw/Localizations fw/
-      # crowdin.zip is now a source.  - cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/
-      # is this not needed now ? - cp -a source-package/fw/Output fw/
-      # Is this not needed now?  - cp -a source-package/fw/DistFiles/Templates fw/DistFiles/
-      # should be coming from palaso and chorus nuget packages - cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/
-      # probably dont need now since crowdin.zip? - cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
-
-      #- echo DEBUG2;cat fw/Makefile
-      # Skip problem with localization that is still in progress.
-      #ok dont skip localize-binaries and get things to work.  - perl -pi -e 's|([ \t&]*).*-t:localize-binaries.*|\1echo skipping localize-binaries|' fw/Makefile
-      #- echo DEBUG3;cat fw/Makefile
       #- cd ${FW_ROOT_PATH}/Downloads && unzip LCM.zip
     
       # MANUAL: export BUILD_ROOT=$FW_ROOT_PATH BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true ; export LcmLocalArtifactsDir="$BUILD_ROOT/../liblcm/artifacts/$BUILD_CONFIG" ; mkdir -p $LcmLocalArtifactsDir ; cd $FW_ROOT_PATH/Build ;  ${FW_ROOT_PATH}/Build/run-in-environ  msbuild /t:refreshTargets
@@ -137,18 +122,18 @@ modules:
       - '*.a'
     sources:
       - type: git
+        dest: fw
         url: https://github.com/sillsdev/FieldWorks.git
         # branch: support/9.0
         # tag: FieldWorks9.0.16
         # For now build the latest on feature/flatpak.
         branch: feature/flatpak
-        dest: fw
       - type: git
+        dest: liblcm
         url: https://github.com/sillsdev/liblcm.git
         # branch: develop
         tag: FieldWorks9.0.16
         commit: 8f04ab5b314e9fa4cfacd4c481b82bc1ee2d6a91
-        dest: liblcm
       - type: git
         dest: libcom
         url: https://github.com/sillsdev/libcom.git
@@ -206,7 +191,6 @@ modules:
         config-opts:
           - --prefix=/usr
         build-commands:
-          - env; ls -al; pwd
           - ./bootstrap.sh
           # It installs to /usr/local unless I specify a prefix.
           - ./b2 install variant=release --prefix=/usr
@@ -368,7 +352,6 @@ modules:
               - name: gdk-pixbuf
                 buildsystem: meson
                 build-commands:
-                  - env; ls -al; pwd;echo DEBUG2 I dont expect this to show up.
                 cleanup:
                   - '/include'
                   - '*.a'
@@ -386,10 +369,6 @@ modules:
 
       - name: wget
         buildsystem: autotools
-        # build-options:
-        #   prefix: /usr
-        # config-opts:
-        #   - --prefix=/usr
         cleanup:
           # Remove module at the end of packaging to not ship it.
           - '*'
@@ -397,11 +376,6 @@ modules:
           - type: archive
             url: https://ftp.gnu.org/gnu/wget/wget-1.20.3.tar.gz
             sha512: e8b82b40e270296228094a78d47f81580bdbdea9e6b93fd61b37dccb39430aeb9bda5397dc53a31c952a61629383c7e2a8c8abf414c8a4dd369af6ecf2717e6c
-          # - type: shell
-          #   # Help directory structure so wget doesn't fail when making /usr/share/man/manN since /usr/share/man is a symlink to runtime/docs/man, which doesn't exist. Similar with /usr/share/info .
-          #   commands:
-          #     - mkdir -p /usr/share/runtime/docs/man
-          #     - mkdir -p /usr/share/runtime/docs/info
       - name: mono5-sil-from-git-source
         post-install:
           - cert-sync /etc/ssl/certs/ca-certificates.crt
@@ -438,7 +412,6 @@ modules:
                 url: https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tar.xz
                 sha256: b62c0e7937551d0cc02b8fd5cb0f544f9405bafc9a54d3808ed4594812edef43
 
-
       - name: gtk-sharp-from-source
         config-opts:
           - --disable-gtk-doc
@@ -455,10 +428,8 @@ modules:
             commands:
               - NOCONFIGURE=1 ./bootstrap-2.12
 
-      
       - name: mono5-sil-msbuild
         # It was challenging to build msbuild from source. And every other project appears to fetch binaries rather than build msbuild. 
-        # TODO this is only needed during development. install to /usr instead of /app so dont ship it.
         buildsystem: simple
         build-commands:
           # Extract opt/mono5-sil/* into /app/
@@ -507,7 +478,6 @@ modules:
       - name: icu-fw
         buildsystem: simple
         build-commands: 
-          - env; ls -al; pwd
           # FW ICU should install to paths like /app/lib/fieldworks/lib/libicuuc.so .
           - ./configure --prefix=/app/lib/fieldworks --bindir=/app/lib/fieldworks/icu-bin --sbindir=/app/lib/fieldworks/icu-bin
           # The icu-fw package debian/rules file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build expects
