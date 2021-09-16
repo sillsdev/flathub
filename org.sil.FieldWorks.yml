@@ -159,17 +159,17 @@ modules:
         branch: develop
         dest: libcom
       - type: git
-        url: https://github.com/sillsdev/FwHelps.git
-        branch: develop
         dest: fw/DistFiles/Helps
+        url: https://github.com/sillsdev/FwHelps.git
+        # Branch support/9.0
+        tag: FieldWorks9.0.17
+        commit: 02c9b5b0fd293e883b4d19be8439905595189ac1
       - type: git
-        url: https://github.com/sillsdev/FwLocalizations.git
-        branch: develop
         dest: fw/Localizations
-      #- type: archive
-      #  url: https://packages.sil.org/ubuntu/pool/main/f/fieldworks/fieldworks_9.0.17.119%2Bfocal1.tar.xz
-      #  sha256: be2c572abaaaaa95aaac563777ad4d3642f9dda2517058a369a7b564ab944534
-      #  dest: source-package
+        url: https://github.com/sillsdev/FwLocalizations.git
+        # Branch develop
+        tag: FieldWorks9.0.17
+        commit: 6d09370772ecd99f3efbe776c55c6561d1b7af88
       - type: file
         url: https://github.com/sillsdev/FwLocalizations/releases/download/v9.0.17-14-g37c0f8f/crowdin.zip
         sha512: 08586f7479d5c99d668d4ec92a1824e02f2982683abf3d13549e07dc1378eaf1204547a1ce6cf9a29f4a9ee418aeaf558e00a13e25e9bd41a0de880a20de1f39
