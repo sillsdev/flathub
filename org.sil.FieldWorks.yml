@@ -103,7 +103,6 @@ modules:
 
 
       # So this isn't getting unzipped as early as it may be avail on workstation build. Try unzipping it now and see if that makes l10n activity any better.  TODO take this out again if it makes no difference
-      - cd ${FW_ROOT_PATH}/Downloads && unzip LCM.zip
 
       # Copy in localizations from fieldworks 9.0 tarball, until we can get them another way.
       # MANUAL: cp -a source-package/fw/Localizations fw/ && cp -a source-package/fw/Downloads/Crowdin.zip fw/Downloads/ &&  cp -a source-package/fw/Output fw/ &&  cp -a source-package/fw/DistFiles/Templates fw/DistFiles/ && cp -a source-package/fw/DistFiles/CommonLocalizations fw/DistFiles/ && cp -a 'source-package/fw/DistFiles/Language Explorer/Configuration' 'fw/DistFiles/Language Explorer/'
@@ -118,6 +117,7 @@ modules:
       # Skip problem with localization that is still in progress.
       #ok dont skip localize-binaries and get things to work.  - perl -pi -e 's|([ \t&]*).*-t:localize-binaries.*|\1echo skipping localize-binaries|' fw/Makefile
       #- echo DEBUG3;cat fw/Makefile
+      #- cd ${FW_ROOT_PATH}/Downloads && unzip LCM.zip
     
       # MANUAL: export BUILD_ROOT=$FW_ROOT_PATH BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true ; export LcmLocalArtifactsDir="$BUILD_ROOT/../liblcm/artifacts/$BUILD_CONFIG" ; mkdir -p $LcmLocalArtifactsDir ; cd $FW_ROOT_PATH/Build ;  ${FW_ROOT_PATH}/Build/run-in-environ  msbuild /t:refreshTargets
       # MANUAL: export PLATFORM=x86_64 && cd $FW_ROOT_PATH/Build && ${FW_ROOT_PATH}/Build/run-in-environ  msbuild  '/t:remakefw' /property:config=$BUILD_CONFIG /property:Platform=$PLATFORM /property:packaging=yes "/p:OutputPath=${FW_ROOT_PATH}/Output/Debug"
