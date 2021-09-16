@@ -75,6 +75,8 @@ finish-args:
   # user-created data. Be able to read from this location in order to migrate from it.
   - --filesystem=/var/lib/fieldworks:ro
 
+
+
 modules:
   - name: fieldworks
     buildsystem: simple
@@ -130,6 +132,7 @@ modules:
         # tag: FieldWorks9.0.16
         # For now build the latest on feature/flatpak.
         branch: feature/flatpak
+        # TODO specific tag,commit
       - type: git
         dest: liblcm
         url: https://github.com/sillsdev/liblcm.git
