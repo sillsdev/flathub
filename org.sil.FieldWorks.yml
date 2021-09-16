@@ -403,8 +403,7 @@ modules:
           - type: git
             url: https://github.com/sillsdev/mono.git
             # tag: sil/5.16.0.179
-            #commit: 76d08936cf7ab1384caf2c012e821f71b3b94b23
-            # TODO release a new version of mono5-sil with the additional fixes!
+            # TODO mono5-sil needs a new tag + release.
             commit: 3bb5d7c98c3bc6f977bc7960f3a541bc0acba715
           - type: archive
             # Update URL by doing: cd .../path/to/mono-repo && .../determine-monolite-url
