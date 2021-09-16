@@ -155,9 +155,11 @@ modules:
         commit: 8f04ab5b314e9fa4cfacd4c481b82bc1ee2d6a91
         dest: liblcm
       - type: git
-        url: https://github.com/sillsdev/libcom.git
-        branch: develop
         dest: libcom
+        url: https://github.com/sillsdev/libcom.git
+        # Branch develop
+        tag: fieldworks-9.0.17
+        commit: 035225805e477061e9a2d72180a96bcaa7cc1952
       - type: git
         dest: fw/DistFiles/Helps
         url: https://github.com/sillsdev/FwHelps.git
