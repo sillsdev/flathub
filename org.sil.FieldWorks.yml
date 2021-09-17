@@ -177,7 +177,10 @@ modules:
         # Extract nuget packages. The 'type: archive', 'archive-type: zip' had some trouble working, so manually extract.
         commands: 
           - |
-            for package in *.nupkg; do mkdir -p "${NUGET_DEST}/$(basename "${package}" .nupkg)"; unzip "${package}" -d "${NUGET_DEST}/$(basename "${package}" .nupkg)" ;done
+            for package in *.nupkg; do 
+              mkdir -p "${NUGET_DEST}/$(basename "${package}" .nupkg)" && 
+              unzip "${package}" -d "${NUGET_DEST}/$(basename "${package}" .nupkg)";
+            done
             ls -al "${NUGET_DEST}"
         
       # FW dependencies
@@ -443,7 +446,11 @@ modules:
         buildsystem: simple
         build-commands:
           # Extract opt/mono5-sil/* into /app/
-          - for package in *.deb; do mkdir "${package}-dir" && (cd "${package}-dir" && ar x ../"${package}") && tar -C /app -x -f "${package}-dir"/data.tar.xz --strip-components=3 ./opt/mono5-sil; done
+          - for package in *.deb; do
+              mkdir "${package}-dir" && 
+                (cd "${package}-dir" && ar x ../"${package}") && 
+                tar -C /app -x -f "${package}-dir"/data.tar.xz --strip-components=3 ./opt/mono5-sil;
+            done
           # Same-character-count path to /app since some binary files are going to be modified too.
           - perl -pi -e 's#/opt/mono5-sil#/./././././app#g' /app/bin/*
         sources:
@@ -489,9 +496,12 @@ modules:
         buildsystem: simple
         build-commands: 
           # FW ICU should install to paths like /app/lib/fieldworks/lib/libicuuc.so .
-          - ./configure --prefix=/app/lib/fieldworks --bindir=/app/lib/fieldworks/icu-bin --sbindir=/app/lib/fieldworks/icu-bin
           # The icu-fw package debian/rules file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build expects
           # icu-config to be here, such as in _init.mak.lnx and environ. 
+          - ./configure
+              --prefix=/app/lib/fieldworks
+              --bindir=/app/lib/fieldworks/icu-bin
+              --sbindir=/app/lib/fieldworks/icu-bin
           - make
           - make install
         subdir: source
