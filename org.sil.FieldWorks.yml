@@ -190,17 +190,12 @@ modules:
       - name: libboost
         buildsystem: simple
         build-options:
-          # TODO so this was installing to /usr, but I don't think there is any need to do that. Use /app unless 
-          # problems. If need to write to /usr then need writable-sdk.
-          #prefix: /usr
           prefix: /app
         config-opts:
-          #- --prefix=/usr
           - --prefix=/app
         build-commands:
           - ./bootstrap.sh
           # It installs to /usr/local unless I specify a prefix.
-          #- ./b2 install variant=release --prefix=/usr
           - ./b2 install variant=release --prefix=/app
         cleanup:
           # Remove module at the end of packaging to not ship it.
