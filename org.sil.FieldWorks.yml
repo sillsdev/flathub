@@ -32,8 +32,6 @@ sdk: org.gnome.Sdk
 #   - org.freedesktop.Sdk.Extension.mono5
 #   - org.freedesktop.Sdk.Extension.dotnet
 
-# TODO is writable-sdk still needed? comment out and test. some install to /app or /usr may need it.
-#writable-sdk: true
 command: fieldworks-flex
 finish-args:
   - --socket=x11
