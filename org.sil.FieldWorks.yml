@@ -507,15 +507,10 @@ modules:
         config-opts:
           - --prefix=/app
         sources:
-          # TODO Use silnrsi repo master branch once needed changes are merged.
-          # - type: git
-          #   url: https://github.com/silnrsi/encoding-converters-core.git
-          #   # Using branch master
-          #   commit: 255360a25864d33e7305574e721aa66aab330905
           - type: git
-            url: https://github.com/marksvc/encoding-converters-core.git
-            # branch task/flatpak
-            commit: ea8fafeb9729736310bb23dc2ee07190d4ab5dd0
+            url: https://github.com/silnrsi/encoding-converters-core.git
+            # Using branch master
+            commit: 5a71a855e97330fd39ca23b808bdf99efb9d942f
           - type: shell
             # FieldWorks Encoding Converters expects a shared directory where multiple users and applications on the
             # same computer can write shared data to. This has been /var/lib/fieldworks when using FieldWorks as
