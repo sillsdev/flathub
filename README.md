@@ -2,7 +2,7 @@
 
 This repository is intended to hold the draft flatpak specification while it's
 being prepared. A number of files should be removed from this repository, and
-a significant history re-write, before performing a pull request to submit the 
+a significant history re-write, before performing a pull request to submit the
 flatpak specification to flathub.
 
 ## Multiple branches
@@ -38,7 +38,7 @@ git clone https://github.com/sillsdev/flathub --branch org.sil.FieldWorks
 sudo apt install flatpak-builder
 ```
 
-#### Optional dependencies 
+#### Optional dependencies
 
 Clone projects to help generate dependency download lists:
 ```bash
@@ -47,7 +47,7 @@ git clone https://github.com/sillsdev/FieldWorks.git --branch support/9.0
 git clone https://github.com/silnrsi/encoding-converters-core.git --branch master &&
   cd encoding-converters-core &&
   git remote add marksvc https://github.com/marksvc/encoding-converters-core.git &&
-  git fetch --all && 
+  git fetch --all &&
   git checkout marksvc/task/flatpak
 ```
 
@@ -85,7 +85,7 @@ Run FieldWorks in the result (optionally with additional debugging):
 flatpak run --devel --env=FW_DEBUG=true org.sil.FieldWorks
 ```
 
-or 
+or
 
 ```bash
 ./run
@@ -119,7 +119,7 @@ Note that flatpak packages can be installed system-wide or for the current user.
   ```bash
   flatpak --user install flathub org.gnome.Platform//3.36
   ```
-- Install the downloaded FW: 
+- Install the downloaded FW:
   ```bash
   for f in fieldworks*.flatpak; do flatpak --user install --assumeyes "${f}"; done
   ```
@@ -127,7 +127,7 @@ Note that flatpak packages can be installed system-wide or for the current user.
   ```bash
   flatpak update
   ```
-- Run flatpak FW: 
+- Run flatpak FW:
   ```bash
   flatpak run org.sil.FieldWorks
   ```
@@ -157,13 +157,13 @@ Make an expected directory if you haven't built FW on the machine yet:
 mkdir -p  Output_x86_64/Debug
 ```
 
-Open the FieldWorks workspace in VSCode. 
+Open the FieldWorks workspace in VSCode.
 
 Note: Debugging now appears to be broken for managed debugging. Need to investigate why the vscode debugger isn't connecting to FW in the flatpak correctly.
 
 ### Managed debugging
 
-Run FieldWorks from the flatpak by running this command (as copied from FieldWorks launch.json): 
+Run FieldWorks from the flatpak by running this command (as copied from FieldWorks launch.json):
 
 ```bash
 flatpak run --devel --env=FW_DEBUG=true --env=FW_MONO_OPTS=--debugger-agent=address=127.0.0.1:55555,transport=dt_socket,server=y,suspend=n org.sil.FieldWorks
@@ -176,7 +176,7 @@ Debug target "Attach to local (such as flatpak)" in VSCode. This was working in
 
 Install VSCode gdb debugging extension: `code --install-extension webfreak.debug`
 
-Run FieldWorks from the flatpak by running this command (as copied from FieldWorks launch.json): 
+Run FieldWorks from the flatpak by running this command (as copied from FieldWorks launch.json):
 
 ```bash
 flatpak run --devel --env=FW_DEBUG=true --env=FW_COMMAND_PREFIX="gdbserver 127.0.0.1:9999" --env=FW_MONO_COMMAND=/app/bin/mono-sgen org.sil.FieldWorks
@@ -276,9 +276,9 @@ host: (gdb) attach PID
 ```
 This gives errors like
 
-> warning: "target:/app/bin/gedit": could not open as an executable file: Operation not permitted.                                                            
+> warning: "target:/app/bin/gedit": could not open as an executable file: Operation not permitted.
 > warning: `target:/app/bin/gedit': can't open to read symbols: Operation not permitted.
-> warning: Could not load vsyscall page because no executable was specified                                                                                    
+> warning: Could not load vsyscall page because no executable was specified
 > warning: Target and debugger are in different PID namespaces; thread lists and other data are likely unreliable.  Connect to gdbserver inside the container.
 
 Or
@@ -289,7 +289,7 @@ host: (gdb) attach PID
 This gives errors like
 
 > Error while mapping shared library sections:
-> Could not open `target:/app/lib/gedit/libgedit-40.0.so' as an executable file: Operation not permitted            
+> Could not open `target:/app/lib/gedit/libgedit-40.0.so' as an executable file: Operation not permitted
 > ...
 > warning: Unable to find dynamic linker breakpoint function.
 > GDB will be unable to debug shared library initializers
@@ -305,7 +305,7 @@ This does work, in Ubuntu 20.04.
 ```bash
 host: flatpak run --devel --env=FW_DEBUG=true --command=bash org.sil.FieldWorks
 flatpak: FW_COMMAND_PREFIX="gdbserver 127.0.0.1:9999" FW_MONO_COMMAND=/app/bin/mono-sgen fieldworks-flex
-host: gdb 
+host: gdb
 host: (gdb) target remote 127.0.0.1:9999
 host: (gdb) b UniscribeEngine::FindBreakPoint
 host: (gdb) c
@@ -316,7 +316,7 @@ host: (gdb) c
 This does work, in Ubuntu 20.04.
 
 ```bash
-host: flatpak run --devel --command=bash  --share=network org.gnome.gedit 
+host: flatpak run --devel --command=bash  --share=network org.gnome.gedit
 flatpak: gdbserver 127.0.0.1:9999 gedit
 host: gdb
 host: (gdb) target remote 127.0.0.1:9999
@@ -331,7 +331,7 @@ flatpak run org.freedesktop.appstream-glib validate .../fw/DistFiles/Linux/field
 
 ## Pushing
 
-The FW repo uses gerrit for code review. Bypass gerrit when pushing to branch feature/flatpak. 
+The FW repo uses gerrit for code review. Bypass gerrit when pushing to branch feature/flatpak.
 
 Pushing to FieldWorks.git branch feature/flatpak, bypassing gerrit, is done with the following. It will be important to first fetch and rebase to make sure not to orphan any remote commits.
 ```bash
