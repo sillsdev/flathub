@@ -504,6 +504,7 @@ modules:
             # '-L/app/lib -lpython2.7', we ended up using '-L/app/lib/python2.7 -lpython2.7' and failing to find
             # -lpython2.7. Override.
             PYTHON_LDFLAGS: "-L/app/lib -lpython2.7"
+            REGROOT: "/app/share/encoding-converters"
         config-opts:
           - --prefix=/app
         sources:
