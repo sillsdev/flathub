@@ -129,11 +129,23 @@ modules:
         branch: feature/flatpak
         # TODO specific tag,commit
       - type: git
+        # liblcm is cloned for use during localization. But the actual liblcm assemblies used are fetched separately.
         dest: liblcm
         url: https://github.com/sillsdev/liblcm.git
-        # branch: develop
-        tag: FieldWorks9.0.16
-        commit: 8f04ab5b314e9fa4cfacd4c481b82bc1ee2d6a91
+        branch: master
+        commit: 6a6ed9bbe8433352769d6909079fe54b77368b99
+        # tag: FieldWorks9.0.16
+        # For local use:
+        # url: ../liblcm
+        # commit: HEAD
+      # - type: dir
+      #   # Locally copying in liblcm artifacts (which are otherwise downloaded as precompiled dependencies).  Build with liblcm$ ./build.sh Release Rebuild
+      #   path: ../liblcm/artifacts/Release
+      #   dest: local-liblcm-Release
+      # - type: dir
+      #   # Locally copying in libpalaso (which is otherwise downloaded as precompiled dependencies). Build with libpalaso$ build/download-dependencies && build/build Compile ReleaseMono
+      #   path: ../../projects/libpalaso/output/ReleaseMono
+      #   dest: local-libpalaso-ReleaseMono
       - type: git
         dest: libcom
         url: https://github.com/sillsdev/libcom.git
