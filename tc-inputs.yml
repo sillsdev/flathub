@@ -1,5 +1,5 @@
 - name: libpalaso
-  baseurl: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/
+  baseurl: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/
   dest: fw/Downloads
   files:
     - SIL.Core.dll
@@ -63,7 +63,7 @@
 - name: HermitCrab
   baseurl: https://build.palaso.org/guestAuth/repository/download/bt410/fw-9.0.tcbuildtag/
   dest: fw/Downloads
-  files: 
+  files:
     - QuickGraph.dll
     - SIL.Machine.dll
     - SIL.Collections.dll
@@ -76,12 +76,12 @@
 - name: downloads.sil.org
   baseurl: http://downloads.sil.org/BuildDlls/FW8.1/
   dest: fw/Downloads
-  files: 
+  files:
     - Paratext.LexicalContracts.dll
 - name: downloads.sil.org
   baseurl: http://downloads.sil.org/BuildDlls/FW8.1/Linux/
   dest: fw/Downloads
-  files: 
+  files:
     - FormattedEditor.dll
     - HelpSystem.dll
     - HtmlEditor.dll
@@ -91,5 +91,5 @@
 - name: NUnit
   baseurl: https://github.com/nunit/nunitv2/releases/download/2.6.4/
   dest: fw/Downloads
-  files: 
+  files:
     - NUnit-2.6.4.zip
