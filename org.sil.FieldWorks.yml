@@ -96,7 +96,13 @@ modules:
     build-commands:
       # TODO because i'm changing from /var/lib/fieldworks to a new location for shared writing systems, i will probably want to _migrate_ thaht content in if cthe target directiry doesnt exist yet. oh that's done. but it would be good to test. also what happens if an Ubuntu fw user has /var/lib/fieldworks set in their registry?
       # MANUAL rm ~/fwrepo/fw/Output ~/fwrepo/fw/Obj_x86_64 ~/fwrepo/fw/Output_x86_64  ~/fwrepo/fw/Localizations/Output ~/fwrepo/fw/Localizations/l10ns   -rf ; [[ -f ~/fwrepo/fw/Downloads/Crowdin.zip ]] || wget https://github.com/sillsdev/FwLocalizations/releases/download/v9.0.17-14-g37c0f8f/crowdin.zip -O ~/fwrepo/fw/Downloads/Crowdin.zip ; export FW_PACKAGE_DEBUG=true ; Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug MSBUILD_ARGS='-verbosity:detailed' build-package-for-flatpak |& tee /tmp/log-fw-$(date -Is|tr : -).txt
-      - env; ls -al . fw fw/Downloads liblcm libcom; pwd
+      - env; ls -al . fw fw/Downloads liblcm libcom local-* ; pwd
+      - md5sum fw/Downloads/*
+      - find -name SIL.WritingSystems.dll|xargs md5sum
+      - echo "Assemblies used in build:"
+      - find -name \*.dll -o -name \*.so\* | xargs sha256sum
+      - echo "End list of assemblies."
+
 
       # MANUAL: export BUILD_ROOT=$FW_ROOT_PATH BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true ; export LcmLocalArtifactsDir="$BUILD_ROOT/../liblcm/artifacts/$BUILD_CONFIG" ; mkdir -p $LcmLocalArtifactsDir ; cd $FW_ROOT_PATH/Build ;  ${FW_ROOT_PATH}/Build/run-in-environ  msbuild /t:refreshTargets
       # MANUAL: export PLATFORM=x86_64 && cd $FW_ROOT_PATH/Build && ${FW_ROOT_PATH}/Build/run-in-environ  msbuild  '/t:remakefw' /property:config=$BUILD_CONFIG /property:Platform=$PLATFORM /property:packaging=yes "/p:OutputPath=${FW_ROOT_PATH}/Output/Debug"
