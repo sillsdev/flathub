@@ -1,0 +1,12 @@
+#!/bin/bash
+set -xueo pipefail
+
+cd ~/fwrepo/flathub
+flatpak --user uninstall --noninteractive --assumeyes --delete-data  org.sil.FieldWorks
+flatpak --user install --or-update --noninteractive local-repo org.sil.FieldWorks org.sil.FieldWorks.Debug
+mkdir -p ~/moved
+mv -f ${HOME}/.mono/registry ~/moved/mono-registry-$(date -Is) ||:
+mv -f ${HOME}/.config/fieldworks ~/moved/config-fieldworks-$(date -Is) ||:
+mv -f ${HOME}/.local/share/SIL ~/moved/local-share-SIL-$(date -Is) ||:
+mv -f ${HOME}/.local/share/fieldworks ~/moved/local-share-fieldworks-$(date -Is) ||:
+./run
