@@ -100,7 +100,7 @@ modules:
       - md5sum fw/Downloads/*
       - find -name SIL.WritingSystems.dll|xargs md5sum
       - echo "Assemblies used in build:"
-      - find -name \*.dll -o -name \*.so\* | xargs sha256sum
+      - find -type f \( -name \*.dll -o -name \*.so\* \) -print0 | xargs -0 sha256sum
       - echo "End list of assemblies."
 
 
