@@ -1,155 +1,155 @@
 - dest: fw/Downloads
-  sha512: 14eb4aca0989c7ccaf79676bc900e9ef8314383c1c9ffb5c5ade169813af73b4edced344a58c829ca98df899d0e1d63b217033a4b6ed4303d7a6c304828beac9
+  sha512: 0934228902ff69ffac723436b89cf0a508d5741afa638a7577245d73e4f8da977e72ecee22384da4cc9edb460efd59df4250a05bc32c46745f911b46c1ef3c4b
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Core.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Core.dll
 - dest: fw/Downloads
-  sha512: 80340cb266c99c81f1c9974d1d14f2fe41be2639ad7132ada7394b794a6c528bba1bb0e54b76a7f58582ac1c795955806a3f665e4bc474d486a7a348cb1246f5
+  sha512: 0c9ef5bebe302b050a52f9d8e5164f7caf44ed35f65967e2e5c569a48786f9a253bd4c39c08e0881c14ce9ba1a0c1b031e8935639e0fe5bde1e9c3bd8ce63435
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Core.pdb
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Core.pdb
 - dest: fw/Downloads
-  sha512: 23149a1010a2767f49cd36323b6f2a86ed95f11b2bbcef5deeb5aa7f105a92feff6ca6366c9b76932a492747c19d87d5450abe4a4e1018c4c66268729b1df7d1
+  sha512: 8c296ada1780d5e8afb5c85da51241db1e75d2c9f321480a84c405969ea5b61a79fb2257222caae9c61ca7928831f51b56a738b1a6759415b34af39333516ebb
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Core.Desktop.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Core.Desktop.dll
 - dest: fw/Downloads
-  sha512: 4e786e83adde6300a4436d17225e062262b8d5d08bd4e70264a1ab9c6565f15965c4a347b1ce34cecbaeff482ae83f496057d14e55a07b73d4061c0a4d27f32c
+  sha512: fb22cf29a46ce02584faccca1ff8f29c206e3572793c1114e6e2f718a9b152fed3ac70dc127711d25176779a94b4b6987647117ba3bb8cb6adb790e3d579300d
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Core.Desktop.pdb
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Core.Desktop.pdb
 - dest: fw/Downloads
-  sha512: 09324c7a4c885daade3f8224c495704697b0b3718da8af089e6998d3609b6403ed7a7d4f8c6db0f7f1cebc6a31716c8ced7b7224937407e745e3379fc12a6739
+  sha512: 8f29c554f765e2922f0e69442028885b2a9c2b38037cc750f3be3a877aa2c476c3cf6fed806aa4e9166592a5be6f9cae52065c701dd31a81652c98563b9b2ed2
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Lift.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Lift.dll
 - dest: fw/Downloads
-  sha512: bb653a7fe2b6466fa19c143aa326e9c0d68226b7d7a8d5ff5d99bf0d7a81aa9c0b506c598e02c0c36c4ff30006582ff2f5629d838a0f84094b8edca3a0a4aa78
+  sha512: a47e2e5209827d9d37f48a7c8b66e4dc5e204ea358d763e4c13578f1669d8b36773671a235a4505a2a86427d7624eec16e2958f95321a39be88546c6a34d227b
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Lift.pdb
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Lift.pdb
 - dest: fw/Downloads
-  sha512: 926f711e883ce151a7b1290e62b233d44c294475fb89ce806f9ff906366e48a4c625148344b89fcdd357b4a46cf07caac7952ef35917c2bc8064610967b98931
+  sha512: 9e2792bf725dd57248c784b40bff612f224aa842d5f61a78d9ecaab6706a2bdcdd80b7c06493e70ce38227d565af56890c21a2e223b679027e9ea731d7b70ad9
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Media.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Media.dll
 - dest: fw/Downloads
   sha512: 975f05d423c8b9ba1015d722fb37e0c026ccfe21d3e3b73fc7791bf4298c3bec760e8df8ba0173b85c0e4b0118546c6692bf02d3c78ee7c6ff33e1df254393d8
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Media.dll.config
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Media.dll.config
 - dest: fw/Downloads
-  sha512: 1cee0da9cb1f45fd95ce641715af714240f50c9d705f28cf8bb9cbe111be54ae66656456341699bf41b80e11234c51be5bb29012a40a975da217cdcd232388d7
+  sha512: 3703682eadf1a564f4cff17287b4e4c3221bb5a0eb2dc1588b2add360de291b12c2b3531023c04295176fede0dc47617236ac2dce4e23bc9c3b05e6c63a33c88
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Media.pdb
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Media.pdb
 - dest: fw/Downloads
-  sha512: 778d40736f64e5162e28531f6db4302163cdf54f992713b4fb3e760cf900ce2ba0f1890be0c36cc9f5cb3f0bb3646702cc5d8f29c22188a37fb1565f6a2e7952
+  sha512: 9c31752eb3fe81daecb33627ee35bb5a78db9fb00f2460dbadc3772aa2c32cb6568d13d058e29036fc472d149ec4d1eec67d00f117ef65d9b75aad24d38bc352
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Windows.Forms.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Windows.Forms.dll
 - dest: fw/Downloads
-  sha512: 864515640926a8a1d23668ec8414ebb1e8d339f145c1e0ceaf7fa5bd46de670cb975680d3afb90336cccdf58d616777ff885e091c2e471b1d4afc82d23a55d22
+  sha512: 0fc0ca5db031cc7aa6182f76001ad15c17348055a33bb7a92452ea6efb98e685cbdeaa109bf2cbfcbc6b01c3d74f0de2a486763c6f297c6546e44a93a6105494
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Windows.Forms.pdb
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Windows.Forms.pdb
 - dest: fw/Downloads
-  sha512: facbcda24de79e8abb908911b9fba4db051f69d57a7439a73e033dc1707e05d99a742700790dea085fb83b29af9dd9f2f2fa68c88856ceb784c2a14f5dc800c4
+  sha512: a66aa6b0e29e6fd90ae097d199e92e2f1ab4abb97d72bef40bf9b6bfd578ea85fae99e44c3d712917d033cbe5918d31e13d05984f9837b221fecc7e417045cae
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Windows.Forms.GeckoBrowserAdapter.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Windows.Forms.GeckoBrowserAdapter.dll
 - dest: fw/Downloads
-  sha512: e9d4873909d48cf6e50cbf5487f7210fb9d0a928cd4567ccdbc3597f5bb8ea46d082bf993a8d13fa9ca9ce2bc2d375caaf2fef0c789d6574bd942f4c115e005c
+  sha512: 574142509562aebc9371300be6e78369cffb1496b9856ee135dbf7e2ab0f32304a662d00747017d64a37436279cb1f8f9c643c9b3183c714c35dcdc6ea656e45
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Windows.Forms.GeckoBrowserAdapter.pdb
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Windows.Forms.GeckoBrowserAdapter.pdb
 - dest: fw/Downloads
-  sha512: a7b61aab123086da67901e4c07b2c253179e106759177de1e9d3873ae0bdd4ba374a32f276470ff4839a2403807b26a33bc22cf320c003b043623daac76d2ba6
+  sha512: fcc97ce6961e86b0b17278771d4ceebe820524a99d1c07f0bae84f222d420b5d1471115dd33b7a492536b9ad314e544ed7ed85c259d4fbaa1d0c6e124bab57f4
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Archiving.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Archiving.dll
 - dest: fw/Downloads
   sha512: eb6e41a04768e6f78bde358f55f9d05635873048a7b190c8f039b36f0fa3a40e6fe64095390091d7ca775e7e426f5e7cf734800f2b14ab0007b109f88c81f956
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Archiving.dll.config
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Archiving.dll.config
 - dest: fw/Downloads
-  sha512: aaa85374f71f01b5e33a61b974db06c61606b19e524e49240cf4a0bfda5dacc809923c24c61c352a92a3d3ec767bee82326963aa7ff86c1b09e9e0d2c5310940
+  sha512: c578858a812afb6dbc2a4e1ab5ab5083282e81a78248b05cb18924ada4eb1f8bee972a7ba747e3fb9d351696e290b08412f943006aae7d44676394d82395cde1
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Archiving.pdb
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Archiving.pdb
 - dest: fw/Downloads
-  sha512: 55b09d1705d08b3aac788592656c0a8e1d3442509d1d6e8d13f57d6e38b7397951cc2c7225313d8f556cb089a7ab9f049c370942e16c89de5b1853354aa95c60
+  sha512: 40df8cb7a53cef6efe78340b89c04171e7d9561b3f979a9853b4f1130dd428ad840827486f6089dabb2ef94c85916e6fcca2e9b35d67c78a305dd814ba0dae96
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.WritingSystems.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.WritingSystems.dll
 - dest: fw/Downloads
-  sha512: 7a22b0a9480d92688a370559bd77b2f13e68422d703cdc7e7d94df2ac4f4832dcdfae9d6021398a35e783e8af481c1d1ea99a96a06c2ad138888b71d520f63fe
+  sha512: 27faa050e04c2b3396cbefad34dd3d43c74de53b15acfa9a5d468d2f291f7ac6a44a4061e2500e1dc279774c1c5b6bc1c7b4622b7b7e343f10032c3c7545280a
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.WritingSystems.pdb
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.WritingSystems.pdb
 - dest: fw/Downloads
-  sha512: aade6710cbc7e0712a3d708b4a31db71bad04930b7a325fb9f30e092ad53e7ba830aa89e295c08b1bd616901eba317b6b386135140d116125e14a3dd0bf3bcbe
+  sha512: 4388cf05e486852ec883aba91c72a2c3b503d28332d223563f9c1004535a072740364f69f60e0cf139b5bc4a01ced65b5b9b0e4c89f886ad4d997fd6fe990f41
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.WritingSystems.Tests.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.WritingSystems.Tests.dll
 - dest: fw/Downloads
-  sha512: f4a5de169267c2931a8a57e3979f9d6ea138f6a439a3de8c2a25b6444dce0a46fbe7eb0a3b0294eefec1bd34abb7ba9e63f5ee43be0acdf14ee4aa64893e574e
+  sha512: f35e535ab2b60393cdb8bacd3e5c023d08416ec4effb2190745a9268aaee842559808af68a1f6d788db17fdebc78ae10f997c0101e4c582e9f45707a8458a5e0
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.WritingSystems.Tests.pdb
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.WritingSystems.Tests.pdb
 - dest: fw/Downloads
-  sha512: 782466162b93efbac15b99e6b132c173603602168094b1ded23e44c70fffb546aa6698fdddcbe9ed7ce2b34538d468721708f99c7ef1dc0673a4784545dfacc5
+  sha512: e462216d4b9177fbe6e7a9ff4691b23a616498cfa0b2113e496cfbedfe8e51c5c033d6d1008ad99ada38dbc8e7b32e96750a94f54bebed2f990a89c6c882c88d
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Windows.Forms.WritingSystems.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Windows.Forms.WritingSystems.dll
 - dest: fw/Downloads
-  sha512: 5e467e1084a846974359bbe4eb17483ada391dd07b8a10926a56143df25890fa2403d74506a7f714bede8a6243fe4b22adc59a8b302be34af673bf38e8067357
+  sha512: fc59d9941450c5d7aac7ff431e3c4334bf38c6a4619a93f10ccd1c143419af0b77415ae5341e8e8a040cc28ebc6475d61b3505dc013571b4f82bbdad7b9f41c6
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Windows.Forms.WritingSystems.pdb
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Windows.Forms.WritingSystems.pdb
 - dest: fw/Downloads
-  sha512: 3651ac2e2a613951b3f63e388ceaf9603b823ec059c17b6e6b5065d78016edc30e40f358cdec0b8348632ec6befd4c0c71c2674a84dc3d6df4f99639733ec8d4
+  sha512: c85c6e89eda1226b0d690adac192b8cdf498d18df860c22a2a263a137ff37f100ed1c47910ca09211245a234a8a85ed014a0acb4859b1f5e99f7a718667e647b
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Windows.Forms.Keyboarding.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Windows.Forms.Keyboarding.dll
 - dest: fw/Downloads
   sha512: 1fb6bc375c0db3dabbcee313b5b8447bafa4650c766b9b873d7a91dfdf3f198c673ae4e20ab314b373729409a01667ccb767c9bee568df141b7509cbb7a239d1
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Windows.Forms.Keyboarding.dll.config
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Windows.Forms.Keyboarding.dll.config
 - dest: fw/Downloads
-  sha512: b47f280369e5ed26bc9eb605fad4f152313957a11bb0e98e91ded441d8828c0650771de8adc0847b56cf5c30fa032e3a0d143925484c7f1ab16c4f546ce58e78
+  sha512: 6ad1368a9d163523918a41510fa2cb802bd294c781203f4ca06e9ccbe9cf2059c28f445f734bc5db7329089398913c9d3a129ff45f548cd527fca09d4dd7a8d6
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Windows.Forms.Keyboarding.pdb
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Windows.Forms.Keyboarding.pdb
 - dest: fw/Downloads
-  sha512: 652a2c15d36d1e505aec2eeb8ef287373c2c9e09d73cf54716bc22feee986b5ef511b0176b5aef742a2560063a513d2753a232873216f39a2184758ed26a75ad
+  sha512: 6627519c896be3d9882815aa65309662c2d6765e259cf5c8b526e240d6229cb393dd628629cd3fde3ecdf659b016e5c5fa44f40eb936bd59287206ed7825ae0e
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Lexicon.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Lexicon.dll
 - dest: fw/Downloads
-  sha512: 23ac1aa091e0fe86381846dee3dbf97c7da343dc2e301b66ae03d7888a43b3098f1d7e91960e3b6070c437f1c8d0152203a350f5d5985e7c3606eb4361714923
+  sha512: 1a8be8bdbb308ff88bcb60ce0d0a36136060fefb54aaae3e8ac61d1fff2d4717574bb63c9ef9da87e410418112e57256d489dbf613020e3e79ba4a7bbddef2b1
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Lexicon.pdb
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Lexicon.pdb
 - dest: fw/Downloads
-  sha512: 285c869edd5cc7d208b1e75b29952687a11460312d3236163ab15eb8399091399477caf58fc59939893c73129e51c43c9d4dfcada36672eda110ac2f228b67ad
+  sha512: a8cb4735a2b99898bc261ade806949ba73c13a2fa712877e725c6823bd11ccea4825b75b51c56cf99d01f8c80dd60265b78523722ff2a0b3bb6536aa686f60c4
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Scripture.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Scripture.dll
 - dest: fw/Downloads
-  sha512: 66e87b8daec3cfcd3d9c56259d5efd24217945f315020bbbaef660300bf7d308a6d2d140194125ee383c5707c7cfa19c646c0524f3f770f0978c32004298c78c
+  sha512: 264001d1f7ef41d2886f8b2525701215ed42ce2d465a902f6e60f28519a9916f771505cf281ca559e5cb871c45dd350848a9faa604062891e2f4d5fe6da56d5c
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.Scripture.pdb
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.Scripture.pdb
 - dest: fw/Downloads
-  sha512: dfa83fc2a6b3aeba35ec8cbe95fe8fc8df47c0e6014d98cdbc3f11d2e6f4933d4a25429e12d63915f2e6ff6a76bedb74f9540f915293bbdd1abf8ad55ce2cad1
+  sha512: abd1aecdb4f050d403047e401ff98f0949d702c56af86e24bd82cde5921356c66b5485be432877b2ee85b62b2f16565d5de5ac771111a56e5110d93e7f9ac6e9
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/SIL.TestUtilities.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/SIL.TestUtilities.dll
 - dest: fw/Downloads
-  sha512: 9c9fc2bb9f3d56731ae8427faa155931ab284cbe2598b7bbb80bcc0ca0801b28779b908d236a2c332893356999cedaadb92b2b8170a8825f1682e3aedded42b6
+  sha512: 5dd41d90236e71e2d34114aeb79b1151787694cf2ce18164031f5fdf209684cd86096713b010a5f4c76cf74363731197d2af38de3075afa829ab8f0a26715cf5
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/L10NSharp.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/L10NSharp.dll
 - dest: fw/Downloads
   sha512: b4b0983eca122352f0cd84392306410b46161174dadeaed6fa95d25d77ac8fcfc4913ccc20474d09ed51b72c01b8e502c0c85d8bf51b5b94a23c5a4e32bcf218
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/Commons.Xml.Relaxng.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/Commons.Xml.Relaxng.dll
 - dest: fw/Downloads
   sha512: d3377657cbcf44fc17562bc71b9d86fbe9dba5f1d5d2981a6f65a0b15495d628e9a933ec0fa95e8b4707df57897216f9518cd48e03ffe069e9ab65a69c80a84a
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/Enchant.Net.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/Enchant.Net.dll
 - dest: fw/Downloads
   sha512: 808fc3b41eb789b6a1f9f059c1a2f991e968ff81421f903d6a32c8621e435b213d9d18c877f4c944f223c25fb75c581ccfe3ac238cbb4761d7fe45f3a2c12366
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/Enchant.Net.dll.config
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/Enchant.Net.dll.config
 - dest: fw/Downloads
   sha512: fd0aad0de311ba7d062920f3bc0a0915f5b85c30d69d48dd1ee70c911c72f7ac9052019dd4975cae2808991cab2450570913c85975d84c7fcb50bc5cfa9c5ca5
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/NDesk.DBus.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/NDesk.DBus.dll
 - dest: fw/Downloads
   sha512: 93451b9b6167021a95dbc6d0a8dd8ea04ce94161abebd4b60d226f38a583ab28f1fb207601a272732f9c70c276766ae25bfd7d3b5377ec7e63673b0e158b46a6
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/NDesk.DBus.dll.config
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/NDesk.DBus.dll.config
 - dest: fw/Downloads
   sha512: 887de52a8a5e768710cd521c47c3f601665b98aa2e536e1a0890e58b46864caa450bd68ed95d207dc442d76603ba4ec4ee6825cd6099429d8b28c21ddcff536b
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/taglib-sharp.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/taglib-sharp.dll
 - dest: fw/Downloads
   sha512: e9a4ec55bf3da184e66571d0bcf5d643d46ebc1345c33ee9e94547062eeae1034ffa152e6bffc32d26324d21d131631e7fe6434314171fbe957fa0d9d7a1312d
   type: file
-  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.16.tcbuildtag/Spart.dll
+  url: https://build.palaso.org/guestAuth/repository/download/Libpalaso_Palaso60linuxContinuous/fw-9.0.18.tcbuildtag/Spart.dll
 - dest: fw/Downloads
   sha512: eb4acd675a998ad6df5469f880ab222dffb0cee526f43ee7851d45e6c6cbacb01f83e822d651110a7bccf944e1a5883a846adff21e6659d28b8effdff844292a
   type: file
