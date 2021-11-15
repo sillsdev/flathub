@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -x 
+set -x
+set -ueo pipefail
 
 # Share path to projects dir in dev repo in case projects dir is set to that location on dev machine.
 DEV_PROJECTS_PATH="${HOME}"/fwrepo/fw/DistFiles/Projects
