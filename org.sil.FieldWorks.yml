@@ -713,6 +713,9 @@ modules:
             # Version used in Ubuntu 20.04.
             tag: "1.31"
             commit: e983d11fd546c961501f736b2c6f93178c92fa97
+          - type: patch
+            # xchm would otherwise need to write to files ~/.xchmXXXXXX and ~/.xchm.
+            path: patches/xchm/no-config.patch
         modules:
           - name: chmlib
             cleanup:
