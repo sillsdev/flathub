@@ -2,7 +2,7 @@
 set -xueo pipefail
 
 cd ~/fwrepo/flathub
-flatpak --user uninstall --noninteractive --assumeyes --delete-data  org.sil.FieldWorks
+flatpak --user uninstall --noninteractive --assumeyes --delete-data  org.sil.FieldWorks || echo Ignoring problem uninstalling
 flatpak --user install --or-update --noninteractive local-repo org.sil.FieldWorks org.sil.FieldWorks.Debug
 mkdir -p ~/moved
 mv -f ${HOME}/.mono/registry ~/moved/mono-registry-$(date -Is) ||:
