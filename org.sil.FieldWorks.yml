@@ -124,6 +124,10 @@ modules:
       - '/include'
       - '/lib/*/include'
       - '*.a'
+      # TODO just dont install these in the first place?
+      - '/lib/fieldworks/*Tests.dll'
+      # TODO don't install .git! :)
+      - '/share/fieldworks/Helps/.git'
     sources:
       - type: git
         dest: fw
@@ -389,6 +393,9 @@ modules:
         cleanup:
           - '/include'
           - '*.a'
+          - '/lib/monodoc'
+          - '/lib/mono/msbuild'
+          - '/lib/mono/[23]*'
         sources:
           - type: git
             url: https://github.com/sillsdev/mono.git
@@ -698,6 +705,8 @@ modules:
         cleanup:
           - '/include'
           - '*.a'
+          - '/share/icons'
+          - '/share/applications'
         sources:
           - type: git
             url: https://github.com/rzvncj/xCHM
