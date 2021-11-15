@@ -535,7 +535,7 @@ modules:
           - type: git
             url: https://github.com/silnrsi/encoding-converters-core.git
             # Using branch master
-            commit: 5a71a855e97330fd39ca23b808bdf99efb9d942f
+            commit: aee4ff72bd3894eba96de7978990061e36b4784c
             # url: https://github.com/marksvc/encoding-converters-core.git
             # branch: feature/flatpak
             # For local use:
