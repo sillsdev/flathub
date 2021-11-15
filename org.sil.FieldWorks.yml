@@ -40,37 +40,36 @@ finish-args:
   - --share=network
   # FieldWorks allows playing sound files and playing and recording in audio writing systems.
   - --socket=pulseaudio
-  # Users need to be able to import data. This may include restoring backup files or choosing photos for a
-  # dictionary. A better approach may be to use Portals to receive permission for a specific file when the user
-  # specfies it ( https://docs.flatpak.org/en/latest/sandbox-permissions.html#portals ), tho perhaps that may not
-  # work well in cases where a user is merely linking to/referencing a file, not copying it into their project or
-  # otherwise using it only one time.
+  # Users need to be able to persistently link to files that they want to show in their dictionary, such as pictures.
+  # Users also need to be able to import language and dictionary data, as well as choose and restore from project backup
+  # files. Flatpak provides Portals to receive permission for a specific file when the user specfies it
+  # ( https://docs.flatpak.org/en/latest/sandbox-permissions.html#portals ), though this may only serve some of these
+  # needs (like choosing a backup file to restore) and not others (like persistently linking to media files, without
+  # copying the actual data into their project), so implemeting Portals would only be helpful for some of the data
+  # access needs.
   - --filesystem=home:ro
   # Data, including projects.
-  - --filesystem=xdg-data/fieldworks:rw
+  - --filesystem=xdg-data/fieldworks:create
+  # Writing system definition files. Shared with other applications.
+  - --filesystem=xdg-data/SIL/WritingSystemRepository:create
+  # Encoding Converter location for configuration and potentially user-made converters. Shared with other applications.
+  - --filesystem=xdg-data/SIL/encoding-converters:create
   # Configuration and settings of FieldWorks and included components.
-  - --filesystem=xdg-config/fieldworks:rw
-  - --filesystem=xdg-data/SIL:rw
-  - --filesystem=~/.mono/registry/CurrentUser/software/sil:rw
-  # Default location to write a backup in the backup dialog.
+  - --filesystem=xdg-config/fieldworks:create
+  - --filesystem=~/.mono/registry/CurrentUser/software/sil:create
+  # Default location to write a project backup in the backup dialog.
   - --filesystem=xdg-documents/fieldworks/backups:create
   - --filesystem=xdg-documents/fieldworks:create
   # Users can create a launcher to a specific project by clicking File - Project Management - Create Shortcut on
   # Desktop.
   - --filesystem=xdg-desktop:rw
   # Directory for libpalaso GlobalMutex.
+  - --filesystem=xdg-run/sil-lock:create
+  # Directory for libpalaso GlobalMutex (being phased out).
   - --filesystem=/var/lock:rw
-  # xchm wants to write to files ~/.xchmXXXXXX and ~/.xchm or it shows errors it exit. So we need to either grant
-  # home:rw, get xchm changed to not need to write files to the root of home, or switch to another chm viewer. Check
-  # on a newer xchm version, too.
-  - --filesystem=home:rw
-  # TODO Because apt/deb FieldWorks 9 installations may have custom FEC data in /var/lib/fieldworks/{registry,SIL} ,
-  # then instead of having FEC install to the flatpak "/var/lib/fieldworks/..." locations, have FEC install to some
-  # other location (maybe /app/share/fieldworks-encoding-converters), have the flatpak access /var/lib/fieldworks
-  # read-only, and migrate/copy the FEC config+data from preferable /var/lib/fieldworks/... if exists, and if not
-  # then from /app/share/... .
-  # Shared writing system and encoding converters data location used by FieldWorks Debian packages, that may have
-  # user-created data. Be able to read from this location in order to migrate from it.
+  # Shared writing system and encoding converters data location used by FieldWorks .deb packages, that may have
+  # Encoding converters older shared location that some users might rely on for an easier transition and
+  # continuing to use the same encoding converters.
   - --filesystem=/var/lib/fieldworks:ro
 
 
