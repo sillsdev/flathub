@@ -583,25 +583,21 @@ modules:
                 commit: de2120737dbbeb00728054232a21c6b03c1ae687
 
       - name: icu-fw
-        buildsystem: simple
-        build-commands:
-          # FW ICU should install to paths like /app/lib/fieldworks/lib/libicuuc.so .
-          # The icu-fw package debian/rules file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build expects
-          # icu-config to be here, such as in _init.mak.lnx and environ.
-          - ./configure
-              --prefix=/app/lib/fieldworks
-              --bindir=/app/lib/fieldworks/icu-bin
-              --sbindir=/app/lib/fieldworks/icu-bin
-          - make
-          - make install
+        # FW ICU should install to paths like /app/lib/fieldworks/lib/libicuuc.so .
+        # The icu-fw package debian/rules file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build expects
+        # icu-config to be here, such as in _init.mak.lnx and environ.
+        config-opts:
+          - --prefix=/app/lib/fieldworks
+          - --bindir=/app/lib/fieldworks/icu-bin
+          - --sbindir=/app/lib/fieldworks/icu-bin
         subdir: source
         cleanup:
           - '/lib/*/include'
         sources:
           - type: git
             url: https://github.com/sillsdev/icu.git
-            tag: release-54-1-1
-            commit: e7322befb7a4a23262f50a1fb3cace75bf9f591d
+            branch: FieldWorks
+            commit: f648b14cd744202c24648c5f76847621721e1ae9
 
       - name: fieldworks-enc-converters
         #(TODO apply/move/something this comment.) Note that trying to get fw FwCoreDlgs.csproj to find ECInterfaces.dll was a pain and wasn't solved by environment variables or msbuild properties or a .user file. I needed to change the hintpath from /usr/lib/fieldworks to /whatever, for it to be found. i could have also probably pre-copied it into Output/Release.
