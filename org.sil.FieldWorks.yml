@@ -288,9 +288,10 @@ modules:
           - '/lib/*/include'
           - '*.a'
         sources:
-          - type: archive
-            url: http://archive.ubuntu.com/ubuntu/pool/universe/g/gtkmm2.4/gtkmm2.4_2.24.5.orig.tar.xz
-            sha256: 0680a53b7bf90b4e4bf444d1d89e6df41c777e0bacc96e9c09fc4dd2f5fe6b72
+          - type: git
+            url: https://gitlab.gnome.org/GNOME/gtkmm.git
+            tag: "2.24.5"
+            commit: 07fe88b054e91d10ec3bf32a85945cbc57248639
         modules:
           - name: atkmm1.6
             config-opts:
@@ -300,9 +301,10 @@ modules:
               - '/lib/*/include'
               - '*.a'
             sources:
-              - type: archive
-                url: http://archive.ubuntu.com/ubuntu/pool/main/a/atkmm1.6/atkmm1.6_2.28.0.orig.tar.xz
-                sha256: 5d27b6a2f4c130bf0e6415683399175e245a305bd91d13b9bd33abde401a3a04
+              - type: git
+                url: https://gitlab.gnome.org/GNOME/atkmm.git
+                tag: "2.28.0"
+                commit: e1f4d5394a7982cc3c82ca63676a2928cd8819c1
             modules:
               - name: glibmm2.4
                 config-opts:
@@ -312,9 +314,10 @@ modules:
                   - '/lib/*/include'
                   - '*.a'
                 sources:
-                  - type: archive
-                    url: http://archive.ubuntu.com/ubuntu/pool/main/g/glibmm2.4/glibmm2.4_2.64.2.orig.tar.xz
-                    sha256: bdd5e4ea879826784faf486ea23eb2d03c892fd5e0177ac416be7b8e12c404e6
+                  - type: git
+                    url: https://gitlab.gnome.org/GNOME/glibmm.git
+                    tag: "2.64.2"
+                    commit: e775940669cb6d93f37ddc2b4cd7da446dfa482c
                 modules:
                   - name: libsigc++-2.0
                     config-opts:
@@ -324,9 +327,10 @@ modules:
                       - '/lib/*/include'
                       - '*.a'
                     sources:
-                      - type: archive
-                        url: http://archive.ubuntu.com/ubuntu/pool/main/libs/libsigc++-2.0/libsigc++-2.0_2.10.2.orig.tar.xz
-                        sha256: 9e4f93ed27bd2a0f60af3a007c6963eee2b126eff378a1c719ed8235dfcdf524
+                      - type: git
+                        url: https://github.com/libsigcplusplus/libsigcplusplus.git
+                        tag: "2.10.2"
+                        commit: 06fabac512bf81164d5b01f877927cb39e9db864
           - name: pangomm
             config-opts:
               - --disable-documentation
@@ -335,9 +339,10 @@ modules:
               - '/lib/*/include'
               - '*.a'
             sources:
-              - type: archive
-                url: http://archive.ubuntu.com/ubuntu/pool/main/p/pangomm/pangomm_2.42.0.orig.tar.xz
-                sha256: 4befa6dc41ad72b7b8e7351d2525399daaab5cf9a89c3ab0ba65678801ff4db4
+              - type: git
+                url: https://gitlab.gnome.org/GNOME/pangomm.git
+                tag: "2.42.0"
+                commit: 59f0ec837adc4fe02ea1c77965b880e1cfeeb4b9
             modules:
               - name: cairomm
                 config-opts:
@@ -356,9 +361,10 @@ modules:
               - '/lib/*/include'
               - '*.a'
             sources:
-              - type: archive
-                url: http://archive.ubuntu.com/ubuntu/pool/main/g/gtk+2.0/gtk+2.0_2.24.32.orig.tar.xz
-                sha256: b6c8a93ddda5eabe3bfee1eb39636c9a03d2a56c7b62828b359bf197943c582e
+              - type: git
+                url: https://gitlab.gnome.org/GNOME/gtk.git
+                tag: "2.24.32"
+                commit: ed7d3e25f8b6debae6ccc8b50d1329155338cab8
             modules:
               - name: gdk-pixbuf
                 buildsystem: meson
