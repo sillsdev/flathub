@@ -517,9 +517,10 @@ modules:
         cleanup:
           - '/lib/*/include'
         sources:
-          - type: archive
-            url: https://packages.sil.org/ubuntu/pool/main/i/icu-fw/icu-fw_54.1.1.44.orig.tar.xz
-            sha256: 324af10d4aaea7213d0c6f407e9edeb6c512345f636517521db5423e55e56c7c
+          - type: git
+            url: https://github.com/sillsdev/icu.git
+            tag: release-54-1-1
+            commit: e7322befb7a4a23262f50a1fb3cace75bf9f591d
 
       - name: fieldworks-enc-converters
         #(TODO apply/move/something this comment.) Note that trying to get fw FwCoreDlgs.csproj to find ECInterfaces.dll was a pain and wasn't solved by environment variables or msbuild properties or a .user file. I needed to change the hintpath from /usr/lib/fieldworks to /whatever, for it to be found. i could have also probably pre-copied it into Output/Release.
