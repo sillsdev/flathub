@@ -639,15 +639,14 @@ modules:
             # copied in. ECDriver.cpp picks up REGROOT. Util.cs expects the folder specified (/var/lib/fieldworks) to
             # match REGROOT. It looks like some things (like src/AppDataMover/Program.cs) will have trouble if the
             # directory doesn't exist or can't be written to. Tho it looks like AppDataMover is only used in Windows,
-            # not Linux. We probably can't just switch the C# and C++ programs to use XDG_DATA_HOME, because although
-            # they could write to it, they wouldn't have their initial files. And we can't just change the
-            # Makefile.in to use XDG_DATA_HOME or similar because it can't install to a location like /home/foo.
+            # not Linux.
+            # After some discussions, EC files will be shipped in a read-only location, and an initially (mostly?) empty
+            # location in XDG_DATA_HOME will be used for read+write files and the mapping registry.
             # I don't want to let EC install files to /var/lib/fieldworks, from which we copy those initial files into a
             # new+writable location because I want to expose any existing system /var/lib/fieldworks so we can migrate
-            # old files from there (created by a user using FW from a .deb package) to the new+writable location.
-            # Using this solution at present: Let Makefile.in copy the initial files to
-            # PREFIX/share/encoding-converters. On FW first-run, copy those initial files into XDG_DATA_HOME. Have C#
-            # read+write the files there in XDG_DATA_HOME.
+            # or use old files from there (created by a user using FW from a .deb package).
+            # Let Makefile.in copy the initial files to PREFIX/share/encoding-converters. Have C# read+write files in
+            # XDG_DATA_HOME.
             commands:
               - |
                 set -xueo pipefail
