@@ -687,7 +687,7 @@ modules:
                   </disabledPackageSources>
                 </configuration>'
         modules:
-          - name: libteckit-dev
+          - name: teckit
             cleanup:
               - '/include'
               - '*.a'
@@ -695,7 +695,7 @@ modules:
               - type: git
                 url: https://github.com/silnrsi/teckit
                 tag: v2.5.10
-                commit: fea17dbf17266387c96f74fd9c0ce44d065f0f50
+                commit: 1c510d4de7ff844207b1273e856fd27a15b3486d
 
       - name: flexbridge
         buildsystem: simple
