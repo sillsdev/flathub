@@ -602,9 +602,10 @@ modules:
               - '/include'
               - '*.a'
             sources:
-              - type: archive
-                url: https://packages.sil.org/ubuntu/pool/main/t/teckit/teckit_2.5.10+20.04.orig.tar.gz
-                sha256: 498d6331bc25853c86f6ae9afeec178192ef91f8b3d539e7593b09b079801ed0
+              - type: git
+                url: https://github.com/silnrsi/teckit
+                tag: v2.5.10
+                commit: fea17dbf17266387c96f74fd9c0ce44d065f0f50
 
       - name: flexbridge
         buildsystem: simple
