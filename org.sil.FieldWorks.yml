@@ -471,9 +471,10 @@ modules:
           - '/include'
           - '*.a'
         sources:
-          - type: archive
-            url: https://packages.sil.org/ubuntu/pool/main/libg/libgdiplus5-sil/libgdiplus5-sil_5.6.0.orig.tar.gz
-            sha256: b6663bdf04acd2c3e218a71185f8c5a3e6189525ad3e71591bfbf69133c8937f
+          - type: git
+            url: https://github.com/sillsdev/libgdiplus
+            tag: merge/5.6.0
+            commit: b9c581ba87da89651d5ec56c5da0960ab739a63a
         modules:
           - name: giflib
             buildsystem: simple
