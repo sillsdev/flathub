@@ -24,3 +24,8 @@
     sha512: e936cfd251c6da0494d275dfac87a60039e90cb1cbd48cae48ebe9fff439478a49735051a59aba07c4bcf69d6b73a54bfc73bfab38fb295d540d1e351aaecdd5
     dest: nuget-specific/
     dest-filename: BuildDependencyTasks.nupkg
+  - type: file
+    url: https://api.nuget.org/v3-flatcontainer/SIL.Windows.Forms.GeckoBrowserAdapter/9.0.0-beta0076/SIL.Windows.Forms.GeckoBrowserAdapter.9.0.0-beta0076.nupkg
+    sha512: 4455e171836cd1733f0494ffb5e491d594316faa974b655555c6bf064c0360c5c257af3a8df52380bdfc59de7a70681025df05f985bbfad5c0f79d8722663441
+    dest: nuget-sources/
+    dest-filename: sil.windows.forms.geckobrowseradapter.9.0.0-beta0076.nupkg

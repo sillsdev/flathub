@@ -694,38 +694,46 @@ modules:
       - name: flexbridge
         buildsystem: simple
         build-options:
-          # TODO trying prefix here to hopefully land fb in the right place.
-          prefix: /app
+          # # TODO trying prefix here to hopefully land fb in the right place.
+          #prefix: /app
           env:
             PREFIX: /app
             # TODO Probably remove perl5lib?
             PERL5LIB: /app/perl-modules/lib/perl5
             MONO_PREFIX: /app
             MONO_SILPKGDIR: /app
-            CONFIGURATION: Debug
+            CONFIGURATION: Release
+            XDG_DATA_HOME: xdg-data-home
         build-commands:
-          - echo SKIPPING FLEXBRIDGE
-        SKIP_UNTIL_WORKING-build-commands:
+        #   - echo SKIPPING FLEXBRIDGE
+        # SKIP_UNTIL_WORKING-build-commands:
           - env; ls -al; find; pwd
+          - env|grep DATA_HOME
+          - find ${XDG_DATA_HOME}/BuildDependency
           - which mono
           - mono --version
-          - cd nuget-specific && for package in *.nupkg; do mkdir -p "../packages/$(basename "${package}" .nupkg)"; unzip "${package}" -d "../packages//$(basename "${package}" .nupkg)" ;done
+          - cd nuget-specific && for package in *.nupkg; do mkdir -p "../packages/$(basename "${package}" .nupkg)"; unzip "${package}" -d "../packages/$(basename "${package}" .nupkg)" ;done
           - ls -al packages
           - cp -va source-tarball/DistFiles/localizations DistFiles/
-          # - touch fetch_l10ns # TODO These l10ns will need downloaded ahead of time
+          # TODO These l10ns will need downloaded ahead of time
+          - touch fetch_l10ns
           # - make release_build && make install
 
+          # TODO not skip l10n
+          - perl -pi -e 's/CopyExtraFilesToOutput;//' build/FLExBridge.proj
+
           # TODO The version information could still be extracted with something like dotnet running GitVersion.CommandLine; see https://github.com/sillsdev/flexbridge/issues/318 .
-          - cd build && msbuild FLExBridge.proj -p:Configuration=Debug -p:DisableGitVersionTask=true -p:GitVersion_SemVer=1.2.3 -p:Version=1.2.3 -p:WriteVersionInfoToBuildLog=false || ls -tora /tmp ;cat /tmp/lsb_release-log.txt; exit 1
+          - msbuild build/FLExBridge.proj -p:Configuration=${CONFIGURATION} -p:DisableGitVersionTask=true -p:GitVersion_SemVer=1.2.3 -p:Version=1.2.3 -p:WriteVersionInfoToBuildLog=false
+          #|| ls -tora /tmp ;cat /tmp/lsb_release-log.txt; exit 1
           # TODO don't try to install  Mercurial-x86_64.zip until it's available.
           #   Look for Mercurial in the nuget package SIL.Chorus.Mercurial.
           - perl -ni -e 'print unless /Mercurial-/' Makefile
           # TODO don't try to install Chorus_Help.chm until it's available.
           #   Probably need to do it how the Chorus git repo downloads it in the DownloadDependencies target in Chorus.proj.
-          - perl -ni -e 'print unless /Chorus_Help.chm/' Makefile
+          #- perl -ni -e 'print unless /Chorus_Help.chm/' Makefile
           # TODO don't try to install localizations until available
           - perl -ni -e 'print unless /localizations/' Makefile
-          - make install-core
+          - make install
           # TODO unzip mercurial once have it. something like:
           # - |
           #   set -xueo pipefail
@@ -755,7 +763,20 @@ modules:
             url: https://dist.nuget.org/win-x86-commandline/v5.9.0/nuget.exe
             sha512: 980b62387ce9540eff0d49ef6dd5b4da121a8648646a465bc6445534e9ec0d7605483fad933b26f9b0b3797db4d4b1ec82ed354b3daf13e1dcc0818292815dca
             dest: build/
-          # These nuget packages are installed by build/FLExBridge.proj. Check on current packages and versions needed with: grep NuGetCommand build/FLExBridge.proj
+          # These nuget packages are installed by build/FLExBridge.proj by
+          # directly running nuget.exe. Check on what current packages and
+          # versions are needed with `grep NuGetCommand build/FLExBridge.proj`.
+          # Then manually edit the yml to change or add. Note that attempting to
+          # install SIL.Windows.Forms.GeckoBrowserAdapter results in it trying
+          # to identify dependencies to install, and works differently than the
+          # other nuget installations that use a similar command. A solution is
+          # to write the GeckoBrowserAdapter nuget file to dest nuget-sources,
+          # rather than nuget-specific. The dependencys may not need special
+          # handling, but if they start to, then note that the dependencies
+          # don't seem to be mentioned in the .nupkg file itself, nor on the
+          # nuget.org web site, but can be determined by running in flexbridge
+          # `msbuild build/FLExBridge.proj -t:RestoreBuildTasks` and observing
+          # how it resolves dependencies.
           - flexbridge-sources-nuget-specific.yml
 
           # Use local nuget packages
@@ -771,11 +792,14 @@ modules:
                     <add key="nuget.org" value="true" />
                   </disabledPackageSources>
                 </configuration>'
-          # Regenerate: Set flexbridge git dir to newer code. Then run: ~/code/flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py flexbridge-sources-nuget.json $(find $HOME/fwrepo/flexbridge -name \*.csproj)
+          # Regenerate: Set flexbridge git dir to newer code. Then run (in
+          # flathub dir):
+          #   ~/code/flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py flexbridge-sources-nuget.json $(find $HOME/fwrepo/flexbridge -name \*.csproj)
           - flexbridge-sources-nuget.json
 
           # Dependencies specified from FLExBridge.dep
-          # Determine what is needed by running in the flexbridge repo: msbuild /t:DownloadDependencies build/FLExBridge.proj && cat build/FLExBridge.files
+          # Determine what is needed by running in the flexbridge repo:
+          #   msbuild -t:DownloadDependencies build/FLExBridge.proj && cat build/FLExBridge.files
           - flexbridge-sources-deps.yml
 
           - type: file

@@ -1,17 +1,17 @@
 [
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.chorus.libchorus/4.0.0/sil.chorus.libchorus.4.0.0.nupkg",
-        "sha512": "cd1827daf2f0f90209709224b3387d08f38d10d8d014a7081e4214041240ed07e9ed2d041edd86ac6f1952f9cff7142627741704e7d5eb0cf530f62b9c93ad37",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.chorus.libchorus/5.0.0-beta0013/sil.chorus.libchorus.5.0.0-beta0013.nupkg",
+        "sha512": "038907f3da5f6a44ba1fb7c4541b957790f7ce45fb1e5b506af2114fdea316103e8c3984bc6fc9eacc1483c805903d53f200a98637c32994b62043f26b93cd95",
         "dest": "nuget-sources",
-        "dest-filename": "sil.chorus.libchorus.4.0.0.nupkg"
+        "dest-filename": "sil.chorus.libchorus.5.0.0-beta0013.nupkg"
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.writingsystems/8.0.0/sil.writingsystems.8.0.0.nupkg",
-        "sha512": "cf1c97f5af304dcbdc9599161da5cef50360ef328c3ba4409d169e3a1d1ae2fbb98646f91d130a2876fd5c6733d571999a706bb3e2ef285bbd9dead0573bf5c9",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.writingsystems/9.0.0-beta0078/sil.writingsystems.9.0.0-beta0078.nupkg",
+        "sha512": "6887d06c32a9d0cc08712ed7704ebd056d9abcc23d1d9c7306a9c0567494ff72d33b407074551ca7042ffdeca8ef9500654d5cc887bdee6566fa6678a2c53fb4",
         "dest": "nuget-sources",
-        "dest-filename": "sil.writingsystems.8.0.0.nupkg"
+        "dest-filename": "sil.writingsystems.9.0.0-beta0078.nupkg"
     },
     {
         "type": "file",
@@ -78,10 +78,24 @@
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.core.desktop/8.0.0/sil.core.desktop.8.0.0.nupkg",
-        "sha512": "74523ece4c3ca8a4c44655070f063ab40c33feb686e81b416b0e24d89b66dbf83cde54b4a89bd9f20f3e2b9aa845866e9d7ddc408f41b406c3fbe883ffeb38eb",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.core.desktop/9.0.0-beta0078/sil.core.desktop.9.0.0-beta0078.nupkg",
+        "sha512": "475344b1efeb167a4f6fa5a74887ebd38f0b4d1ef5dee8e653451c0e0528af4268a1bab17ec40423cbb58d22e27d67937f4d31381ac9f7b3a55141961835c602",
         "dest": "nuget-sources",
-        "dest-filename": "sil.core.desktop.8.0.0.nupkg"
+        "dest-filename": "sil.core.desktop.9.0.0-beta0078.nupkg"
+    },
+    {
+        "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/jetbrains.annotations/2021.2.0/jetbrains.annotations.2021.2.0.nupkg",
+        "sha512": "e4f1e8a7a6890b2116a2a5b4483346e1bdd0ac7b30d67b5c026b8596c5150a86868bb2d3eaca22d0e22e80dbcfeeedae755ec1c29258c8895acfc3f9710517c5",
+        "dest": "nuget-sources",
+        "dest-filename": "jetbrains.annotations.2021.2.0.nupkg"
+    },
+    {
+        "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.lcmodel.utils/10.2.0-beta0002/sil.lcmodel.utils.10.2.0-beta0002.nupkg",
+        "sha512": "3a9271de881c770081b83eeb457742fae1456e71f140d0c9c711de44d1c994b4ba2aee08f06993863ff62668a5deecd8ebd4be457131a1c0e9bf19d378841e53",
+        "dest": "nuget-sources",
+        "dest-filename": "sil.lcmodel.utils.10.2.0-beta0002.nupkg"
     },
     {
         "type": "file",
@@ -148,24 +162,24 @@
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.testutilities/8.0.0/sil.testutilities.8.0.0.nupkg",
-        "sha512": "81ceace144db4e6c4eb1c42dfd06b2b16c7ccfa7a78d932a823a8e9f32e9dc88e85c7a5c82a5df9880c8b9646e62a407fc0c7f29e355be62061b85cd5f50086b",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.testutilities/9.0.0-beta0078/sil.testutilities.9.0.0-beta0078.nupkg",
+        "sha512": "aa746818c86d93beb7055048e53c4d15e9ae509a2a55701e6ac2b73fdb4d69affaeb9be7075458bc9bd9c1618b7f342a8cb6af9aba570bfbaa3a29b120d960d1",
         "dest": "nuget-sources",
-        "dest-filename": "sil.testutilities.8.0.0.nupkg"
+        "dest-filename": "sil.testutilities.9.0.0-beta0078.nupkg"
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.chorus.chorusmerge/4.0.0/sil.chorus.chorusmerge.4.0.0.nupkg",
-        "sha512": "e02b83cd4bbba256d3488ec5ef04583a685272729a2b099c9e9bb4e3a024ede27b9356f361a2f696e129172cc2851238db02ab5b1a6a8eeb2e27d47b88e51d0d",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.chorus.chorusmerge/5.0.0-beta0013/sil.chorus.chorusmerge.5.0.0-beta0013.nupkg",
+        "sha512": "d9078c15ed04f3b4312ace0f44918dddd87cd2be45ef898c3f4e0a32532563365a5928a50ad6c883db3e8b42ef0793a1d0b092e60aa6d5e5c90054e19bc61934",
         "dest": "nuget-sources",
-        "dest-filename": "sil.chorus.chorusmerge.4.0.0.nupkg"
+        "dest-filename": "sil.chorus.chorusmerge.5.0.0-beta0013.nupkg"
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.chorus.libchorus.testutilities/4.0.0/sil.chorus.libchorus.testutilities.4.0.0.nupkg",
-        "sha512": "a41038a370eec0ed7c94c5601f376c04ffe24fb23e21c9677bceb9ec913d092cce8901ea68faa946ca88eccd7012a70570e5b3e7518998a17edb7bb85615b782",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.chorus.libchorus.testutilities/5.0.0-beta0013/sil.chorus.libchorus.testutilities.5.0.0-beta0013.nupkg",
+        "sha512": "d8194bb48ec20fee753f6c3bf5e96867b627825ca113526d6516ff5dd2410aef32ffbb8de02c9b6c0a344ba962dc4689d53609fc8471cbb82e8d40a4a7fd7135",
         "dest": "nuget-sources",
-        "dest-filename": "sil.chorus.libchorus.testutilities.4.0.0.nupkg"
+        "dest-filename": "sil.chorus.libchorus.testutilities.5.0.0-beta0013.nupkg"
     },
     {
         "type": "file",
@@ -197,17 +211,17 @@
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/l10nsharp/4.1.0/l10nsharp.4.1.0.nupkg",
-        "sha512": "3bf41de552b533e8592dd86369b50393894932f791df5a4a7e98137573e73d171c63570909ad06a1221402afc49745d5b988db88a653aabcbfbc4e3076bb6972",
+        "url": "https://api.nuget.org/v3-flatcontainer/l10nsharp/4.2.0-beta0006/l10nsharp.4.2.0-beta0006.nupkg",
+        "sha512": "b988c5573e7194ca9843e9eec18c4dba82be93cdb6d1e5ec7931219b18eeb3afec2bb2c8d0625bbf2fa45042d5abbeaff807e62d1313de1f98a91f75bdab84c7",
         "dest": "nuget-sources",
-        "dest-filename": "l10nsharp.4.1.0.nupkg"
+        "dest-filename": "l10nsharp.4.2.0-beta0006.nupkg"
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.lift/8.0.0/sil.lift.8.0.0.nupkg",
-        "sha512": "32b4664f43ebdce2c7d213ef8859dc6693dbc7de0620b955b8f3044160d703654b9c09b9dbba95da91a95dc500369a0f0b910372929fa12cc7dbdef0036589a6",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.lift/9.0.0-beta0078/sil.lift.9.0.0-beta0078.nupkg",
+        "sha512": "b19da31f1aeeac10c1d4bd7ff5cac86ed65c4af5a0685548f9a31a5689c2ce86a9c3c027d6d0de8e9ae87a190e4002a041a72f7feaee710952d8e34193568b17",
         "dest": "nuget-sources",
-        "dest-filename": "sil.lift.8.0.0.nupkg"
+        "dest-filename": "sil.lift.9.0.0-beta0078.nupkg"
     },
     {
         "type": "file",
@@ -225,17 +239,17 @@
     },
     {
         "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/newtonsoft.json/12.0.3/newtonsoft.json.12.0.3.nupkg",
+        "sha512": "6934665f0479c58bbe996c44f2bf16d435a72f4d92795f0bc1d40cb0bc1358ff0e660ac20b24eabce01ee6145bd553506178e59fbaabd0f2a94b23bfa5c735f5",
+        "dest": "nuget-sources",
+        "dest-filename": "newtonsoft.json.12.0.3.nupkg"
+    },
+    {
+        "type": "file",
         "url": "https://api.nuget.org/v3-flatcontainer/geckofx60.64.linux/60.0.51/geckofx60.64.linux.60.0.51.nupkg",
         "sha512": "925e967224481c60bb7d5765148f8d97968950a08fffe4196dcd24dab2ecbc102ca0a3b8762915c42c975d62ea6860fcdcb931f861d3e74edfe1550743855631",
         "dest": "nuget-sources",
         "dest-filename": "geckofx60.64.linux.60.0.51.nupkg"
-    },
-    {
-        "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.chorus.mercurial/3.0.1-beta5/sil.chorus.mercurial.3.0.1-beta5.nupkg",
-        "sha512": "14706cf50323d98df1c03fed2d5bc6a986384b9ebe5d57b0e0340c159410488757d244ad5d2984615b6555eb72e16265199872a9a63b0976a56cb9cf9fc5d16c",
-        "dest": "nuget-sources",
-        "dest-filename": "sil.chorus.mercurial.3.0.1-beta5.nupkg"
     },
     {
         "type": "file",
@@ -246,6 +260,13 @@
     },
     {
         "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.chorus.mercurial/3.0.2/sil.chorus.mercurial.3.0.2.nupkg",
+        "sha512": "e37322fb3e5ac4c74081be110cf541be7f430f849fdc50e441cecf5635a9b093f061ece027458908aa40c4526696d71c717814336a73321ab30aec439a17196d",
+        "dest": "nuget-sources",
+        "dest-filename": "sil.chorus.mercurial.3.0.2.nupkg"
+    },
+    {
+        "type": "file",
         "url": "https://api.nuget.org/v3-flatcontainer/netsparkle.net40/1.2.0/netsparkle.net40.1.2.0.nupkg",
         "sha512": "c6db8b7a6100fc599a4e4a4defe2fda8d092322aad4633f6d2a9ae236b57a4a315abc5e2e014ee9b432c17645bbd14501168411c23a63e298a5af8a793bfc4f1",
         "dest": "nuget-sources",
@@ -253,10 +274,10 @@
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.chorus.app/4.0.0/sil.chorus.app.4.0.0.nupkg",
-        "sha512": "775599e8d2f075a954ebc4ec9d8da388cc2bad9e46156703dfa234a8cd5ce99d644d9fa4e4cef278dfdd1f7020cde787c852cdf99d5b551cf5fc9e3a915a0f04",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.chorus.app/5.0.0-beta0013/sil.chorus.app.5.0.0-beta0013.nupkg",
+        "sha512": "a62e8187f4bf32d45c84342ff99147d1726200f7e5815195ea731830340c2f0be88e503c4685633dbb64d17c984a0b8719ade5470dc85a9555ff112bb005bf07",
         "dest": "nuget-sources",
-        "dest-filename": "sil.chorus.app.4.0.0.nupkg"
+        "dest-filename": "sil.chorus.app.5.0.0-beta0013.nupkg"
     },
     {
         "type": "file",
@@ -302,10 +323,24 @@
     },
     {
         "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.core/9.0.0-beta0072/sil.core.9.0.0-beta0072.nupkg",
+        "sha512": "1a4d45b5308509be072476cf3465894f97fdc0842b019d42c016b955701228820599d311e41ad772da4295e08ae7c458b00e10b40e67ed9831ca7c9920e9d8ca",
+        "dest": "nuget-sources",
+        "dest-filename": "sil.core.9.0.0-beta0072.nupkg"
+    },
+    {
+        "type": "file",
         "url": "https://api.nuget.org/v3-flatcontainer/sil.core/8.0.0/sil.core.8.0.0.nupkg",
         "sha512": "b20388f8c46ff21ef98b4b59a58b3f21e2c559d658d650870b7489f455e2f3ff841ca17a63cb943fd77c57c6daf9e8f4e5124447bbf6dac5bd181acbe2a95476",
         "dest": "nuget-sources",
         "dest-filename": "sil.core.8.0.0.nupkg"
+    },
+    {
+        "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.core/9.0.0-beta0078/sil.core.9.0.0-beta0078.nupkg",
+        "sha512": "18215e685ee4b61b8cf615b305ec6fa77392f90aa05f339f12bb834f4f75ffedaea82ef0ca546256e19b83a76ff5b8bdf6a7471c0f1975577542094e7f2a3981",
+        "dest": "nuget-sources",
+        "dest-filename": "sil.core.9.0.0-beta0078.nupkg"
     },
     {
         "type": "file",
@@ -316,6 +351,13 @@
     },
     {
         "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.lcmodel.utils.tests/10.2.0-beta0002/sil.lcmodel.utils.tests.10.2.0-beta0002.nupkg",
+        "sha512": "2c917509fc5a813c5ec1f9fe7663f3f6543bba9aba2280dc42b77ab85a44cef18a493d2da86f13d41ffaec6adeda5b054165783a95255e5955bbd0f007852cd9",
+        "dest": "nuget-sources",
+        "dest-filename": "sil.lcmodel.utils.tests.10.2.0-beta0002.nupkg"
+    },
+    {
+        "type": "file",
         "url": "https://api.nuget.org/v3-flatcontainer/relaxng/3.2.3/relaxng.3.2.3.nupkg",
         "sha512": "660c03b7617f3b46d36a031b4daff8eaa5c1428e75fa1ad4f9bd3b225e523e91f3db06821729c600d16825c72fd1593af46e73862702651505fb0784e91101b7",
         "dest": "nuget-sources",
@@ -323,10 +365,10 @@
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.windows.forms/8.0.0/sil.windows.forms.8.0.0.nupkg",
-        "sha512": "7abb976de3274a19311cc25677823b1424d4b160cc5b818a04b3af199c0bc22c9009ccd6997e19de9306f70390e1074314fde8595fbedf81be0bbcf418b42395",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.windows.forms/9.0.0-beta0078/sil.windows.forms.9.0.0-beta0078.nupkg",
+        "sha512": "e2e78f8c06f9238029c44a0b6d8129d5c29fd281682b123bd7418c6929224893d0e9e779e235b1a4527b89f4a09b1699031fadfafccd7fe216d7a18f48d0dce5",
         "dest": "nuget-sources",
-        "dest-filename": "sil.windows.forms.8.0.0.nupkg"
+        "dest-filename": "sil.windows.forms.9.0.0-beta0078.nupkg"
     },
     {
         "type": "file",
