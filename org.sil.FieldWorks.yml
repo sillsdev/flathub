@@ -754,6 +754,7 @@ modules:
             # branch: hack-nuget-build
             # commit: f1117e3ad45502dd527c465f9862923e700e5a29
             branch: develop
+            commit: 682dc947f3488db37efc246c387c8b85dae30623
           # TODO Not rely on tarball for localizations
           - type: archive
             url: https://packages.sil.org/ubuntu/pool/main/f/flexbridge/flexbridge_3.0.1+166.orig.tar.xz
