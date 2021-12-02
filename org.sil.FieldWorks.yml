@@ -710,10 +710,13 @@ modules:
           - mono --version
           - cd nuget-specific && for package in *.nupkg; do mkdir -p "../packages/$(basename "${package}" .nupkg)"; unzip "${package}" -d "../packages/$(basename "${package}" .nupkg)" ;done
           - ls -al packages
-          # Mark that we already fetched l10ns another way.
-          - touch fetch_l10ns
+          #- msbuild l10n/l10n.proj -t:restore
+          #- find -name BuildTasks.dll
+          #- find .
+          - make process_l10ns
+
           # - make release_build && make install
-  
+
           # TODO not skip l10n
           #- perl -pi -e 's/CopyExtraFilesToOutput;//' build/FLExBridge.proj
           # TODO The version information could still be extracted with something like dotnet running GitVersion.CommandLine; see https://github.com/sillsdev/flexbridge/issues/318 .
@@ -727,7 +730,7 @@ modules:
           #- perl -ni -e 'print unless /Chorus_Help.chm/' Makefile
           # TODO don't try to install localizations until available
           #- perl -ni -e 'print unless /localizations/' Makefile
-          - make install
+          - make install-core
           # TODO unzip mercurial once have it. something like:
           # - |
           #   set -xueo pipefail
@@ -737,13 +740,13 @@ modules:
           #   # Remove any existing fixutf8 extensions with potentially problematic paths
           #   perl -ni -e 'print unless /^fixutf8/' Mercurial/mercurial.ini
           #   echo "fixutf8=/app/lib/flexbridge/MercurialExtensions/fixutf8/fixutf8.py" >> Mercurial/mercurial.ini
-  
+
         sources:
           - type: git
             url: https://github.com/sillsdev/flexbridge.git
             #branch: develop
             # temporarily a PR commit until merged
-            commit: 25afb7fb33cfd68405e3a134ffa1156878fdd544
+            commit: a652bbf299a885b3fb858ab823a2ae88a1149b65
             # branch: develop
             # branch: feature/nuget
             # TODO temporarily using task/gv until merged into feature/nuget.
@@ -779,7 +782,6 @@ modules:
           # `msbuild build/FLExBridge.proj -t:RestoreBuildTasks` and observing
           # how it resolves dependencies.
           - flexbridge-sources-nuget-specific.yml
-
           # Use local nuget packages
           - type: shell
             commands:
@@ -795,21 +797,18 @@ modules:
                 </configuration>'
           # Regenerate: Set flexbridge git dir to newer code. Then run (in
           # flathub dir):
-          #   ~/code/flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py flexbridge-sources-nuget.json $(find $HOME/fwrepo/flexbridge -name \*.csproj)
+          #   ~/code/flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py flexbridge-sources-nuget.json $(find $HOME/fwrepo/flexbridge -name \*.csproj -o -name \*.proj)
           - flexbridge-sources-nuget.json
-
           # Dependencies specified from FLExBridge.dep
           # Determine what is needed by running in the flexbridge repo:
           #   msbuild -t:DownloadDependencies build/FLExBridge.proj && cat build/FLExBridge.files
           - flexbridge-sources-deps.yml
-
           - type: file
             dest: build/
             path: patches/flexbridge/gitversion.json
           - type: shell
             commands:
               - tee gitversion.properties <<< 'BuildVersion=3.4.0-beta.9.0'
-
       - name: xchm
         # Help file viewer
         cleanup:
