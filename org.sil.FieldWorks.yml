@@ -223,10 +223,9 @@ modules:
           # TODO Unless we use boost in the production code and need it at runtime. ?
           - '*'
         sources:
-        - type: archive
-          url: https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.bz2
-          sha512: b7937d50c4512cf13cadd0ca829de36cf2cbc6fb788f45b1d4565ad0753e2b206c545125a5862016c2f16016f2e4a6b687928963b466fff17c3e0a4437142c20
-
+          - type: archive
+            url: https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.bz2
+            sha512: b7937d50c4512cf13cadd0ca829de36cf2cbc6fb788f45b1d4565ad0753e2b206c545125a5862016c2f16016f2e4a6b687928963b466fff17c3e0a4437142c20
       # Remove the libenchant-dev module if the enchant in org.gnome.Sdk is sufficient. Test it in FW first w/o this.
       # - name: libenchant-dev
       #   buildsystem: simple
