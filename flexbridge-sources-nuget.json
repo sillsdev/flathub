@@ -113,6 +113,13 @@
     },
     {
         "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.buildtasks/2.3.0-beta.14/sil.buildtasks.2.3.0-beta.14.nupkg",
+        "sha512": "dd9ad4f6d0472cd5745a16017a99d013a26e031a3a5c57fe866c65899685bd30f3abdc873a14a943d784aaa461afe65eb550b19391b59ecea8ae018e2521e409",
+        "dest": "nuget-sources",
+        "dest-filename": "sil.buildtasks.2.3.0-beta.14.nupkg"
+    },
+    {
+        "type": "file",
         "url": "https://api.nuget.org/v3-flatcontainer/vulcan.uczniowie.helpprovider/1.0.16/vulcan.uczniowie.helpprovider.1.0.16.nupkg",
         "sha512": "dea70b22340dcbc7eb4f074631f4b975d7141007d0b14724a8d7dfa56af1f15c47448109c1a7dda840da60dcb48396e9272aa6c2a038c064349c93b0e0382598",
         "dest": "nuget-sources",
@@ -190,10 +197,24 @@
     },
     {
         "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.chorus.l10ns/3.0.1/sil.chorus.l10ns.3.0.1.nupkg",
+        "sha512": "5e565e540ca8cb535ad0897bab58de6bacd72bbe420ea1fa0b48e537e3288a370b64a366fad7c08daec7355a3d6692a29c62d57d32b7dc1b0c3df83764e825c6",
+        "dest": "nuget-sources",
+        "dest-filename": "sil.chorus.l10ns.3.0.1.nupkg"
+    },
+    {
+        "type": "file",
         "url": "https://api.nuget.org/v3-flatcontainer/system.buffers/4.5.1/system.buffers.4.5.1.nupkg",
         "sha512": "80da6158e55b9bcf7e0b5e6379b9cf45a632914f037b53c5bf5609576e3cd7821f7861956b73d74470d2d0c2e56dd235a5ef4ca6ffe7e192b820dc2d023aaff2",
         "dest": "nuget-sources",
         "dest-filename": "system.buffers.4.5.1.nupkg"
+    },
+    {
+        "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/l10nsharp.extractxliff/4.1.0-beta0027/l10nsharp.extractxliff.4.1.0-beta0027.nupkg",
+        "sha512": "e5185b1dbea2bfcd05561dad98f98293da3cc16b9f12b0ccb151ac4a7296430de0f0072229b5105d53b970a1210a2e8774ee200120685f4fdc12f5370535c644",
+        "dest": "nuget-sources",
+        "dest-filename": "l10nsharp.extractxliff.4.1.0-beta0027.nupkg"
     },
     {
         "type": "file",
@@ -208,6 +229,13 @@
         "sha512": "765d87d36a7b7415dee5b6cbd3a08ead9762915fbfacfad8a205a78d4a187cec6677da2407f7f7c2d1b55fe9f8c0257925c9b0bc193d402972c323979678baab",
         "dest": "nuget-sources",
         "dest-filename": "system.runtime.compilerservices.unsafe.4.5.3.nupkg"
+    },
+    {
+        "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/l10nsharp/4.1.0-beta0027/l10nsharp.4.1.0-beta0027.nupkg",
+        "sha512": "8af393e0bc92ab48f1e3ef977082cd8066aacd2be04b6b994e4a676a37751e5941a7c9971c66f777c0361893117c1d44b30d7ac8d8b71d361e8fdec1628fca64",
+        "dest": "nuget-sources",
+        "dest-filename": "l10nsharp.4.1.0-beta0027.nupkg"
     },
     {
         "type": "file",
@@ -281,10 +309,24 @@
     },
     {
         "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/msbuild.extension.pack/1.9.1/msbuild.extension.pack.1.9.1.nupkg",
+        "sha512": "8aefc63af4b9980fcffe2c56ad3e84d25dc96e00bb8d3af51d8b30796a8f883d2ec80fb02cda1987c3fced27533a2ec192eab4d24b8f05925768bf11a61b1a83",
+        "dest": "nuget-sources",
+        "dest-filename": "msbuild.extension.pack.1.9.1.nupkg"
+    },
+    {
+        "type": "file",
         "url": "https://api.nuget.org/v3-flatcontainer/gitversion.msbuild/5.6.10/gitversion.msbuild.5.6.10.nupkg",
         "sha512": "9148ad80c714bf7d0fd660f607e9089f6941062c6393e6f753d95f105b5ef05a732781d0d1c8a2556680d9a0dadae363b06980c2d0f4089e0a591b29418c5b99",
         "dest": "nuget-sources",
         "dest-filename": "gitversion.msbuild.5.6.10.nupkg"
+    },
+    {
+        "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.libpalaso.l10ns/6.0.0/sil.libpalaso.l10ns.6.0.0.nupkg",
+        "sha512": "48f8a1f6341e3fe1d58c6fa91d4c4945ed122b65c0ee544d390c834dd2c7f440ef4695d5e82de2a70e0da9a371abbbc0cdb894b0518b74d275a98fa6097429a1",
+        "dest": "nuget-sources",
+        "dest-filename": "sil.libpalaso.l10ns.6.0.0.nupkg"
     },
     {
         "type": "file",
