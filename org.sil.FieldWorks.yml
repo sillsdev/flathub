@@ -95,7 +95,7 @@ modules:
     build-commands:
       # TODO because i'm changing from /var/lib/fieldworks to a new location for shared writing systems, i will probably want to _migrate_ thaht content in if cthe target directiry doesnt exist yet. oh that's done. but it would be good to test. also what happens if an Ubuntu fw user has /var/lib/fieldworks set in their registry?
       # MANUAL rm ~/fwrepo/fw/Output ~/fwrepo/fw/Obj_x86_64 ~/fwrepo/fw/Output_x86_64  ~/fwrepo/fw/Localizations/Output ~/fwrepo/fw/Localizations/l10ns   -rf ; [[ -f ~/fwrepo/fw/Downloads/Crowdin.zip ]] || wget https://github.com/sillsdev/FwLocalizations/releases/download/v9.0.17-14-g37c0f8f/crowdin.zip -O ~/fwrepo/fw/Downloads/Crowdin.zip ; export FW_PACKAGE_DEBUG=true ; Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug MSBUILD_ARGS='-verbosity:detailed' build-package-for-flatpak |& tee /tmp/log-fw-$(date -Is|tr : -).txt
-      - env; ls -al . fw fw/Downloads liblcm libcom local-* ; pwd
+      - ls -al . fw fw/Downloads liblcm libcom local-* ; pwd
       - md5sum fw/Downloads/*
       - find -name SIL.WritingSystems.dll|xargs md5sum
       - echo "Assemblies used in build:"
@@ -231,7 +231,7 @@ modules:
       # - name: libenchant-dev
       #   buildsystem: simple
       #   build-commands:
-      #     - env; ls -al; pwd
+      #     - ls -al; pwd
       #     - for package in *.deb; do mkdir "${package}-dir" && (cd "${package}-dir" && ar x ../"${package}") && tar -v -C / -x -f "${package}-dir"/data.tar.xz ; done
       #   sources:
       #     - type: file
@@ -707,8 +707,8 @@ modules:
         build-commands:
         #   - echo SKIPPING FLEXBRIDGE
         # SKIP_UNTIL_WORKING-build-commands:
-          - env; ls -al; find; pwd
           - env|grep DATA_HOME
+          - ls -al; find; pwd
           - find ${XDG_DATA_HOME}/BuildDependency
           - which mono
           - mono --version
