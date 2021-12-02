@@ -92,10 +92,10 @@
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.lcmodel.utils/10.2.0-beta0002/sil.lcmodel.utils.10.2.0-beta0002.nupkg",
-        "sha512": "3a9271de881c770081b83eeb457742fae1456e71f140d0c9c711de44d1c994b4ba2aee08f06993863ff62668a5deecd8ebd4be457131a1c0e9bf19d378841e53",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.lcmodel.utils/10.2.0-beta0006/sil.lcmodel.utils.10.2.0-beta0006.nupkg",
+        "sha512": "187f7e88a04477af73e080826f56f8af3157b80cdd13865d5e401f84db0ef8f0bb8a49ff8033e708b033d9ef7d72d2f7b034979ed8addc91011530a328f24509",
         "dest": "nuget-sources",
-        "dest-filename": "sil.lcmodel.utils.10.2.0-beta0002.nupkg"
+        "dest-filename": "sil.lcmodel.utils.10.2.0-beta0006.nupkg"
     },
     {
         "type": "file",
@@ -323,13 +323,6 @@
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.core/9.0.0-beta0072/sil.core.9.0.0-beta0072.nupkg",
-        "sha512": "1a4d45b5308509be072476cf3465894f97fdc0842b019d42c016b955701228820599d311e41ad772da4295e08ae7c458b00e10b40e67ed9831ca7c9920e9d8ca",
-        "dest": "nuget-sources",
-        "dest-filename": "sil.core.9.0.0-beta0072.nupkg"
-    },
-    {
-        "type": "file",
         "url": "https://api.nuget.org/v3-flatcontainer/sil.core/8.0.0/sil.core.8.0.0.nupkg",
         "sha512": "b20388f8c46ff21ef98b4b59a58b3f21e2c559d658d650870b7489f455e2f3ff841ca17a63cb943fd77c57c6daf9e8f4e5124447bbf6dac5bd181acbe2a95476",
         "dest": "nuget-sources",
@@ -344,6 +337,13 @@
     },
     {
         "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.core/9.0.0-beta0085/sil.core.9.0.0-beta0085.nupkg",
+        "sha512": "df1dcd3c831fe0257b8d2d724aa4fab65f2f38528dd68a6fa1aa1c472b49580cd5881e317cd65baec32d52f41b7c25421a81c5e5dc47c81253d3095e683a6331",
+        "dest": "nuget-sources",
+        "dest-filename": "sil.core.9.0.0-beta0085.nupkg"
+    },
+    {
+        "type": "file",
         "url": "https://api.nuget.org/v3-flatcontainer/system.security.principal.windows/4.7.0/system.security.principal.windows.4.7.0.nupkg",
         "sha512": "f30a16d34c8792db60b2240363a8b200cab28bc2c7441405cf19abf71dbf5fb0bf3bd1cbec4d9b5eb4cf73ec482e4505d08d80afdef00b2b4b3bb56d6d4cae96",
         "dest": "nuget-sources",
@@ -351,10 +351,10 @@
     },
     {
         "type": "file",
-        "url": "https://api.nuget.org/v3-flatcontainer/sil.lcmodel.utils.tests/10.2.0-beta0002/sil.lcmodel.utils.tests.10.2.0-beta0002.nupkg",
-        "sha512": "2c917509fc5a813c5ec1f9fe7663f3f6543bba9aba2280dc42b77ab85a44cef18a493d2da86f13d41ffaec6adeda5b054165783a95255e5955bbd0f007852cd9",
+        "url": "https://api.nuget.org/v3-flatcontainer/sil.lcmodel.utils.tests/10.2.0-beta0006/sil.lcmodel.utils.tests.10.2.0-beta0006.nupkg",
+        "sha512": "5362a3dad191e68ed4113e0c08ba492a7e5e9200d8a038c82216cc01a403f8b6a0da6449b4591979f30609ddeb08516c679d2a300aca75efa66c72c5cf6483c5",
         "dest": "nuget-sources",
-        "dest-filename": "sil.lcmodel.utils.tests.10.2.0-beta0002.nupkg"
+        "dest-filename": "sil.lcmodel.utils.tests.10.2.0-beta0006.nupkg"
     },
     {
         "type": "file",
