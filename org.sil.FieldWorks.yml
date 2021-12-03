@@ -713,6 +713,9 @@ modules:
           #- msbuild l10n/l10n.proj -t:restore
           #- find -name BuildTasks.dll
           #- find .
+          # Use the same version of geckofx used by FieldWorks (in FieldWorks.git Build/nuget-linux/packages.config ).
+          - perl -pi -e 's#.*Geckofx60.32.*##' src/FLExBridge/FLExBridge.csproj
+          - perl -pi -e 's#.*Geckofx60.64.*#<PackageReference Include="Geckofx45.64.Linux" Version="45.0.36" />#' src/FLExBridge/FLExBridge.csproj
           - make process_l10ns
 
           # - make release_build && make install
@@ -798,6 +801,7 @@ modules:
           # Regenerate: Set flexbridge git dir to newer code. Then run (in
           # flathub dir):
           #   ~/code/flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py flexbridge-sources-nuget.json $(find $HOME/fwrepo/flexbridge -name \*.csproj -o -name \*.proj)
+          # Also, it needs geckofx45 not 60.
           - flexbridge-sources-nuget.json
           # Dependencies specified from FLExBridge.dep
           # Determine what is needed by running in the flexbridge repo:

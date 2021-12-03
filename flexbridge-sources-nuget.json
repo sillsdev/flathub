@@ -281,6 +281,13 @@
     },
     {
         "type": "file",
+        "url": "https://api.nuget.org/v3-flatcontainer/geckofx45.64.linux/45.0.36/geckofx45.64.linux.45.0.36.nupkg",
+        "sha512": "3996fe0dbb79884a005e98f863cc1b6ced560420f51650b677e892d0f71a86f282497e177ec32a5cb543a9b4eb4f004d6b2c3d0e6872d4db14be4ac220a3ad1c",
+        "dest": "nuget-sources",
+        "dest-filename": "geckofx45.64.linux.45.0.36.nupkg"
+    },
+    {
+        "type": "file",
         "url": "https://api.nuget.org/v3-flatcontainer/sil.chorus.mercurial/3.0.1/sil.chorus.mercurial.3.0.1.nupkg",
         "sha512": "b197f25c87e45c5e0dbf95285d9c817af0d6882cfef4e1d34b59ff3b096534e0525abc46b556977613cc376f958e1663804c546e8bb3aeb2665909372ec982b8",
         "dest": "nuget-sources",
