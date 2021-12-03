@@ -71,6 +71,12 @@ finish-args:
   # Encoding converters older shared location that some users might rely on for an easier transition and
   # continuing to use the same encoding converters.
   - --filesystem=/var/lib/fieldworks:ro
+  # FieldWorks uses FlexBridge to synchronize data over the network or by USB
+  # Flash Drives. FlexBridge uses NDesk D-Bus
+  # (https://github.com/sillsdev/dbus-sharp) to query for avaliable USB Flash
+  # Drives. This crashes without access to the system D-Bus, such as when
+  # clicking "Get project from a colleague" from the welcome dialog.
+  - --socket=system-bus
 
 
 
