@@ -275,8 +275,7 @@ modules:
             url: https://salsa.debian.org/debian/dbus-glib.git
             tag: debian/0.110-5
             commit: 722fc1041fc8d975774b17a6cff0ec260e666172
-
-      - name: libxklavier-dev
+      - name: libxklavier
         buildsystem: autotools
         cleanup:
           - '/include'
@@ -476,7 +475,6 @@ modules:
                         for PATCH_FILE in $(cat debian/patches/series); do
                           patch -p1 -i debian/patches/${PATCH_FILE}
                         done
-
       - name: wget
         buildsystem: autotools
         cleanup:
@@ -486,7 +484,7 @@ modules:
           - type: archive
             url: https://ftp.gnu.org/gnu/wget/wget-1.20.3.tar.gz
             sha512: e8b82b40e270296228094a78d47f81580bdbdea9e6b93fd61b37dccb39430aeb9bda5397dc53a31c952a61629383c7e2a8c8abf414c8a4dd369af6ecf2717e6c
-      - name: mono5-sil-from-git-source
+      - name: mono5-sil
         post-install:
           - cert-sync /etc/ssl/certs/ca-certificates.crt
         cleanup:
@@ -524,8 +522,7 @@ modules:
               - type: archive
                 url: https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tar.xz
                 sha256: b62c0e7937551d0cc02b8fd5cb0f544f9405bafc9a54d3808ed4594812edef43
-
-      - name: gtk-sharp-from-source
+      - name: gtk-sharp
         config-opts:
           - --disable-gtk-doc
           - --disable-man
@@ -540,7 +537,6 @@ modules:
           - type: script
             commands:
               - NOCONFIGURE=1 ./bootstrap-2.12
-
       - name: mono5-sil-msbuild
         # It was challenging to build msbuild from source. And every other project appears to fetch binaries rather than build msbuild.
         buildsystem: simple
@@ -557,9 +553,7 @@ modules:
           - type: file
             url: http://linux.lsdev.sil.org/ubuntu/pool/main/m/mono5-sil-msbuild/mono5-sil-msbuild_15.8+xamarinxplat.2018.07.31.22.43-0xamarin5+ubuntu1804b1_all.deb
             sha256: 758274d8bc438f325fc5fc808c0482ab50eb2bdaf02f61747888e190760753de
-
-
-      - name: libgdiplus5-sil-from-source
+      - name: libgdiplus
         build-options:
           prefix: /app
           env:
@@ -593,7 +587,6 @@ modules:
               - type: git
                 url: https://salsa.debian.org/deiv-guest/giflib.git
                 commit: de2120737dbbeb00728054232a21c6b03c1ae687
-
       - name: icu-fw
         # FW ICU should install to paths like /app/lib/fieldworks/lib/libicuuc.so .
         # The icu-fw package debian/rules file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build expects
@@ -610,7 +603,6 @@ modules:
             url: https://github.com/sillsdev/icu.git
             branch: FieldWorks
             commit: f648b14cd744202c24648c5f76847621721e1ae9
-
       - name: fieldworks-enc-converters
         #(TODO apply/move/something this comment.) Note that trying to get fw FwCoreDlgs.csproj to find ECInterfaces.dll was a pain and wasn't solved by environment variables or msbuild properties or a .user file. I needed to change the hintpath from /usr/lib/fieldworks to /whatever, for it to be found. i could have also probably pre-copied it into Output/Release.
         buildsystem: autotools
