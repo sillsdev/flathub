@@ -698,57 +698,27 @@ modules:
       - name: flexbridge
         buildsystem: simple
         build-options:
-          # # TODO trying prefix here to hopefully land fb in the right place.
-          #prefix: /app
           env:
             PREFIX: /app
-            # TODO Probably remove perl5lib?
-            PERL5LIB: /app/perl-modules/lib/perl5
             MONO_PREFIX: /app
             MONO_SILPKGDIR: /app
             CONFIGURATION: Release
             XDG_DATA_HOME: xdg-data-home
         build-commands:
-          - ls -al; find; pwd
-          - find ${XDG_DATA_HOME}/BuildDependency
-          - which mono
-          - mono --version
           - cd nuget-specific && for package in *.nupkg; do mkdir -p "../packages/$(basename "${package}" .nupkg)"; unzip "${package}" -d "../packages/$(basename "${package}" .nupkg)" ;done
-          - ls -al packages
-          #- msbuild l10n/l10n.proj -t:restore
-          #- find -name BuildTasks.dll
-          #- find .
           # Use the same version of geckofx used by FieldWorks (in FieldWorks.git Build/nuget-linux/packages.config ).
           - perl -pi -e 's#.*Geckofx60.32.*##' src/FLExBridge/FLExBridge.csproj
           - perl -pi -e 's#.*Geckofx60.64.*#<PackageReference Include="Geckofx45.64.Linux" Version="45.0.36" />#' src/FLExBridge/FLExBridge.csproj
+
           - make process_l10ns
 
-          # - make release_build && make install
-
-          # TODO not skip l10n
-          #- perl -pi -e 's/CopyExtraFilesToOutput;//' build/FLExBridge.proj
           # TODO The version information could still be extracted with something like dotnet running GitVersion.CommandLine; see https://github.com/sillsdev/flexbridge/issues/318 .
           - msbuild build/FLExBridge.proj -p:Configuration=${CONFIGURATION} -p:DisableGitVersionTask=true -p:GitVersion_SemVer=1.2.3 -p:Version=1.2.3 -p:WriteVersionInfoToBuildLog=false
-          #|| ls -tora /tmp ;cat /tmp/lsb_release-log.txt; exit 1
-          # TODO don't try to install  Mercurial-x86_64.zip until it's available.
-          #   Look for Mercurial in the nuget package SIL.Chorus.Mercurial.
-          #- perl -ni -e 'print unless /Mercurial-/' Makefile
-          # TODO don't try to install Chorus_Help.chm until it's available.
-          #   Probably need to do it how the Chorus git repo downloads it in the DownloadDependencies target in Chorus.proj.
-          #- perl -ni -e 'print unless /Chorus_Help.chm/' Makefile
-          # TODO don't try to install localizations until available
-          #- perl -ni -e 'print unless /localizations/' Makefile
-          - make install-core
-          # TODO unzip mercurial once have it. something like:
-          # - |
-          #   set -xueo pipefail
-          #   cd /app/lib/flexbridge
-          #   unzip Mercurial-x86_64.zip
-          #   chmod +x Mercurial/hg
-          #   # Remove any existing fixutf8 extensions with potentially problematic paths
-          #   perl -ni -e 'print unless /^fixutf8/' Mercurial/mercurial.ini
-          #   echo "fixutf8=/app/lib/flexbridge/MercurialExtensions/fixutf8/fixutf8.py" >> Mercurial/mercurial.ini
+          # Fix path on fixutf8 extension
+          - perl -ni -e 'print unless /^fixutf8/' Mercurial/mercurial.ini
+          - tee --append Mercurial/mercurial.ini <<< "fixutf8=/app/lib/flexbridge/MercurialExtensions/fixutf8/fixutf8.py"
 
+          - make install-core
         sources:
           - type: git
             url: https://github.com/sillsdev/flexbridge.git
