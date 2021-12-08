@@ -137,12 +137,20 @@ modules:
     sources:
       - type: git
         dest: fw
-        url: https://github.com/sillsdev/FieldWorks.git
-        # branch: support/9.0
-        # tag: FieldWorks9.0.16
-        # For now build the latest on feature/flatpak.
-        branch: feature/flatpak
-        # TODO specific tag,commit
+
+        # Build from main repo
+        #url: https://github.com/sillsdev/FieldWorks.git
+        #branch: support/9.0
+        #tag: TODO
+        #commit: TODO
+
+        # Build from commit still in review
+        url: https://gerrit.lsdev.sil.org/FieldWorks
+        commit: 70ed3461753d966d20227d7c9afb8427c6a1ea8f
+
+        # Build from local repo
+        #url: ../fw
+        #branch: feature/flatpak
       - type: git
         # liblcm is cloned for use during localization. But the actual liblcm assemblies used are fetched separately.
         dest: liblcm
