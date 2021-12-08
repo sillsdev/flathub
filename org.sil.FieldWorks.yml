@@ -233,8 +233,7 @@ modules:
           # It installs to /usr/local unless I specify a prefix.
           - ./b2 install variant=release --prefix=/app
         cleanup:
-          # Remove module at the end of packaging to not ship it.
-          # TODO Unless we use boost in the production code and need it at runtime. ?
+          # Don't ship.
           - '*'
         sources:
           - type: archive
