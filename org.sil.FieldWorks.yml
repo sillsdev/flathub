@@ -58,8 +58,8 @@ finish-args:
   - --filesystem=xdg-config/fieldworks:create
   - --filesystem=~/.mono/registry/CurrentUser/software/sil:create
   # Default location to write a project backup in the backup dialog.
-  - --filesystem=xdg-documents/fieldworks/backups:create
-  - --filesystem=xdg-documents/fieldworks:create
+  #- --filesystem=xdg-documents/fieldworks/backups:create
+  #- --filesystem=xdg-documents/fieldworks:create
   # Users can create a launcher to a specific project by clicking File - Project Management - Create Shortcut on
   # Desktop.
   - --filesystem=xdg-desktop:rw
