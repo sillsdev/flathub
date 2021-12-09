@@ -94,7 +94,10 @@ modules:
         INSTALLATION_PREFIX: '/app'
         RUNMODE: 'PACKAGING'
         FW_PACKAGE_DEBUG: 'false'
+        # BUILD_CONFIG settings include Debug and Release.
         BUILD_CONFIG: 'Release'
+        # BUILD_TYPE settings include d and r.
+        BUILD_TYPE: r
     build-commands:
       # MANUAL rm ~/fwrepo/fw/Output ~/fwrepo/fw/Obj_x86_64 ~/fwrepo/fw/Output_x86_64  ~/fwrepo/fw/Localizations/Output ~/fwrepo/fw/Localizations/l10ns   -rf ; [[ -f ~/fwrepo/fw/Downloads/Crowdin.zip ]] || wget https://github.com/sillsdev/FwLocalizations/releases/download/v9.0.17-14-g37c0f8f/crowdin.zip -O ~/fwrepo/fw/Downloads/Crowdin.zip ; export FW_PACKAGE_DEBUG=true ; Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug MSBUILD_ARGS='-verbosity:detailed' build-package-for-flatpak |& tee /tmp/log-fw-$(date -Is|tr : -).txt
       - echo "Assemblies used in build:"
@@ -108,10 +111,9 @@ modules:
       # normal, but can be useful when developing.)
       - cd ${FW_ROOT_PATH}/Build/Src/FwBuildTasks && ${FW_ROOT_PATH}/Build/run-in-environ msbuild
 
-      - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=${BUILD_CONFIG} disableDownloads=true build-package-for-flatpak
+      - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=${BUILD_TYPE} BUILD_CONFIG=${BUILD_CONFIG} disableDownloads=true build-package-for-flatpak
       - cd ${FW_ROOT_PATH} && perl -pi -e '/<runtime>/ and s/^/  <dllmap dll="libdl.so" target="libdl.so.2" \/>\n/' $(find -name SIL.LCModel.Core.dll.config)
-
-      - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=${BUILD_CONFIG} disableDownloads=true install-for-flatpak
+      - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=${BUILD_TYPE} BUILD_CONFIG=${BUILD_CONFIG} disableDownloads=true install-for-flatpak
 
       - mv -v /app/share/applications/fieldworks-applications.desktop /app/share/applications/org.sil.FieldWorks.desktop
       - perl -pi -e 's/fieldworks-flex.png/org.sil.FieldWorks.png/g' /app/share/applications/org.sil.FieldWorks.desktop
