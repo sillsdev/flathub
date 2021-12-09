@@ -89,7 +89,8 @@ modules:
         MONO_SILPKGDIR: '/app'
         NUGET_DEST: 'fw/packages'
         FW_ROOT_PATH: '/run/build/fieldworks/fw'
-        MSBUILD_ARGS: '-verbosity:detailed'
+        # MSBUILD_ARGS can include `-verbosity:detailed' or be omitted.
+        #MSBUILD_ARGS: '-verbosity:detailed'
         INSTALLATION_PREFIX: '/app'
         RUNMODE: 'PACKAGING'
         FW_PACKAGE_DEBUG: 'true'
