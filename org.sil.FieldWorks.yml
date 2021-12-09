@@ -717,6 +717,8 @@ modules:
           # Fix path on fixutf8 extension
           - perl -ni -e 'print unless /^fixutf8/' Mercurial/mercurial.ini
           - tee --append Mercurial/mercurial.ini <<< "fixutf8=/app/lib/flexbridge/MercurialExtensions/fixutf8/fixutf8.py"
+          # Help hg find python (in /app).
+          - perl -pi -e 's#/usr/bin/python#/usr/bin/env python#' Mercurial/hg
 
           - make install-core
         sources:
