@@ -726,7 +726,7 @@ modules:
             url: https://github.com/sillsdev/flexbridge.git
             #branch: develop
             # temporarily a PR commit until merged
-            commit: a652bbf299a885b3fb858ab823a2ae88a1149b65
+            commit: 8d715d145e3dbb73bc5adc23133075dcee191f46
             # branch: develop
             # branch: feature/nuget
             # TODO temporarily using task/gv until merged into feature/nuget.
