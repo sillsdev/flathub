@@ -78,8 +78,6 @@ finish-args:
   # clicking "Get project from a colleague" from the welcome dialog.
   - --socket=system-bus
 
-
-
 modules:
   - name: fieldworks
     buildsystem: simple
@@ -93,27 +91,20 @@ modules:
         FW_ROOT_PATH: '/run/build/fieldworks/fw'
         MSBUILD_ARGS: '-verbosity:detailed'
         INSTALLATION_PREFIX: '/app'
-        # The debian packaging sets RUNMODE=PACKAGING. I dont think it's important for what we need but it's worth a try
-        # to help. TODO look at `environ` and evaluate if it's significant.
         RUNMODE: 'PACKAGING'
         FW_PACKAGE_DEBUG: 'true'
         BUILD_CONFIG: 'Release'
     build-commands:
-      # TODO because i'm changing from /var/lib/fieldworks to a new location for shared writing systems, i will probably want to _migrate_ thaht content in if cthe target directiry doesnt exist yet. oh that's done. but it would be good to test. also what happens if an Ubuntu fw user has /var/lib/fieldworks set in their registry?
       # MANUAL rm ~/fwrepo/fw/Output ~/fwrepo/fw/Obj_x86_64 ~/fwrepo/fw/Output_x86_64  ~/fwrepo/fw/Localizations/Output ~/fwrepo/fw/Localizations/l10ns   -rf ; [[ -f ~/fwrepo/fw/Downloads/Crowdin.zip ]] || wget https://github.com/sillsdev/FwLocalizations/releases/download/v9.0.17-14-g37c0f8f/crowdin.zip -O ~/fwrepo/fw/Downloads/Crowdin.zip ; export FW_PACKAGE_DEBUG=true ; Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug MSBUILD_ARGS='-verbosity:detailed' build-package-for-flatpak |& tee /tmp/log-fw-$(date -Is|tr : -).txt
-      - ls -al . fw fw/Downloads liblcm libcom local-* ; pwd
-      - md5sum fw/Downloads/*
-      - find -name SIL.WritingSystems.dll|xargs md5sum
       - echo "Assemblies used in build:"
       - find -type f \( -name \*.dll -o -name \*.so\* \) -print0 | xargs -0 sha256sum
       - echo "End list of assemblies."
 
-
       # MANUAL: export BUILD_ROOT=$FW_ROOT_PATH BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true ; export LcmLocalArtifactsDir="$BUILD_ROOT/../liblcm/artifacts/$BUILD_CONFIG" ; mkdir -p $LcmLocalArtifactsDir ; cd $FW_ROOT_PATH/Build ;  ${FW_ROOT_PATH}/Build/run-in-environ  msbuild /t:refreshTargets
       # MANUAL: export PLATFORM=x86_64 && cd $FW_ROOT_PATH/Build && ${FW_ROOT_PATH}/Build/run-in-environ  msbuild  '/t:remakefw' /property:config=$BUILD_CONFIG /property:Platform=$PLATFORM /property:packaging=yes "/p:OutputPath=${FW_ROOT_PATH}/Output/Debug"
-      # LDFLAGS="$(/app/lib/fieldworks/bin/icu-config --ldflags) ${LDFLAGS}" CPPFLAGS="$(/app/lib/fieldworks/bin/icu-config --cppflags) ${CPPFLAGS}"
 
-      # Apply any outstanding FwBuildTasks code changes. (This is not normal, but useful when developing.)
+      # Apply any outstanding FwBuildTasks code changes. (This would not be
+      # normal, but can be useful when developing.)
       - cd ${FW_ROOT_PATH}/Build/Src/FwBuildTasks && ${FW_ROOT_PATH}/Build/run-in-environ msbuild
 
       - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=${BUILD_CONFIG} disableDownloads=true build-package-for-flatpak
@@ -125,15 +116,10 @@ modules:
       - perl -pi -e 's/fieldworks-flex.png/org.sil.FieldWorks.png/g' /app/share/applications/org.sil.FieldWorks.desktop
       - mv -v /app/share/icons/hicolor/128x128/apps/fieldworks-flex.png /app/share/icons/hicolor/128x128/apps/org.sil.FieldWorks.png
       - mv -v /app/share/icons/hicolor/64x64/apps/fieldworks-flex.png /app/share/icons/hicolor/64x64/apps/org.sil.FieldWorks.png
-
     cleanup:
       - '/include'
       - '/lib/*/include'
       - '*.a'
-      # TODO just dont install these in the first place?
-      - '/lib/fieldworks/*Tests.dll'
-      # TODO don't install .git! :)
-      - '/share/fieldworks/Helps/.git'
     sources:
       - type: git
         dest: fw
@@ -195,7 +181,6 @@ modules:
         commands:
           - |
             mv fw/Downloads/crowdin.zip fw/Downloads/Crowdin.zip
-
       # FW nuget dependencies
       # Preview updates via FieldWorks.git: git log -p -- Build/nuget-{common,linux}/packages.config
       # To regenerate input sources:
@@ -212,7 +197,6 @@ modules:
               unzip "${package}" -d "${NUGET_DEST}/$(basename "${package}" .nupkg)";
             done
             ls -al "${NUGET_DEST}"
-
       # FW dependencies
       # Find updates via FieldWorks.git with a command like:
       #   git log -p FieldWorks9.0.13..FieldWorks9.0.16 -- Build/mkall.targets
@@ -220,7 +204,6 @@ modules:
       # Regenerate input sources:
       #   ./tc-sources tc-inputs.yml fieldworks-sources-tc.yml
       - fieldworks-sources-tc.yml
-
     modules:
       - name: libboost
         buildsystem: simple
@@ -264,7 +247,6 @@ modules:
       #     - type: file
       #       url: http://archive.ubuntu.com/ubuntu/pool/main/h/hunspell/libhunspell-1.7-0_1.7.0-2build2_amd64.deb
       #       sha256: a8851da5816b31753f0682bb78d98c5d29ec7ef22cf14546876eb0e8f668f295
-
       - name: dbus-glib
         # For Gecko.
         cleanup:
@@ -496,8 +478,7 @@ modules:
         sources:
           - type: git
             url: https://github.com/sillsdev/mono.git
-            # tag: sil/5.16.0.179
-            # TODO mono5-sil needs a new tag + release.
+            # Past sil/5.16.0.179
             commit: 3bb5d7c98c3bc6f977bc7960f3a541bc0acba715
           - type: archive
             # Update URL by doing: cd .../path/to/mono-repo && .../determine-monolite-url
@@ -538,7 +519,8 @@ modules:
             commands:
               - NOCONFIGURE=1 ./bootstrap-2.12
       - name: mono5-sil-msbuild
-        # It was challenging to build msbuild from source. And every other project appears to fetch binaries rather than build msbuild.
+        # It was challenging to build msbuild from source. Every other project
+        # appears to fetch binaries rather than build msbuild. Following that.
         buildsystem: simple
         build-commands:
           # Extract opt/mono5-sil/* into /app/
@@ -576,8 +558,9 @@ modules:
               - patch -i debian/patches/revert-GifQuantizeBuffer-remove-from-lib.patch
               # Skip building documentation
               - "echo >doc/Makefile all:"
-              # Install into /app so it gets picked up by libgdiplus before another giflib that doesnt have
-              # GifQuantizeBuffer. Maybe I should adjust libgdiplus's libdir instead.
+              # Install into /app so it gets picked up by libgdiplus before
+              # another giflib that doesnt have GifQuantizeBuffer. Maybe I
+              # should adjust libgdiplus's libdir instead.
               - make PREFIX=/app
               - make PREFIX=/app install
             cleanup:
@@ -588,9 +571,10 @@ modules:
                 url: https://salsa.debian.org/deiv-guest/giflib.git
                 commit: de2120737dbbeb00728054232a21c6b03c1ae687
       - name: icu-fw
-        # FW ICU should install to paths like /app/lib/fieldworks/lib/libicuuc.so .
-        # The icu-fw package debian/rules file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build expects
-        # icu-config to be here, such as in _init.mak.lnx and environ.
+        # FW ICU should install to paths like
+        # /app/lib/fieldworks/lib/libicuuc.so . The icu-fw package debian/rules
+        # file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build
+        # expects icu-config to be here, such as in _init.mak.lnx and environ.
         config-opts:
           - --prefix=/app/lib/fieldworks
           - --bindir=/app/lib/fieldworks/icu-bin
@@ -613,9 +597,10 @@ modules:
             PYTHON_VERSION: "2.7"
             EC_DOWNLOAD_NUGETEXE: "false"
             EC_DOWNLOAD_DEPS: "true"
-            # I don't remember if I caused this, but even tho `pkg-config --libs python-2.7` gives
-            # '-L/app/lib -lpython2.7', we ended up using '-L/app/lib/python2.7 -lpython2.7' and failing to find
-            # -lpython2.7. Override.
+            # I don't remember if I caused this, but even tho
+            # `pkg-config --libs python-2.7` gives '-L/app/lib -lpython2.7',
+            # we ended up using '-L/app/lib/python2.7 -lpython2.7' and failing
+            # to find -lpython2.7. Override.
             PYTHON_LDFLAGS: "-L/app/lib -lpython2.7"
             REGROOT: "/app/share/encoding-converters"
         config-opts:
@@ -625,34 +610,40 @@ modules:
             url: https://github.com/silnrsi/encoding-converters-core.git
             # Using branch master
             commit: aee4ff72bd3894eba96de7978990061e36b4784c
-            # url: https://github.com/marksvc/encoding-converters-core.git
-            # branch: feature/flatpak
-            # For local use:
-            # url: ../encoding-converters-core
-            # commit: HEAD
           - type: shell
-            # FieldWorks Encoding Converters expects a shared directory where multiple users and applications on the
-            # same computer can write shared data to. This has been /var/lib/fieldworks when using FieldWorks as
-            # installed by an apt/deb package. At compile and installation time, the Makefile.in REGROOT and REGKEY
-            # values are used, destination directories are created with permissions, and some initial files are
-            # copied in. ECDriver.cpp picks up REGROOT. Util.cs expects the folder specified (/var/lib/fieldworks) to
-            # match REGROOT. It looks like some things (like src/AppDataMover/Program.cs) will have trouble if the
-            # directory doesn't exist or can't be written to. Tho it looks like AppDataMover is only used in Windows,
-            # not Linux.
-            # After some discussions, EC files will be shipped in a read-only location, and an initially (mostly?) empty
-            # location in XDG_DATA_HOME will be used for read+write files and the mapping registry.
-            # I don't want to let EC install files to /var/lib/fieldworks, from which we copy those initial files into a
-            # new+writable location because I want to expose any existing system /var/lib/fieldworks so we can migrate
-            # or use old files from there (created by a user using FW from a .deb package).
-            # Let Makefile.in copy the initial files to PREFIX/share/encoding-converters. Have C# read+write files in
+            # FieldWorks Encoding Converters expects a shared directory where
+            # multiple users and applications on the same computer can write
+            # shared data to. This has been /var/lib/fieldworks when using
+            # FieldWorks as installed by an apt/deb package. At compile and
+            # installation time, the Makefile.in REGROOT and REGKEY values are
+            # used, destination directories are created with permissions, and
+            # some initial files are copied in. ECDriver.cpp picks up REGROOT.
+            # Util.cs expects the folder specified (/var/lib/fieldworks) to
+            # match REGROOT. It looks like some things
+            # (like src/AppDataMover/Program.cs) will have trouble if the
+            # directory doesn't exist or can't be written to. Tho it looks like
+            # AppDataMover is only used in Windows, not Linux.
+            # After some discussions, EC files will be shipped in a read-only
+            # location, and an initially (mostly?) empty location in
+            # XDG_DATA_HOME will be used for read+write files and the mapping
+            # registry.
+            # I don't want to let EC install files to /var/lib/fieldworks, from
+            # which we copy those initial files into a new+writable location
+            # because I want to expose any existing system /var/lib/fieldworks
+            # so we can migrate or use old files from there (created by a user
+            # using FW from a .deb package).
+            # Let Makefile.in copy the initial files to
+            # PREFIX/share/encoding-converters. Have C# read+write files in
             # XDG_DATA_HOME.
             commands:
               - |
                 set -xueo pipefail
                 # Adjust prefix
-                # Note: EncCnvtrs/AutoConfigDialog.cs wants to find a help file in a path specified by the RootDir
-                # registry key, but it doesn't look like that help file is even being installed for Linux. So it may
-                # not matter what the RootDir registry key value is set to, but set it to /app/lib/fieldworks in case.
+                # Note: EncCnvtrs/AutoConfigDialog.cs wants to find a help file
+                # in a path specified by the RootDir registry key, but it
+                # doesn't look like that help file is even being installed for
+                # Linux. So it may not matter what the RootDir registry key
+                # value is set to, but set it to /app/lib/fieldworks in case.
                 perl -pi -e 's|/usr|/app|g' values.xml
                 perl -pi -e 's|/usr/lib/fieldworks/icu-bin/icu-config|/app/lib/fieldworks/icu-bin/icu-config|' Makefile.in
           - type: file
@@ -712,7 +703,9 @@ modules:
 
           - make process_l10ns
 
-          # TODO The version information could still be extracted with something like dotnet running GitVersion.CommandLine; see https://github.com/sillsdev/flexbridge/issues/318 .
+          # As an improvement, the version information could still be extracted
+          # with something like dotnet running GitVersion.CommandLine; see
+          # https://github.com/sillsdev/flexbridge/issues/318 .
           - msbuild build/FLExBridge.proj -p:Configuration=${CONFIGURATION} -p:DisableGitVersionTask=true -p:GitVersion_SemVer=1.2.3 -p:Version=1.2.3 -p:WriteVersionInfoToBuildLog=false
           # Fix path on fixutf8 extension
           - perl -ni -e 'print unless /^fixutf8/' Mercurial/mercurial.ini
