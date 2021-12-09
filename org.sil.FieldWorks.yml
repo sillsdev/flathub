@@ -100,9 +100,9 @@ modules:
         BUILD_TYPE: r
     build-commands:
       # MANUAL rm ~/fwrepo/fw/Output ~/fwrepo/fw/Obj_x86_64 ~/fwrepo/fw/Output_x86_64  ~/fwrepo/fw/Localizations/Output ~/fwrepo/fw/Localizations/l10ns   -rf ; [[ -f ~/fwrepo/fw/Downloads/Crowdin.zip ]] || wget https://github.com/sillsdev/FwLocalizations/releases/download/v9.0.17-14-g37c0f8f/crowdin.zip -O ~/fwrepo/fw/Downloads/Crowdin.zip ; export FW_PACKAGE_DEBUG=true ; Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug MSBUILD_ARGS='-verbosity:detailed' build-package-for-flatpak |& tee /tmp/log-fw-$(date -Is|tr : -).txt
-      - echo "Assemblies used in build:"
-      - find -type f \( -name \*.dll -o -name \*.so\* \) -print0 | xargs -0 sha256sum
-      - echo "End list of assemblies."
+      - echo "Assemblies and libraries used in build:"
+      - find -type f \( -name \*.dll -o -name \*.exe -o -name \*.so\* \) -print0 | xargs -0 sha256sum
+      - echo "End list of assemblies and libraries."
 
       # MANUAL: export BUILD_ROOT=$FW_ROOT_PATH BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true ; export LcmLocalArtifactsDir="$BUILD_ROOT/../liblcm/artifacts/$BUILD_CONFIG" ; mkdir -p $LcmLocalArtifactsDir ; cd $FW_ROOT_PATH/Build ;  ${FW_ROOT_PATH}/Build/run-in-environ  msbuild /t:refreshTargets
       # MANUAL: export PLATFORM=x86_64 && cd $FW_ROOT_PATH/Build && ${FW_ROOT_PATH}/Build/run-in-environ  msbuild  '/t:remakefw' /property:config=$BUILD_CONFIG /property:Platform=$PLATFORM /property:packaging=yes "/p:OutputPath=${FW_ROOT_PATH}/Output/Debug"
