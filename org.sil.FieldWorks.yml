@@ -499,6 +499,8 @@ modules:
             post-install:
               - chmod 644 ${FLATPAK_DEST}/lib/libpython2.7.so.1.0
             cleanup:
+              - '/test'
+              - '/unittest'
               - '/include'
               - '*.a'
               - '*.o'
@@ -534,6 +536,8 @@ modules:
             done
           # Same-character-count path to /app since some binary files are going to be modified too.
           - perl -pi -e 's#/opt/mono5-sil#/./././././app#g' /app/bin/*
+        cleanup:
+          - '*'
         sources:
           - type: file
             url: http://linux.lsdev.sil.org/ubuntu/pool/main/m/mono5-sil-msbuild/mono5-sil-msbuild_15.8+xamarinxplat.2018.07.31.22.43-0xamarin5+ubuntu1804b1_all.deb
