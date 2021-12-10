@@ -727,19 +727,19 @@ modules:
           - make install-core
         sources:
           - type: git
-            url: https://github.com/sillsdev/flexbridge.git
+            # Build from main repo
+            #url: https://github.com/sillsdev/flexbridge.git
             #branch: develop
-            # temporarily a PR commit until merged
+            #tag: TODO
+            #commit: TODO
+
+            # Build from commit still in review
+            url: https://github.com/sillsdev/flexbridge.git
             commit: 8d715d145e3dbb73bc5adc23133075dcee191f46
-            # branch: develop
-            # branch: feature/nuget
-            # TODO temporarily using task/gv until merged into feature/nuget.
-            #branch: task/gv
-            #branch: task/flatpak
-            # branch: hack-nuget-build
-            # commit: f1117e3ad45502dd527c465f9862923e700e5a29
-            # url: ../flexbridge
-            # branch: develop
+
+            # Build from local repo
+            #url: ../flexbridge
+            #branch: feature/flatpak
           - type: file
             # To update: Choose a new l10n artifact at
             # https://github.com/sillsdev/flexbridge/releases , possibly after
