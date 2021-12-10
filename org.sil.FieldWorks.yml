@@ -600,7 +600,6 @@ modules:
             branch: FieldWorks
             commit: f648b14cd744202c24648c5f76847621721e1ae9
       - name: fieldworks-enc-converters
-        #(TODO apply/move/something this comment.) Note that trying to get fw FwCoreDlgs.csproj to find ECInterfaces.dll was a pain and wasn't solved by environment variables or msbuild properties or a .user file. I needed to change the hintpath from /usr/lib/fieldworks to /whatever, for it to be found. i could have also probably pre-copied it into Output/Release.
         buildsystem: autotools
         build-options:
           prepend-ld-library-path: /app/lib/fieldworks/lib
@@ -782,7 +781,7 @@ modules:
                 </configuration>'
           # Regenerate: Set flexbridge git dir to newer code. Then run (in
           # flathub dir):
-          #   ~/code/flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py flexbridge-sources-nuget.json $(find $HOME/fwrepo/flexbridge -name \*.csproj -o -name \*.proj)
+          #   .../flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py flexbridge-sources-nuget.json $(find $HOME/fwrepo/flexbridge -name \*.csproj -o -name \*.proj)
           # Also, it needs geckofx45 not 60.
           - flexbridge-sources-nuget.json
           # Dependencies specified from FLExBridge.dep
