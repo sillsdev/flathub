@@ -48,7 +48,7 @@ finish-args:
   # copying the actual data into their project), so implemeting Portals would only be helpful for some of the data
   # access needs.
   - --filesystem=home:ro
-  # Data, including projects.
+  # Data, including projects. Default location to store project backups.
   - --filesystem=xdg-data/fieldworks:create
   # Writing system definition files. Shared with other applications.
   - --filesystem=xdg-data/SIL/WritingSystemRepository:create
@@ -528,8 +528,8 @@ modules:
             commands:
               - NOCONFIGURE=1 ./bootstrap-2.12
       - name: mono5-sil-msbuild
-        # It was challenging to build msbuild from source. Every other project
-        # appears to fetch binaries rather than build msbuild. Following that.
+        # It was challenging to build msbuild from source. Other projects
+        # appear to fetch binaries rather than build msbuild. Following that.
         buildsystem: simple
         build-commands:
           # Extract opt/mono5-sil/* into /app/
