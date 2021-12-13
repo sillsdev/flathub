@@ -554,8 +554,8 @@ modules:
           # Same-character-count path to /app since some binary files are going to be modified too.
           - perl -pi -e 's#/opt/mono5-sil#/./././././app#g' /app/bin/*
         cleanup:
-		      # Can't clean '*' because that seems to result in /app/bin/mono being
-		      # absent.
+          # Can't clean '*' because that seems to result in /app/bin/mono being
+          # absent.
           - '/lib/mono/msbuild'
           - '/lib/mono/xbuild'
         sources:
