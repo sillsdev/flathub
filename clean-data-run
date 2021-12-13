@@ -9,4 +9,4 @@ mv -f ${HOME}/.mono/registry ~/moved/mono-registry-$(date -Is) ||:
 mv -f ${HOME}/.config/fieldworks ~/moved/config-fieldworks-$(date -Is) ||:
 mv -f ${HOME}/.local/share/SIL ~/moved/local-share-SIL-$(date -Is) ||:
 mv -f ${HOME}/.local/share/fieldworks ~/moved/local-share-fieldworks-$(date -Is) ||:
-./run
+./run "$@"
