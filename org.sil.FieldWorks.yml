@@ -252,6 +252,7 @@ modules:
       - name: dbus-glib
         # For Gecko.
         cleanup:
+          - '/share/gtk-doc'
           - '/include'
           - '*.a'
         sources:
@@ -420,6 +421,7 @@ modules:
               - --disable-demos
               - --disable-tests
             cleanup:
+              - '/share/gtk-doc'
               - '/include'
               - '/lib/*/include'
               - '*.a'
@@ -446,6 +448,7 @@ modules:
               - name: gdk-pixbuf
                 buildsystem: meson
                 cleanup:
+                  - '/libexec/installed-tests'
                   - '/include'
                   - '*.a'
                 sources:
@@ -470,11 +473,24 @@ modules:
             sha512: e8b82b40e270296228094a78d47f81580bdbdea9e6b93fd61b37dccb39430aeb9bda5397dc53a31c952a61629383c7e2a8c8abf414c8a4dd369af6ecf2717e6c
       - name: mono5-sil
         cleanup:
+          - '/bin/monodis'
+          - '/bin/pedump'
+          - '/bin/monograph'
+          - '/bin/gtk-demo'
           - '/include'
           - '*.a'
           - '/lib/monodoc'
           - '/lib/mono/msbuild'
-          - '/lib/mono/[23]*'
+          - '/lib/mono/xbuild'
+          - '/lib/mono/xbuild-frameworks'
+          - '/lib/mono/2*'
+          - '/lib/mono/3*'
+          - '/lib/mono/gac/monodoc'
+          - '/lib/mono/gac/Microsoft.Build'
+          - '/lib/mono/gac/Microsoft.Build.Engine'
+          - '/lib/mono/4.5/Microsoft.CodeAnalysis.*'
+          - '/lib/mono/4.5/dim'
+          - '/lib/mono/4.5/mcs*'
         sources:
           - type: git
             url: https://github.com/sillsdev/mono.git
@@ -496,8 +512,11 @@ modules:
             post-install:
               - chmod 644 ${FLATPAK_DEST}/lib/libpython2.7.so.1.0
             cleanup:
-              - '/test'
-              - '/unittest'
+              - '/lib/python2.7/test'
+              - '/lib/python2.7/unittest'
+              - '/lib/python2.7/distutils/tests'
+              - '/lib/python2.7/idlelib/idle_test'
+              - '/lib/python2.7/lib2to3'
               - '/include'
               - '*.a'
               - '*.o'
@@ -510,6 +529,7 @@ modules:
           - --disable-gtk-doc
           - --disable-man
         cleanup:
+          - '/lib/monodoc'
           - '/include'
           - '*.a'
         sources:
@@ -534,7 +554,10 @@ modules:
           # Same-character-count path to /app since some binary files are going to be modified too.
           - perl -pi -e 's#/opt/mono5-sil#/./././././app#g' /app/bin/*
         cleanup:
-          - '*'
+		      # Can't clean '*' because that seems to result in /app/bin/mono being
+		      # absent.
+          - '/lib/mono/msbuild'
+          - '/lib/mono/xbuild'
         sources:
           - type: file
             url: http://linux.lsdev.sil.org/ubuntu/pool/main/m/mono5-sil-msbuild/mono5-sil-msbuild_15.8+xamarinxplat.2018.07.31.22.43-0xamarin5+ubuntu1804b1_all.deb
