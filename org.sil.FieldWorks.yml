@@ -469,13 +469,6 @@ modules:
             url: https://ftp.gnu.org/gnu/wget/wget-1.20.3.tar.gz
             sha512: e8b82b40e270296228094a78d47f81580bdbdea9e6b93fd61b37dccb39430aeb9bda5397dc53a31c952a61629383c7e2a8c8abf414c8a4dd369af6ecf2717e6c
       - name: mono5-sil
-        post-install:
-          # cert-sync fails when run this way saying
-          # > Warning: Could not import []...]
-          # > System.UnauthorizedAccessException: Access to the path "/usr/share/.mono" is denied.
-          #
-          # But so far that hasn't been a problem.
-          #- cert-sync /etc/ssl/certs/ca-certificates.crt
         cleanup:
           - '/include'
           - '*.a'
