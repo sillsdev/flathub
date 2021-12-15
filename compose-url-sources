@@ -1,8 +1,8 @@
 #!/usr/bin/env xonsh
 
-# MIT License
+# Generate sources from URLs
 #
-# Copyright (c) 2021 SIL International
+# Copyright (c) 2021 SIL International. MIT License.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,16 +21,35 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+#
+# Output a flatpak yaml sources list from an input yaml file specifying files at
+# base URLs. Files will be downloaded (and cached) to compute their checksums.
+# Usage: url-sources input.yml output.yml
+# Dependencies: sudo apt install xonsh wget
+#
+# Input should be formatted like the following example:
+#   - name: My Assembly
+#     baseurl: https://www.example.com/my-assembly/
+#     dest: dependencies
+#     files:
+#       - My.Assembly.dll
+#       - My.Assembly.dll.config
+#   - name: Something else
+#     baseurl: https://www.example.com/something-else/
+#     dest: other-dependencies
+#     files:
+#       - deps.tar.xz
+#       - icon.png
 
 import sys
 import yaml
 $RAISE_SUBPROC_ERROR = True
 
-#trace on
-#$XONSH_TRACE_SUBPROC = True
+# trace on
+# $XONSH_TRACE_SUBPROC = True
 
 tcInputsPath = sys.argv[1]
-outputSourcesPath=sys.argv[2]
+outputSourcesPath = sys.argv[2]
 
 nugetSources = []
 if 'XDG_CACHE_HOME' in ${...}:
@@ -47,7 +66,7 @@ def processInputSourcesList(path):
         print('Processing group {} ...'.format(source['name']))
         for file in source['files']:
             prepareSourceRecord(source['name'], source['baseurl'], source['dest'], file)
-    
+
 def prepareSourceRecord(name, baseurl, dest, file):
     url = '{}{}'.format(baseurl, file)
     cacheOutputPath = '{}/{}'.format(cachePath, file)

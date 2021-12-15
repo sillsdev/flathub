@@ -1,4 +1,4 @@
-# FieldWorks flatpak package build specification
+# FieldWorks Flatpak package build specification
 #
 # Copyright (c) 2021 SIL International. MIT License.
 #
@@ -22,61 +22,52 @@
 
 app-id: org.sil.FieldWorks
 
-# org.gnome.Platform provides some pieces that we would need to manually specify if we use org.freedesktop.Platform.
+# org.gnome.Platform provides some pieces that we would need to manually specify
+# if we use org.freedesktop.Platform.
 runtime: org.gnome.Platform
-# Target a runtime that is most similar to Ubuntu 20.04, for which we can easily build and test on without flatpak.
+# Target a runtime that is most similar to Ubuntu 20.04, for which we can easily
+# build and test on without flatpak.
 runtime-version: "3.36"
 sdk: org.gnome.Sdk
-# Not sure if this may help get mono debugging working again:
-# sdk-extensions:
-#   - org.freedesktop.Sdk.Extension.mono5
-#   - org.freedesktop.Sdk.Extension.dotnet
 
-command: fieldworks-flex
 finish-args:
   - --socket=x11
   - --share=ipc
   # FieldWorks can synchronize project data over the network with other users.
   - --share=network
-  # FieldWorks allows playing sound files and playing and recording in audio writing systems.
+  # FieldWorks allows playing sound files and playing and recording in audio
+  # writing systems.
   - --socket=pulseaudio
-  # Users need to be able to persistently link to files that they want to show in their dictionary, such as pictures.
-  # Users also need to be able to import language and dictionary data, as well as choose and restore from project backup
-  # files. Flatpak provides Portals to receive permission for a specific file when the user specfies it
-  # ( https://docs.flatpak.org/en/latest/sandbox-permissions.html#portals ), though this may only serve some of these
-  # needs (like choosing a backup file to restore) and not others (like persistently linking to media files, without
-  # copying the actual data into their project), so implemeting Portals would only be helpful for some of the data
-  # access needs.
+  # FieldWorks can import language and dictionary data, restore from backup
+  # files, and link to pictures or other media to appear in a dictionary.
   - --filesystem=home:ro
   # Data, including projects. Default location to store project backups.
   - --filesystem=xdg-data/fieldworks:create
   # Writing system definition files. Shared with other applications.
   - --filesystem=xdg-data/SIL/WritingSystemRepository:create
-  # Encoding Converter location for configuration and potentially user-made converters. Shared with other applications.
+  # Encoding Converter location for configuration and potentially user-made
+  # converters. Shared with other applications.
   - --filesystem=xdg-data/SIL/encoding-converters:create
   # Configuration and settings of FieldWorks and included components.
   - --filesystem=xdg-config/fieldworks:create
   - --filesystem=~/.mono/registry/CurrentUser/software/sil:create
-  # Default location to write a project backup in the backup dialog.
-  #- --filesystem=xdg-documents/fieldworks/backups:create
-  #- --filesystem=xdg-documents/fieldworks:create
-  # Users can create a launcher to a specific project by clicking File - Project Management - Create Shortcut on
-  # Desktop.
+  # Users can create a launcher to a specific project by clicking
+  # File - Project Management - Create Shortcut on Desktop.
   - --filesystem=xdg-desktop:rw
   # Directory for libpalaso GlobalMutex.
   - --filesystem=xdg-run/sil-lock:create
-  # Directory for libpalaso GlobalMutex (being phased out).
-  #- --filesystem=/var/lock:rw
-  # Shared writing system and encoding converters data location used by FieldWorks .deb packages, that may have
-  # Encoding converters older shared location that some users might rely on for an easier transition and
-  # continuing to use the same encoding converters.
+  # Shared writing system and encoding converters data location used by
+  # FieldWorks .deb packages, that may have configuration that some users might
+  # rely on.
   - --filesystem=/var/lib/fieldworks:ro
   # FieldWorks uses FlexBridge to synchronize data over the network or by USB
   # Flash Drives. FlexBridge uses NDesk D-Bus
   # (https://github.com/sillsdev/dbus-sharp) to query for avaliable USB Flash
-  # Drives. This crashes without access to the system D-Bus, such as when
-  # clicking "Get project from a colleague" from the welcome dialog.
+  # Drives. Without access to the system D-Bus, Flexbridge crashes, such as when
+  # clicking "Get project from a colleague" on the welcome dialog.
   - --socket=system-bus
+
+command: fieldworks-flex
 
 modules:
   - name: fieldworks
@@ -89,36 +80,41 @@ modules:
         MONO_SILPKGDIR: '/app'
         NUGET_DEST: 'fw/packages'
         FW_ROOT_PATH: '/run/build/fieldworks/fw'
-        # MSBUILD_ARGS can include `-verbosity:detailed' or be omitted.
-        #MSBUILD_ARGS: '-verbosity:detailed'
         INSTALLATION_PREFIX: '/app'
         RUNMODE: 'PACKAGING'
-        FW_PACKAGE_DEBUG: 'false'
         # BUILD_CONFIG settings include Debug and Release.
         BUILD_CONFIG: 'Release'
         # BUILD_TYPE settings include d and r.
         BUILD_TYPE: r
     build-commands:
-      # MANUAL rm ~/fwrepo/fw/Output ~/fwrepo/fw/Obj_x86_64 ~/fwrepo/fw/Output_x86_64  ~/fwrepo/fw/Localizations/Output ~/fwrepo/fw/Localizations/l10ns   -rf ; [[ -f ~/fwrepo/fw/Downloads/Crowdin.zip ]] || wget https://github.com/sillsdev/FwLocalizations/releases/download/v9.0.17-14-g37c0f8f/crowdin.zip -O ~/fwrepo/fw/Downloads/Crowdin.zip ; export FW_PACKAGE_DEBUG=true ; Build/run-in-environ make BUILD_TYPE=d BUILD_CONFIG=Debug MSBUILD_ARGS='-verbosity:detailed' build-package-for-flatpak |& tee /tmp/log-fw-$(date -Is|tr : -).txt
-      - echo "Assemblies and libraries used in build:"
-      - find -type f \( -name \*.dll -o -name \*.exe -o -name \*.so\* \) -print0 | xargs -0 sha256sum
-      - echo "End list of assemblies and libraries."
+      - |
+        # Run the rest in bash rather than sh.
+        bash <<_
+        set -xueo pipefail
+        # Apply outstanding FwBuildTasks code changes, if any.
+        cd ${FW_ROOT_PATH}/Build/Src/FwBuildTasks
+        ${FW_ROOT_PATH}/Build/run-in-environ msbuild
 
-      # MANUAL: export BUILD_ROOT=$FW_ROOT_PATH BUILD_TYPE=d BUILD_CONFIG=Debug disableDownloads=true ; export LcmLocalArtifactsDir="$BUILD_ROOT/../liblcm/artifacts/$BUILD_CONFIG" ; mkdir -p $LcmLocalArtifactsDir ; cd $FW_ROOT_PATH/Build ;  ${FW_ROOT_PATH}/Build/run-in-environ  msbuild /t:refreshTargets
-      # MANUAL: export PLATFORM=x86_64 && cd $FW_ROOT_PATH/Build && ${FW_ROOT_PATH}/Build/run-in-environ  msbuild  '/t:remakefw' /property:config=$BUILD_CONFIG /property:Platform=$PLATFORM /property:packaging=yes "/p:OutputPath=${FW_ROOT_PATH}/Output/Debug"
+        cd ${FW_ROOT_PATH}
+        Build/run-in-environ make \
+          BUILD_TYPE=${BUILD_TYPE} \
+          BUILD_CONFIG=${BUILD_CONFIG} \
+          disableDownloads=true \
+          build-package-for-flatpak
+        perl -pi -e \
+          '/<runtime>/ and s/^/  <dllmap dll="libdl.so" target="libdl.so.2" \/>\n/' \
+          "$(find "${FW_ROOT_PATH}" -name SIL.LCModel.Core.dll.config)"
+        Build/run-in-environ make \
+          BUILD_TYPE=${BUILD_TYPE} \
+          BUILD_CONFIG=${BUILD_CONFIG} \
+          disableDownloads=true \
+          install-for-flatpak
 
-      # Apply any outstanding FwBuildTasks code changes. (This would not be
-      # normal, but can be useful when developing.)
-      - cd ${FW_ROOT_PATH}/Build/Src/FwBuildTasks && ${FW_ROOT_PATH}/Build/run-in-environ msbuild
-
-      - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=${BUILD_TYPE} BUILD_CONFIG=${BUILD_CONFIG} disableDownloads=true build-package-for-flatpak
-      - cd ${FW_ROOT_PATH} && perl -pi -e '/<runtime>/ and s/^/  <dllmap dll="libdl.so" target="libdl.so.2" \/>\n/' $(find -name SIL.LCModel.Core.dll.config)
-      - cd ${FW_ROOT_PATH} && ${FW_ROOT_PATH}/Build/run-in-environ make BUILD_TYPE=${BUILD_TYPE} BUILD_CONFIG=${BUILD_CONFIG} disableDownloads=true install-for-flatpak
-
-      - mv -v /app/share/applications/fieldworks-applications.desktop /app/share/applications/org.sil.FieldWorks.desktop
-      - perl -pi -e 's/fieldworks-flex.png/org.sil.FieldWorks.png/g' /app/share/applications/org.sil.FieldWorks.desktop
-      - mv -v /app/share/icons/hicolor/128x128/apps/fieldworks-flex.png /app/share/icons/hicolor/128x128/apps/org.sil.FieldWorks.png
-      - mv -v /app/share/icons/hicolor/64x64/apps/fieldworks-flex.png /app/share/icons/hicolor/64x64/apps/org.sil.FieldWorks.png
+        mv -v /app/share/applications/{fieldworks-applications,org.sil.FieldWorks}.desktop
+        perl -pi -e 's/fieldworks-flex.png/org.sil.FieldWorks.png/g' \
+          /app/share/applications/org.sil.FieldWorks.desktop
+        mv -v /app/share/icons/hicolor/128x128/apps/{fieldworks-flex,org.sil.FieldWorks}.png
+        mv -v /app/share/icons/hicolor/64x64/apps/{fieldworks-flex,org.sil.FieldWorks}.png
     cleanup:
       - '/include'
       - '/lib/*/include'
@@ -126,6 +122,7 @@ modules:
     sources:
       - type: git
         dest: fw
+        #TODO still clean up this section for submission
         # Build from main repo
         #url: https://github.com/sillsdev/FieldWorks.git
         #branch: support/9.0
@@ -137,26 +134,15 @@ modules:
         commit: 84aa927cd96f2e9866969b70c41fd98b9ceccdb8
 
         # Build from local repo
-        #url: ../fw
-        #branch: feature/flatpak
+        # url: ../fw
+        # branch: feature/flatpak
       - type: git
-        # liblcm is cloned for use during localization. But the actual liblcm assemblies used are fetched separately.
+        # liblcm is cloned for use during localization. But the actual liblcm
+        # assemblies used are fetched separately.
         dest: liblcm
         url: https://github.com/sillsdev/liblcm.git
         branch: master
         commit: 6a6ed9bbe8433352769d6909079fe54b77368b99
-        # tag: FieldWorks9.0.16
-        # For local use:
-        # url: ../liblcm
-        # commit: HEAD
-      # - type: dir
-      #   # Locally copying in liblcm artifacts (which are otherwise downloaded as precompiled dependencies).  Build with liblcm$ ./build.sh Release Rebuild
-      #   path: ../liblcm/artifacts/Release
-      #   dest: local-liblcm-Release
-      # - type: dir
-      #   # Locally copying in libpalaso (which is otherwise downloaded as precompiled dependencies). Build with libpalaso$ build/download-dependencies && build/build Compile ReleaseMono
-      #   path: ../../projects/libpalaso/output/ReleaseMono
-      #   dest: local-libpalaso-ReleaseMono
       - type: git
         dest: libcom
         url: https://github.com/sillsdev/libcom.git
@@ -181,31 +167,32 @@ modules:
         dest: fw/Downloads/
       - type: shell
         commands:
-          - |
-            mv fw/Downloads/crowdin.zip fw/Downloads/Crowdin.zip
+          - mv fw/Downloads/crowdin.zip fw/Downloads/Crowdin.zip
       # FW nuget dependencies
-      # Preview updates via FieldWorks.git: git log -p -- Build/nuget-{common,linux}/packages.config
+      # Preview updates via FieldWorks.git:
+      #   git log -p -- Build/nuget-{common,linux}/packages.config
       # To regenerate input sources:
-      #   ./nuget-sources ~/fwrepo/fw/Build/nuget-linux/packages.config packages fieldworks-sources-nuget-linux.yml
-      #   ./nuget-sources ~/fwrepo/fw/Build/nuget-common/packages.config packages fieldworks-sources-nuget-common.yml
+      #   ./compose-nuget-sources ~/fwrepo/fw/Build/nuget-linux/packages.config packages fieldworks-sources-nuget-linux.yml
+      #   ./compose-nuget-sources ~/fwrepo/fw/Build/nuget-common/packages.config packages fieldworks-sources-nuget-common.yml
       - fieldworks-sources-nuget-common.yml
       - fieldworks-sources-nuget-linux.yml
       - type: shell
-        # Extract nuget packages. The 'type: archive', 'archive-type: zip' had some trouble working, so manually extract.
+        # Extract nuget packages. The 'type: archive', 'archive-type: zip' had
+        # some trouble working, so manually extract.
         commands:
           - |
             for package in *.nupkg; do
               mkdir -p "${NUGET_DEST}/$(basename "${package}" .nupkg)" &&
-              unzip "${package}" -d "${NUGET_DEST}/$(basename "${package}" .nupkg)";
+                unzip "${package}" \
+                  -d "${NUGET_DEST}/$(basename "${package}" .nupkg)"
             done
-            ls -al "${NUGET_DEST}"
       # FW dependencies
       # Find updates via FieldWorks.git with a command like:
       #   git log -p FieldWorks9.0.13..FieldWorks9.0.16 -- Build/mkall.targets
-      # Manually apply changes by editing tc-inputs.yml.
+      # Manually apply changes by editing fieldworks-sources-urls-input.yml.
       # Regenerate input sources:
-      #   ./tc-sources tc-inputs.yml fieldworks-sources-tc.yml
-      - fieldworks-sources-tc.yml
+      #   ./compose-url-sources fieldworks-sources-urls-input.yml fieldworks-sources-urls.yml
+      - fieldworks-sources-urls.yml
     modules:
       - name: libboost
         buildsystem: simple
@@ -215,7 +202,7 @@ modules:
           - --prefix=/app
         build-commands:
           - ./bootstrap.sh
-          # It installs to /usr/local unless I specify a prefix.
+          # It installs to /usr/local unless we specify a prefix.
           - ./b2 install variant=release --prefix=/app
         cleanup:
           # Don't ship.
@@ -224,31 +211,6 @@ modules:
           - type: archive
             url: https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.bz2
             sha512: b7937d50c4512cf13cadd0ca829de36cf2cbc6fb788f45b1d4565ad0753e2b206c545125a5862016c2f16016f2e4a6b687928963b466fff17c3e0a4437142c20
-      # Remove the libenchant-dev module if the enchant in org.gnome.Sdk is sufficient. Test it in FW first w/o this.
-      # - name: libenchant-dev
-      #   buildsystem: simple
-      #   build-commands:
-      #     - ls -al; pwd
-      #     - for package in *.deb; do mkdir "${package}-dir" && (cd "${package}-dir" && ar x ../"${package}") && tar -v -C / -x -f "${package}-dir"/data.tar.xz ; done
-      #   sources:
-      #     - type: file
-      #       url: http://archive.ubuntu.com/ubuntu/pool/universe/e/enchant/libenchant-dev_1.6.0-11.3build1_amd64.deb
-      #       sha256: edfca92d3c6fb0f7237057b02175a6de55bccda581fb53bbc536de2bfd857cb0
-      #     - type: file
-      #       url: http://archive.ubuntu.com/ubuntu/pool/universe/e/enchant/libenchant1c2a_1.6.0-11.3build1_amd64.deb
-      #       sha256: 61fcfff6f79c871350b1c2f674bdf6f1cc19e9e808687f7abb005cdfc19264a6
-      #     - type: file
-      #       url: http://archive.ubuntu.com/ubuntu/pool/main/s/scowl/hunspell-en-us_2018.04.16-1_all.deb
-      #       sha256: 804a6097f0034eea0edf7cbf30d75adb881933064ab6d65515159dbc1c89aeb6
-      #     - type: file
-      #       url: http://archive.ubuntu.com/ubuntu/pool/main/d/dictionaries-common/dictionaries-common_1.28.1_all.deb
-      #       sha256: 5828e8d6973125cb19968eb345e2b5e08d207f73dac09c42f1ed9e81ca251431
-      #     - type: file
-      #       url: http://archive.ubuntu.com/ubuntu/pool/main/a/aspell/libaspell15_0.60.8-1build1_amd64.deb
-      #       sha256: e693bec4fad44a18b9855ee26fc5abbe0df5dabba97fcdd4f2675b5b0ccd3997
-      #     - type: file
-      #       url: http://archive.ubuntu.com/ubuntu/pool/main/h/hunspell/libhunspell-1.7-0_1.7.0-2build2_amd64.deb
-      #       sha256: a8851da5816b31753f0682bb78d98c5d29ec7ef22cf14546876eb0e8f668f295
       - name: dbus-glib
         # For Gecko.
         cleanup:
@@ -287,15 +249,10 @@ modules:
           - type: archive
             url: https://download.gnome.org/sources/gtkmm/2.24/gtkmm-2.24.5.tar.xz
             sha256: 0680a53b7bf90b4e4bf444d1d89e6df41c777e0bacc96e9c09fc4dd2f5fe6b72
-          # - type: git
-          #   url: https://gitlab.gnome.org/GNOME/gtkmm.git
-          #   tag: "2.24.5"
-          #   commit: 07fe88b054e91d10ec3bf32a85945cbc57248639
         modules:
           - name: atkmm1.6
             buildsystem: meson
             config-opts:
-              # - --disable-documentation
               - -Dbuild-documentation=false
               - -Dbuild-demos=false
               - -Dbuild-tests=false
@@ -312,7 +269,6 @@ modules:
               - name: glibmm2.4
                 buildsystem: meson
                 config-opts:
-                  # - --disable-documentation
                   - -Dbuild-documentation=false
                   - -Dbuild-demos=false
                   - -Dbuild-tests=false
@@ -327,20 +283,7 @@ modules:
                     tag: "2.64.2"
                     commit: e775940669cb6d93f37ddc2b4cd7da446dfa482c
                 modules:
-                  # - name: mm-common
-                  #   buildsystem: meson
-                  #   cleanup:
-                  #     - '*'
-                  #   sources:
-                  #     - type: archive
-                  #       url: https://download.gnome.org/sources/mm-common/1.0/mm-common-1.0.2.tar.xz
-                  #       sha256: a2a99f3fa943cf662f189163ed39a2cfc19a428d906dd4f92b387d3659d1641d
-                  #     # - type: git
-                  #     #   url: https://gitlab.gnome.org/GNOME/mm-common.git
-                  #     #   tag: "1.0.2"
-                  #     #   commit: 85381b86dcc2490d2b080c178477df9eb65103ca
                   - name: libsigc++-2.0
-                    # buildsystem: cmake
                     config-opts:
                       - --disable-documentation
                     cleanup:
@@ -348,9 +291,6 @@ modules:
                       - '/lib/*/include'
                       - '*.a'
                     sources:
-                      # - type: archive
-                      #   url: https://github.com/libsigcplusplus/libsigcplusplus/releases/download/2.10.2/libsigc++-2.10.2.tar.xz
-                      #   sha256: b1ca0253379596f9c19f070c83d362b12dfd39c0a3ea1dd813e8e21c1a097a98
                       - type: git
                         url: https://github.com/libsigcplusplus/libsigcplusplus.git
                         tag: "2.10.2"
@@ -364,20 +304,6 @@ modules:
                           - type: archive
                             url: https://download.gnome.org/sources/mm-common/1.0/mm-common-1.0.2.tar.xz
                             sha256: a2a99f3fa943cf662f189163ed39a2cfc19a428d906dd4f92b387d3659d1641d
-                          # - type: git
-                          #   url: https://gitlab.gnome.org/GNOME/mm-common.git
-                          #   tag: "1.0.2"
-                          #   commit: 85381b86dcc2490d2b080c178477df9eb65103ca
-                    # modules:
-                    #   - name: mm-common
-                    #     # build dependency for libsigc++
-                    #     cleanup:
-                    #       - '*'
-                    #     sources:
-                    #       - type: git
-                    #         url: https://gitlab.gnome.org/GNOME/mm-common.git
-                    #         tag: "1.0.3"
-                    #         commit: d2006f9cc7df4746356ec6802a1c71d719015f26
           - name: pangomm
             buildsystem: meson
             config-opts:
@@ -395,14 +321,10 @@ modules:
                 commit: 7dfc6c3372faaa4a7c492d08f09881b02095145b
             modules:
               - name: cairomm
-                # buildsystem: meson
                 config-opts:
                   - --disable-documentation
                   - --disable-demos
                   - --disable-tests
-                  # - -Dbuild-documentation=false
-                  # - -Dbuild-demos=false
-                  # - -Dbuild-tests=false
                 cleanup:
                   - '/include'
                   - '/lib/*/include'
@@ -412,9 +334,6 @@ modules:
                     url: https://github.com/freedesktop/cairomm.git
                     branch: cairomm-1-12
                     commit: e9ef515b7b8db5b4f024ddfefe5dfc03f2b8ccea
-                  # - type: archive
-                  #   url: https://www.cairographics.org/releases/cairo-1.12.2.tar.xz
-                  #   sha256: b786bc4a70542bcb09f2d9d13e5e6a0c86408cbf6d1edde5f0de807eecf93f96
           - name: gtk+2.0
             config-opts:
               - --disable-documentation
@@ -429,22 +348,7 @@ modules:
               - type: archive
                 url: http://archive.ubuntu.com/ubuntu/pool/main/g/gtk+2.0/gtk+2.0_2.24.32.orig.tar.xz
                 sha256: b6c8a93ddda5eabe3bfee1eb39636c9a03d2a56c7b62828b359bf197943c582e
-              # - type: archive
-              #   url: https://download.gimp.org/pub/gtk/2.24/gtk+-2.24.5.tar.xz
-              #   sha256: d6b30889efbb9fab9aa598092d08887826a7b2a3069b3bd5155dede28d9866f3
-              # - type: git
-              #   url: https://gitlab.gnome.org/GNOME/gtk.git
-              #   tag: "2.24.32"
-              #   commit: ed7d3e25f8b6debae6ccc8b50d1329155338cab8
             modules:
-              # - name: automake-1.15
-              #   # gtk+2.0 complains about needing an earlier version of automake than the 1.16 in the sdk
-              #   cleanup:
-              #     - '*'
-              #   sources:
-              #     - type: archive
-              #       url: https://ftp.gnu.org/gnu/automake/automake-1.15.1.tar.xz
-              #       sha256: af6ba39142220687c500f79b4aa2f181d9b24e4f8d8ec497cea4ba26c64bedaf
               - name: gdk-pixbuf
                 buildsystem: meson
                 cleanup:
@@ -465,7 +369,7 @@ modules:
       - name: wget
         buildsystem: autotools
         cleanup:
-          # Remove module at the end of packaging to not ship it.
+          # Don't ship.
           - '*'
         sources:
           - type: archive
@@ -503,7 +407,8 @@ modules:
             dest: mcs/class/lib/monolite-linux/1051600011
         modules:
           - name: python-2.7
-            # Build Python 2 without cleaning away parts that we still need, like shared-modules/python2.7 does.
+            # Build Python 2 without cleaning away parts that we still need,
+            # like shared-modules/python2.7 does.
             config-opts:
               - --enable-shared
               - --with-system-expat
@@ -546,12 +451,15 @@ modules:
         buildsystem: simple
         build-commands:
           # Extract opt/mono5-sil/* into /app/
-          - for package in *.deb; do
+          - |
+            for package in *.deb; do
               mkdir "${package}-dir" &&
                 (cd "${package}-dir" && ar x ../"${package}") &&
-                tar -C /app -x -f "${package}-dir"/data.tar.xz --strip-components=3 ./opt/mono5-sil;
+                tar -C /app -x -f "${package}-dir"/data.tar.xz \
+                  --strip-components=3 ./opt/mono5-sil
             done
-          # Same-character-count path to /app since some binary files are going to be modified too.
+          # Use same-character-count path to /app since some binary files are
+          # going to be modified too.
           - perl -pi -e 's#/opt/mono5-sil#/./././././app#g' /app/bin/*
         cleanup:
           # Can't clean '*' because that seems to result in /app/bin/mono being
@@ -581,13 +489,10 @@ modules:
           - name: giflib
             buildsystem: simple
             build-commands:
-              # libgdiplus needs GifQuantizeBuffer
+              # libgdiplus needs giflib to have GifQuantizeBuffer
               - patch -i debian/patches/revert-GifQuantizeBuffer-remove-from-lib.patch
               # Skip building documentation
               - "echo >doc/Makefile all:"
-              # Install into /app so it gets picked up by libgdiplus before
-              # another giflib that doesnt have GifQuantizeBuffer. Maybe I
-              # should adjust libgdiplus's libdir instead.
               - make PREFIX=/app
               - make PREFIX=/app install
             cleanup:
@@ -601,7 +506,7 @@ modules:
         # FW ICU should install to paths like
         # /app/lib/fieldworks/lib/libicuuc.so . The icu-fw package debian/rules
         # file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build
-        # expects icu-config to be here, such as in _init.mak.lnx and environ.
+        # expects icu-config to be there, such as in _init.mak.lnx and environ.
         config-opts:
           - --prefix=/app/lib/fieldworks
           - --bindir=/app/lib/fieldworks/icu-bin
@@ -614,7 +519,7 @@ modules:
             url: https://github.com/sillsdev/icu.git
             branch: FieldWorks
             commit: f648b14cd744202c24648c5f76847621721e1ae9
-      - name: fieldworks-enc-converters
+      - name: encoding-converters
         buildsystem: autotools
         build-options:
           prepend-ld-library-path: /app/lib/fieldworks/lib
@@ -623,10 +528,10 @@ modules:
             PYTHON_VERSION: "2.7"
             EC_DOWNLOAD_NUGETEXE: "false"
             EC_DOWNLOAD_DEPS: "true"
-            # I don't remember if I caused this, but even tho
-            # `pkg-config --libs python-2.7` gives '-L/app/lib -lpython2.7',
-            # we ended up using '-L/app/lib/python2.7 -lpython2.7' and failing
-            # to find -lpython2.7. Override.
+            # Even tho `pkg-config --libs python-2.7` gives
+            # '-L/app/lib -lpython2.7', we end up using
+            # '-L/app/lib/python2.7 -lpython2.7' and failing to find
+            # -lpython2.7. Override.
             PYTHON_LDFLAGS: "-L/app/lib -lpython2.7"
             REGROOT: "/app/share/encoding-converters"
         config-opts:
@@ -637,30 +542,12 @@ modules:
             # Using branch master
             commit: aee4ff72bd3894eba96de7978990061e36b4784c
           - type: shell
-            # FieldWorks Encoding Converters expects a shared directory where
-            # multiple users and applications on the same computer can write
-            # shared data to. This has been /var/lib/fieldworks when using
-            # FieldWorks as installed by an apt/deb package. At compile and
-            # installation time, the Makefile.in REGROOT and REGKEY values are
-            # used, destination directories are created with permissions, and
-            # some initial files are copied in. ECDriver.cpp picks up REGROOT.
-            # Util.cs expects the folder specified (/var/lib/fieldworks) to
-            # match REGROOT. It looks like some things
-            # (like src/AppDataMover/Program.cs) will have trouble if the
-            # directory doesn't exist or can't be written to. Tho it looks like
-            # AppDataMover is only used in Windows, not Linux.
-            # After some discussions, EC files will be shipped in a read-only
-            # location, and an initially (mostly?) empty location in
-            # XDG_DATA_HOME will be used for read+write files and the mapping
-            # registry.
-            # I don't want to let EC install files to /var/lib/fieldworks, from
-            # which we copy those initial files into a new+writable location
-            # because I want to expose any existing system /var/lib/fieldworks
-            # so we can migrate or use old files from there (created by a user
-            # using FW from a .deb package).
-            # Let Makefile.in copy the initial files to
-            # PREFIX/share/encoding-converters. Have C# read+write files in
-            # XDG_DATA_HOME.
+            # Encoding Converters expects a shared directory where multiple
+            # applications and even users can write shared data to. Previously
+            # the FieldWorks .deb package used /var/lib/fieldworks. Install
+            # initial files to PREFIX/share/encoding-converters and
+            # XDG_DATA_HOME will be used for an EC area to share among
+            # applications.
             commands:
               - |
                 set -xueo pipefail
@@ -671,7 +558,9 @@ modules:
                 # Linux. So it may not matter what the RootDir registry key
                 # value is set to, but set it to /app/lib/fieldworks in case.
                 perl -pi -e 's|/usr|/app|g' values.xml
-                perl -pi -e 's|/usr/lib/fieldworks/icu-bin/icu-config|/app/lib/fieldworks/icu-bin/icu-config|' Makefile.in
+                perl -pi -e \
+                  's|/usr/lib/fieldworks/icu-bin/icu-config|/app/lib/fieldworks/icu-bin/icu-config|' \
+                  Makefile.in
           - type: file
             url: https://api.nuget.org/v3-flatcontainer/Geckofx45.64.Linux/45.0.21/Geckofx45.64.Linux.45.0.21.nupkg
             sha512: d34f7175793bdfc4dcfa0b404bf7d6f2a27ba29389623a23c4d6383281fedf7f8014474775f4321af21ad9eab2817e5309934b81b918296fb518c23064272dfe
@@ -721,26 +610,42 @@ modules:
             CONFIGURATION: Release
             XDG_DATA_HOME: xdg-data-home
         build-commands:
-          - cd nuget-specific && for package in *.nupkg; do mkdir -p "../packages/$(basename "${package}" .nupkg)"; unzip "${package}" -d "../packages/$(basename "${package}" .nupkg)" ;done
-          # Use the same version of geckofx used by FieldWorks (in FieldWorks.git Build/nuget-linux/packages.config ).
-          - perl -pi -e 's#.*Geckofx60.32.*##' src/FLExBridge/FLExBridge.csproj
-          - perl -pi -e 's#.*Geckofx60.64.*#<PackageReference Include="Geckofx45.64.Linux" Version="45.0.36" />#' src/FLExBridge/FLExBridge.csproj
+          - |
+            set -xueo pipefail
 
-          - make process_l10ns
+            cd nuget-specific
+            for package in *.nupkg; do
+              mkdir -p "../packages/$(basename "${package}" .nupkg)"
+              unzip "${package}" \
+                -d "../packages/$(basename "${package}" .nupkg)"
+            done
+            # Use the same version of geckofx used by FieldWorks (in
+            # FieldWorks.git Build/nuget-linux/packages.config ).
+            perl -pi -e 's#.*Geckofx60.32.*##' src/FLExBridge/FLExBridge.csproj
+            perl -pi -e \
+              's#.*Geckofx60.64.*#<PackageReference Include="Geckofx45.64.Linux" Version="45.0.36" />#' \
+              src/FLExBridge/FLExBridge.csproj
 
-          # As an improvement, the version information could still be extracted
-          # with something like dotnet running GitVersion.CommandLine; see
-          # https://github.com/sillsdev/flexbridge/issues/318 .
-          - msbuild build/FLExBridge.proj -p:Configuration=${CONFIGURATION} -p:DisableGitVersionTask=true -p:GitVersion_SemVer=1.2.3 -p:Version=1.2.3 -p:WriteVersionInfoToBuildLog=false
-          # Fix path on fixutf8 extension
-          - perl -ni -e 'print unless /^fixutf8/' Mercurial/mercurial.ini
-          - tee --append Mercurial/mercurial.ini <<< "fixutf8=/app/lib/flexbridge/MercurialExtensions/fixutf8/fixutf8.py"
-          # Help hg find python (in /app).
-          - perl -pi -e 's#/usr/bin/python#/usr/bin/env python#' Mercurial/hg
+            make process_l10ns
 
-          - make install-core
+            msbuild \
+              -p:Configuration=${CONFIGURATION} \
+              -p:DisableGitVersionTask=true \
+              -p:GitVersion_SemVer=1.2.3 \
+              -p:Version=1.2.3 \
+              -p:WriteVersionInfoToBuildLog=false \
+              build/FLExBridge.proj
+            # Fix path on fixutf8 extension
+            perl -ni -e 'print unless /^fixutf8/' Mercurial/mercurial.ini
+            tee --append Mercurial/mercurial.ini <<< \
+              "fixutf8=/app/lib/flexbridge/MercurialExtensions/fixutf8/fixutf8.py"
+            # Help hg find python (in /app).
+            perl -pi -e 's#/usr/bin/python#/usr/bin/env python#' Mercurial/hg
+
+            make install-core
         sources:
           - type: git
+            # TODO still clean up this section before submission
             # Build from main repo
             #url: https://github.com/sillsdev/flexbridge.git
             #branch: develop
@@ -766,14 +671,16 @@ modules:
             sha512: 980b62387ce9540eff0d49ef6dd5b4da121a8648646a465bc6445534e9ec0d7605483fad933b26f9b0b3797db4d4b1ec82ed354b3daf13e1dcc0818292815dca
             dest: build/
           # These nuget packages are installed by build/FLExBridge.proj by
-          # directly running nuget.exe. Check on what current packages and
-          # versions are needed with `grep NuGetCommand build/FLExBridge.proj`.
-          # Then manually edit the yml to change or add. Note that attempting to
-          # install SIL.Windows.Forms.GeckoBrowserAdapter results in it trying
-          # to identify dependencies to install, and works differently than the
+          # directly running nuget.exe. To update: Check on what current
+          # packages and versions are needed with
+          # `grep NuGetCommand build/FLExBridge.proj`. Then manually edit the
+          # yml to change or add.
+          # Note that attempting to install
+          # SIL.Windows.Forms.GeckoBrowserAdapter results in it trying to
+          # identify dependencies to install, and works differently than the
           # other nuget installations that use a similar command. A solution is
           # to write the GeckoBrowserAdapter nuget file to dest nuget-sources,
-          # rather than nuget-specific. The dependencys may not need special
+          # rather than nuget-specific. The dependencies may not need special
           # handling, but if they start to, then note that the dependencies
           # don't seem to be mentioned in the .nupkg file itself, nor on the
           # nuget.org web site, but can be determined by running in flexbridge
@@ -793,18 +700,19 @@ modules:
                     <add key="nuget.org" value="true" />
                   </disabledPackageSources>
                 </configuration>'
-          # Regenerate: Set flexbridge git dir to newer code. Then run (in
-          # flathub dir):
+          # Regenerate: Set flexbridge git dir to newer code. Then run (in the
+          # directory with the flatpak manifest):
           #   .../flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py flexbridge-sources-nuget.json $(find $HOME/fwrepo/flexbridge -name \*.csproj -o -name \*.proj)
-          # Also, it needs geckofx45 not 60.
+          # Also, to work with FW 9.0, FW needs geckofx45 not 60.
           - flexbridge-sources-nuget.json
           # Dependencies specified from FLExBridge.dep
           # Determine what is needed by running in the flexbridge repo:
           #   msbuild -t:DownloadDependencies build/FLExBridge.proj && cat build/FLExBridge.files
           - flexbridge-sources-deps.yml
-          - type: file
-            dest: build/
-            path: patches/flexbridge/gitversion.json
+          #TODO trying without gitversion.json
+          # - type: file
+          #   dest: build/
+          #   path: patches/flexbridge/gitversion.json
           - type: shell
             commands:
               - tee gitversion.properties <<< 'BuildVersion=3.4.0-beta.9.0'

@@ -7,9 +7,13 @@
   url: https://build.palaso.org/guestAuth/repository/download/bt216/latest.lastSuccessful/Chorus_Help.chm
 - type: shell
   commands:
-    - mkdir -pv "${XDG_DATA_HOME}/BuildDependency/Cache/D4" "${XDG_DATA_HOME}/BuildDependency/Cache/87"
-    - cp -av lib/common/Chorus_Help.chm "${XDG_DATA_HOME}/BuildDependency/Cache/87/87059423E2D7585746D917324EB17DB677867446"
-    - cp -av build/FLExBridge.files "${XDG_DATA_HOME}/BuildDependency/Cache/D4/D4A405FEA3E2A075DFC4008A88B11C34562CCD01"
-    - find "${XDG_DATA_HOME}"/BuildDependency
-    # Don't depend on the DownloadDependencies target.
-    - perl -pi -e 's/; DownloadDependencies//' build/FLExBridge.proj
+    -|
+      mkdir -vp \
+        "${XDG_DATA_HOME}/BuildDependency/Cache/D4" \
+        "${XDG_DATA_HOME}/BuildDependency/Cache/87"
+      cp -va lib/common/Chorus_Help.chm \
+        "${XDG_DATA_HOME}/BuildDependency/Cache/87/87059423E2D7585746D917324EB17DB677867446"
+      cp -va build/FLExBridge.files \
+        "${XDG_DATA_HOME}/BuildDependency/Cache/D4/D4A405FEA3E2A075DFC4008A88B11C34562CCD01"
+      # Don't depend on the DownloadDependencies target.
+      perl -pi -e 's/; DownloadDependencies//' build/FLExBridge.proj

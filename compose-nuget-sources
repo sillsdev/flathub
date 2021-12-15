@@ -1,8 +1,8 @@
 #!/usr/bin/env xonsh
 
-# MIT License
+# Derive nuget sources
 #
-# Copyright (c) 2021 SIL International
+# Copyright (c) 2021 SIL International. MIT License.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-# Output a flatpak yaml sources list from a nuget packages.config. NuGet packages will be downloaded (and cached) to compute their checksums.
-# Usage: nuget-sources path/to/packages.config path/to/dest/dir/in/flatpak sources-filename.yml
+# Output a flatpak yaml sources list from a nuget packages.config. NuGet
+# packages will be downloaded (and cached) to compute their checksums.
+# Usage: nuget-sources .../packages.config output-sources-filename.yml
 # Dependencies: sudo apt install xonsh wget
 
 import sys
@@ -34,8 +35,7 @@ $RAISE_SUBPROC_ERROR = True
 # $XONSH_TRACE_SUBPROC = True
 
 packagesConfigPath = sys.argv[1]
-destdir = sys.argv[2]
-outputSourcesPath=sys.argv[3]
+outputSourcesPath = sys.argv[2]
 
 nugetSources = []
 if 'XDG_CACHE_HOME' in ${...}:
@@ -53,12 +53,12 @@ def processPackagesConfig(path):
         name = package.attrib['id'] #.lower()
         version = package.attrib['version'] #.lower()
         writeSourceRecord(name,version)
-    
+
 def writeSourceRecord(name, version):
     url = 'https://api.nuget.org/v3-flatcontainer/{}/{}/{}.{}.nupkg'.format(name, version, name, version)
     wget --timestamping --directory-prefix=@(cachePath) @(url)
     filename = '{}.{}.nupkg'.format(name, version)
-    pathToCachedFile = '{}/{}'.format(cachePath,filename)
+    pathToCachedFile = '{}/{}'.format(cachePath, filename)
     sha512 = $(sha512sum @(pathToCachedFile) | perl -p -e 's/ .*$//').rstrip()
     nugetSources.append('  - type: file')
     nugetSources.append('    url: {}'.format(url))

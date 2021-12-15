@@ -26,7 +26,6 @@ set -ueo pipefail
 
 BUILD_PLATFORM=linux
 VERSION=$(perl -ne '/AC_INIT\(mono, \[(.*?)\]/ and print $1' configure.ac)
-# TODO Sensibly
 source <(grep -E '(^MONO_VERSION|^MONO_CORLIB)' configure.ac)
 source <(echo URL=$(perl -ne '/monolite_url = (.*)/ and print $1' mcs/class/Makefile | perl -pe 's/[()]//g'))
 echo ${URL}
