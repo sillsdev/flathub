@@ -111,7 +111,7 @@ modules:
           install-for-flatpak
 
         mv -v /app/share/applications/{fieldworks-applications,org.sil.FieldWorks}.desktop
-        perl -pi -e 's/fieldworks-flex/org.sil.FieldWorks/g' \
+        perl -pi -e 's/Icon=fieldworks-flex/Icon=org.sil.FieldWorks/g' \
           /app/share/applications/org.sil.FieldWorks.desktop
         mv -v /app/share/icons/hicolor/128x128/apps/{fieldworks-flex,org.sil.FieldWorks}.png
         mv -v /app/share/icons/hicolor/64x64/apps/{fieldworks-flex,org.sil.FieldWorks}.png
