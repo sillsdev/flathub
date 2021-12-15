@@ -7,7 +7,8 @@
   url: https://build.palaso.org/guestAuth/repository/download/bt216/latest.lastSuccessful/Chorus_Help.chm
 - type: shell
   commands:
-    -|
+    - |
+      set -ueo pipefail
       mkdir -vp \
         "${XDG_DATA_HOME}/BuildDependency/Cache/D4" \
         "${XDG_DATA_HOME}/BuildDependency/Cache/87"
