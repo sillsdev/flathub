@@ -613,12 +613,14 @@ modules:
           - |
             set -xueo pipefail
 
-            cd nuget-specific
+            pushd nuget-specific
             for package in *.nupkg; do
               mkdir -p "../packages/$(basename "${package}" .nupkg)"
               unzip "${package}" \
                 -d "../packages/$(basename "${package}" .nupkg)"
             done
+            popd
+
             # Use the same version of geckofx used by FieldWorks (in
             # FieldWorks.git Build/nuget-linux/packages.config ).
             perl -pi -e 's#.*Geckofx60.32.*##' src/FLExBridge/FLExBridge.csproj
