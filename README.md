@@ -326,7 +326,7 @@ host: (gdb) target remote 127.0.0.1:9999
 
 ```bash
 flatpak install flathub org.freedesktop.appstream-glib
-flatpak run org.freedesktop.appstream-glib validate .../fw/DistFiles/Linux/fieldworks-applications.desktop.appdata.xml
+flatpak run org.freedesktop.appstream-glib validate ../fw/DistFiles/Linux/org.sil.FieldWorks.metainfo.xml
 ```
 
 ## Pushing
