@@ -74,16 +74,16 @@ modules:
     buildsystem: simple
     build-options:
       env:
-        PREFIX: '/app'
-        PERL5LIB: '/app/perl-modules/lib/perl5'
-        MONO_PREFIX: '/app'
-        MONO_SILPKGDIR: '/app'
-        NUGET_DEST: 'fw/packages'
-        FW_ROOT_PATH: '/run/build/fieldworks/fw'
-        INSTALLATION_PREFIX: '/app'
-        RUNMODE: 'PACKAGING'
+        PREFIX: "/app"
+        PERL5LIB: "/app/perl-modules/lib/perl5"
+        MONO_PREFIX: "/app"
+        MONO_SILPKGDIR: "/app"
+        NUGET_DEST: "fw/packages"
+        FW_ROOT_PATH: "/run/build/fieldworks/fw"
+        INSTALLATION_PREFIX: "/app"
+        RUNMODE: "PACKAGING"
         # BUILD_CONFIG settings include Debug and Release.
-        BUILD_CONFIG: 'Release'
+        BUILD_CONFIG: "Release"
         # BUILD_TYPE settings include d and r.
         BUILD_TYPE: r
     build-commands:
@@ -116,9 +116,9 @@ modules:
         mv -v /app/share/icons/hicolor/128x128/apps/{fieldworks-flex,org.sil.FieldWorks}.png
         mv -v /app/share/icons/hicolor/64x64/apps/{fieldworks-flex,org.sil.FieldWorks}.png
     cleanup:
-      - '/include'
-      - '/lib/*/include'
-      - '*.a'
+      - "/include"
+      - "/lib/*/include"
+      - "*.a"
     sources:
       - type: git
         dest: fw
@@ -206,7 +206,7 @@ modules:
           - ./b2 install variant=release --prefix=/app
         cleanup:
           # Don't ship.
-          - '*'
+          - "*"
         sources:
           - type: archive
             url: https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.bz2
@@ -214,9 +214,9 @@ modules:
       - name: dbus-glib
         # For Gecko.
         cleanup:
-          - '/share/gtk-doc'
-          - '/include'
-          - '*.a'
+          - "/share/gtk-doc"
+          - "/include"
+          - "*.a"
         sources:
           - type: git
             url: https://salsa.debian.org/debian/dbus-glib.git
@@ -225,8 +225,8 @@ modules:
       - name: libxklavier
         buildsystem: autotools
         cleanup:
-          - '/include'
-          - '*.a'
+          - "/include"
+          - "*.a"
         sources:
           - type: git
             url: https://salsa.debian.org/gnome-team/libxklavier.git
@@ -242,9 +242,9 @@ modules:
         config-opts:
           - --disable-documentation
         cleanup:
-          - '/include'
-          - '/lib/*/include'
-          - '*.a'
+          - "/include"
+          - "/lib/*/include"
+          - "*.a"
         sources:
           - type: archive
             url: https://download.gnome.org/sources/gtkmm/2.24/gtkmm-2.24.5.tar.xz
@@ -257,9 +257,9 @@ modules:
               - -Dbuild-demos=false
               - -Dbuild-tests=false
             cleanup:
-              - '/include'
-              - '/lib/*/include'
-              - '*.a'
+              - "/include"
+              - "/lib/*/include"
+              - "*.a"
             sources:
               - type: git
                 url: https://gitlab.gnome.org/GNOME/atkmm.git
@@ -273,10 +273,10 @@ modules:
                   - -Dbuild-demos=false
                   - -Dbuild-tests=false
                 cleanup:
-                  - '/include'
-                  - '/lib/*/include'
-                  - '*.a'
-                  - '*.la'
+                  - "/include"
+                  - "/lib/*/include"
+                  - "*.a"
+                  - "*.la"
                 sources:
                   - type: git
                     url: https://gitlab.gnome.org/GNOME/glibmm.git
@@ -287,9 +287,9 @@ modules:
                     config-opts:
                       - --disable-documentation
                     cleanup:
-                      - '/include'
-                      - '/lib/*/include'
-                      - '*.a'
+                      - "/include"
+                      - "/lib/*/include"
+                      - "*.a"
                     sources:
                       - type: git
                         url: https://github.com/libsigcplusplus/libsigcplusplus.git
@@ -299,7 +299,7 @@ modules:
                       - name: mm-common
                         buildsystem: meson
                         cleanup:
-                          - '*'
+                          - "*"
                         sources:
                           - type: archive
                             url: https://download.gnome.org/sources/mm-common/1.0/mm-common-1.0.2.tar.xz
@@ -311,9 +311,9 @@ modules:
               - -Dbuild-demos=false
               - -Dbuild-tests=false
             cleanup:
-              - '/include'
-              - '/lib/*/include'
-              - '*.a'
+              - "/include"
+              - "/lib/*/include"
+              - "*.a"
             sources:
               - type: git
                 url: https://gitlab.gnome.org/GNOME/pangomm.git
@@ -326,9 +326,9 @@ modules:
                   - --disable-demos
                   - --disable-tests
                 cleanup:
-                  - '/include'
-                  - '/lib/*/include'
-                  - '*.a'
+                  - "/include"
+                  - "/lib/*/include"
+                  - "*.a"
                 sources:
                   - type: git
                     url: https://github.com/freedesktop/cairomm.git
@@ -340,10 +340,10 @@ modules:
               - --disable-demos
               - --disable-tests
             cleanup:
-              - '/share/gtk-doc'
-              - '/include'
-              - '/lib/*/include'
-              - '*.a'
+              - "/share/gtk-doc"
+              - "/include"
+              - "/lib/*/include"
+              - "*.a"
             sources:
               - type: archive
                 url: http://archive.ubuntu.com/ubuntu/pool/main/g/gtk+2.0/gtk+2.0_2.24.32.orig.tar.xz
@@ -352,9 +352,9 @@ modules:
               - name: gdk-pixbuf
                 buildsystem: meson
                 cleanup:
-                  - '/libexec/installed-tests'
-                  - '/include'
-                  - '*.a'
+                  - "/libexec/installed-tests"
+                  - "/include"
+                  - "*.a"
                 sources:
                   - type: git
                     url: https://salsa.debian.org/gnome-team/gdk-pixbuf.git
@@ -370,31 +370,31 @@ modules:
         buildsystem: autotools
         cleanup:
           # Don't ship.
-          - '*'
+          - "*"
         sources:
           - type: archive
             url: https://ftp.gnu.org/gnu/wget/wget-1.20.3.tar.gz
             sha512: e8b82b40e270296228094a78d47f81580bdbdea9e6b93fd61b37dccb39430aeb9bda5397dc53a31c952a61629383c7e2a8c8abf414c8a4dd369af6ecf2717e6c
       - name: mono5-sil
         cleanup:
-          - '/include'
-          - '*.a'
-          - '/bin/gtk-demo'
-          - '/bin/monodis'
-          - '/bin/monograph'
-          - '/bin/pedump'
-          - '/lib/mono/2*'
-          - '/lib/mono/3*'
-          - '/lib/mono/4.5/dim'
-          - '/lib/mono/4.5/mcs*'
-          - '/lib/mono/4.5/Microsoft.CodeAnalysis.*'
-          - '/lib/mono/gac/Microsoft.Build.Engine'
-          - '/lib/mono/gac/Microsoft.Build'
-          - '/lib/mono/gac/monodoc'
-          - '/lib/mono/msbuild'
-          - '/lib/mono/xbuild-frameworks'
-          - '/lib/mono/xbuild'
-          - '/lib/monodoc'
+          - "/include"
+          - "*.a"
+          - "/bin/gtk-demo"
+          - "/bin/monodis"
+          - "/bin/monograph"
+          - "/bin/pedump"
+          - "/lib/mono/2*"
+          - "/lib/mono/3*"
+          - "/lib/mono/4.5/dim"
+          - "/lib/mono/4.5/mcs*"
+          - "/lib/mono/4.5/Microsoft.CodeAnalysis.*"
+          - "/lib/mono/gac/Microsoft.Build.Engine"
+          - "/lib/mono/gac/Microsoft.Build"
+          - "/lib/mono/gac/monodoc"
+          - "/lib/mono/msbuild"
+          - "/lib/mono/xbuild-frameworks"
+          - "/lib/mono/xbuild"
+          - "/lib/monodoc"
         sources:
           - type: git
             url: https://github.com/sillsdev/mono.git
@@ -417,14 +417,14 @@ modules:
             post-install:
               - chmod 644 ${FLATPAK_DEST}/lib/libpython2.7.so.1.0
             cleanup:
-              - '/lib/python2.7/test'
-              - '/lib/python2.7/unittest'
-              - '/lib/python2.7/distutils/tests'
-              - '/lib/python2.7/idlelib/idle_test'
-              - '/lib/python2.7/lib2to3'
-              - '/include'
-              - '*.a'
-              - '*.o'
+              - "/lib/python2.7/test"
+              - "/lib/python2.7/unittest"
+              - "/lib/python2.7/distutils/tests"
+              - "/lib/python2.7/idlelib/idle_test"
+              - "/lib/python2.7/lib2to3"
+              - "/include"
+              - "*.a"
+              - "*.o"
             sources:
               - type: archive
                 url: https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tar.xz
@@ -434,9 +434,9 @@ modules:
           - --disable-gtk-doc
           - --disable-man
         cleanup:
-          - '/lib/monodoc'
-          - '/include'
-          - '*.a'
+          - "/lib/monodoc"
+          - "/include"
+          - "*.a"
         sources:
           - type: git
             url: https://github.com/sillsdev/gtk-sharp.git
@@ -464,8 +464,8 @@ modules:
         cleanup:
           # Can't clean '*' because that seems to result in /app/bin/mono being
           # absent.
-          - '/lib/mono/msbuild'
-          - '/lib/mono/xbuild'
+          - "/lib/mono/msbuild"
+          - "/lib/mono/xbuild"
         sources:
           - type: file
             url: http://linux.lsdev.sil.org/ubuntu/pool/main/m/mono5-sil-msbuild/mono5-sil-msbuild_15.8+xamarinxplat.2018.07.31.22.43-0xamarin5+ubuntu1804b1_all.deb
@@ -478,8 +478,8 @@ modules:
         config-opts:
           - --with-pango
         cleanup:
-          - '/include'
-          - '*.a'
+          - "/include"
+          - "*.a"
         sources:
           - type: git
             url: https://github.com/sillsdev/libgdiplus
@@ -496,8 +496,8 @@ modules:
               - make PREFIX=/app
               - make PREFIX=/app install
             cleanup:
-              - '/include'
-              - '*.a'
+              - "/include"
+              - "*.a"
             sources:
               - type: git
                 url: https://salsa.debian.org/deiv-guest/giflib.git
@@ -513,7 +513,7 @@ modules:
           - --sbindir=/app/lib/fieldworks/icu-bin
         subdir: source
         cleanup:
-          - '/lib/*/include'
+          - "/lib/*/include"
         sources:
           - type: git
             url: https://github.com/sillsdev/icu.git
@@ -593,8 +593,8 @@ modules:
         modules:
           - name: teckit
             cleanup:
-              - '/include'
-              - '*.a'
+              - "/include"
+              - "*.a"
             sources:
               - type: git
                 url: https://github.com/silnrsi/teckit
@@ -721,10 +721,10 @@ modules:
       - name: xchm
         # Help file viewer
         cleanup:
-          - '/include'
-          - '*.a'
-          - '/share/icons'
-          - '/share/applications'
+          - "/include"
+          - "*.a"
+          - "/share/icons"
+          - "/share/applications"
         sources:
           - type: git
             url: https://github.com/rzvncj/xCHM
@@ -739,8 +739,8 @@ modules:
         modules:
           - name: chmlib
             cleanup:
-              - '/include'
-              - '*.a'
+              - "/include"
+              - "*.a"
             sources:
               - type: git
                 url: https://github.com/jedwing/CHMLib
@@ -751,9 +751,9 @@ modules:
                   - autoreconf --install
           - name: wxWidgets
             cleanup:
-              - '/include'
-              - '/lib/wx/include'
-              - '*.a'
+              - "/include"
+              - "/lib/wx/include"
+              - "*.a"
             sources:
               - type: git
                 url: https://github.com/wxWidgets/wxWidgets
