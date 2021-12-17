@@ -101,6 +101,8 @@ modules:
           BUILD_CONFIG=${BUILD_CONFIG} \
           disableDownloads=true \
           build-package-for-flatpak
+
+        cd ${FW_ROOT_PATH}
         Build/run-in-environ make \
           BUILD_TYPE=${BUILD_TYPE} \
           BUILD_CONFIG=${BUILD_CONFIG} \
