@@ -6,10 +6,10 @@ exec &> >(tee /tmp/flatpak-build-fw-$(date +"%F-%H%M%S").log)
 set -xueo pipefail
 
 # Delete the build dirs from last time. But then --keep-build-dirs, not --delete-build-dirs so that the build dirs from this time are left in place for optional inspection.
-rm -rf .flatpak-builder/build 
+rm -rf .flatpak-builder/build
 # Using --no-shallow-clone for flexbridge for GitVersion.
-flatpak-builder --user --repo=local-repo --keep-build-dirs --no-shallow-clone --force-clean build-dir org.sil.FieldWorks.yml "$@"
+flatpak-builder --user --repo=local-repo --keep-build-dirs --no-shallow-clone --force-clean build-dir org.sil.WeSay.yml "$@"
 flatpak --user remote-add --no-gpg-verify --if-not-exists local-repo ./local-repo
-# If a FieldWorks flatpak is already installed, such as from a downloaded .flatpak file, remove it so we don't fail to install what we just built.
-flatpak remove --assumeyes org.sil.FieldWorks org.sil.FieldWorks.Debug org.sil.FieldWorks.Locale || echo FW flatpak was not already installed.
-flatpak --user install --or-update --noninteractive local-repo org.sil.FieldWorks org.sil.FieldWorks.Debug
+# If a WeSay flatpak is already installed, such as from a downloaded .flatpak file, remove it so we don't fail to install what we just built.
+flatpak remove --assumeyes org.sil.WeSay org.sil.WeSay.Debug org.sil.WeSay.Locale || echo "flatpak was not already installed."
+flatpak --user install --or-update --noninteractive local-repo org.sil.WeSay org.sil.WeSay.Debug
