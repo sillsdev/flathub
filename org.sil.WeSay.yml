@@ -130,28 +130,7 @@ modules:
             </configuration>'
       # Regenerate: ./compose-nuget-sources wesay-sources-nuget.yml $(find ../wesay -name packages.config | grep -v Test)
       - wesay-sources-nuget.yml
-      # Regenerate: Set wesay git dir to newer code. Then run (in the
-      # directory with the flatpak manifest):
-      #   .../flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py wesay-sources-nuget.json $(find .../wesay -name \*.csproj -o -name \*.proj)
-      - wesay-sources-nuget.json
     modules:
-      - name: libboost
-        buildsystem: simple
-        build-options:
-          prefix: /app
-        config-opts:
-          - --prefix=/app
-        build-commands:
-          - ./bootstrap.sh
-          # It installs to /usr/local unless we specify a prefix.
-          - ./b2 install variant=release --prefix=/app
-        cleanup:
-          # Don't ship.
-          - "*"
-        sources:
-          - type: archive
-            url: https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.bz2
-            sha512: b7937d50c4512cf13cadd0ca829de36cf2cbc6fb788f45b1d4565ad0753e2b206c545125a5862016c2f16016f2e4a6b687928963b466fff17c3e0a4437142c20
       - name: dbus-glib
         # For Gecko.
         cleanup:
@@ -307,15 +286,6 @@ modules:
                         for PATCH_FILE in $(cat debian/patches/series); do
                           patch -p1 -i debian/patches/${PATCH_FILE}
                         done
-      - name: wget
-        buildsystem: autotools
-        cleanup:
-          # Don't ship.
-          - "*"
-        sources:
-          - type: archive
-            url: https://ftp.gnu.org/gnu/wget/wget-1.20.3.tar.gz
-            sha512: e8b82b40e270296228094a78d47f81580bdbdea9e6b93fd61b37dccb39430aeb9bda5397dc53a31c952a61629383c7e2a8c8abf414c8a4dd369af6ecf2717e6c
       - name: mono5-sil
         cleanup:
           - "/include"
@@ -444,6 +414,7 @@ modules:
                 url: https://salsa.debian.org/deiv-guest/giflib.git
                 commit: de2120737dbbeb00728054232a21c6b03c1ae687
       - name: icu-fw
+      # TODO debian/rules mentions icu-dev. change to that? or keep icu-fw?
         # FW ICU should install to paths like
         # /app/lib/fieldworks/lib/libicuuc.so . The icu-fw package debian/rules
         # file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build
@@ -460,205 +431,6 @@ modules:
             url: https://github.com/sillsdev/icu.git
             branch: FieldWorks
             commit: f648b14cd744202c24648c5f76847621721e1ae9
-      - name: encoding-converters
-        buildsystem: autotools
-        build-options:
-          prepend-ld-library-path: /app/lib/fieldworks/lib
-          env:
-            FIELDWORKS: "1"
-            PYTHON_VERSION: "2.7"
-            EC_DOWNLOAD_NUGETEXE: "false"
-            EC_DOWNLOAD_DEPS: "true"
-            # Even tho `pkg-config --libs python-2.7` gives
-            # '-L/app/lib -lpython2.7', we end up using
-            # '-L/app/lib/python2.7 -lpython2.7' and failing to find
-            # -lpython2.7. Override.
-            PYTHON_LDFLAGS: "-L/app/lib -lpython2.7"
-            REGROOT: "/app/share/encoding-converters"
-        config-opts:
-          - --prefix=/app
-        sources:
-          - type: git
-            url: https://github.com/silnrsi/encoding-converters-core.git
-            # Using branch master
-            commit: aee4ff72bd3894eba96de7978990061e36b4784c
-          - type: shell
-            # Encoding Converters expects a shared directory where multiple
-            # applications and even users can write shared data to. Previously
-            # the FieldWorks .deb package used /var/lib/fieldworks. Install
-            # initial files to PREFIX/share/encoding-converters and
-            # XDG_DATA_HOME will be used for an EC area to share among
-            # applications.
-            commands:
-              - |
-                set -xueo pipefail
-                # Adjust prefix
-                # Note: EncCnvtrs/AutoConfigDialog.cs wants to find a help file
-                # in a path specified by the RootDir registry key, but it
-                # doesn't look like that help file is even being installed for
-                # Linux. So it may not matter what the RootDir registry key
-                # value is set to, but set it to /app/lib/fieldworks in case.
-                perl -pi -e 's|/usr|/app|g' values.xml
-                perl -pi -e \
-                  's|/usr/lib/fieldworks/icu-bin/icu-config|/app/lib/fieldworks/icu-bin/icu-config|' \
-                  Makefile.in
-          - type: file
-            url: https://api.nuget.org/v3-flatcontainer/Geckofx45.64.Linux/45.0.21/Geckofx45.64.Linux.45.0.21.nupkg
-            sha512: d34f7175793bdfc4dcfa0b404bf7d6f2a27ba29389623a23c4d6383281fedf7f8014474775f4321af21ad9eab2817e5309934b81b918296fb518c23064272dfe
-            dest: nuget-sources/
-          - type: file
-            url: https://api.nuget.org/v3-flatcontainer/Geckofx45.32.Linux/45.0.21/Geckofx45.32.Linux.45.0.21.nupkg
-            sha512: 677c1dea32bd8631e859a7ddb2e72971a5db5561e9bc3ddced9a5bd451395f78719d3001b1cea908025707bb34175ecbc698c9ca965a44535bb4e9c83687832f
-            dest: nuget-sources/
-          - type: file
-            url: https://api.nuget.org/v3-flatcontainer/NUnit/2.6.4/NUnit.2.6.4.nupkg
-            sha512: e0510c05364d512d810d8bc5741462cb8eeef06b45101f81106f5489fd9f9987d07050320d4306c41c9bc76fe186735a8e3544be0b496dc416617cf0bdb99600
-            dest: nuget-sources/
-          - type: file
-            url: https://dist.nuget.org/win-x86-commandline/v3.4.4/nuget.exe
-            sha512: 3b404655c39cfc39334c8437ff2c7d6007e23262daa7bb34863fdd6f2e7da9a89ab97176a52b1e8a99327fde3e9decc29c450664492af73680f5a715a72aacf3
-            dest: build/
-          # Use local nuget packages
-          - type: shell
-            commands:
-              - |
-                tee nuget.config <<< '<?xml version="1.0" encoding="utf-8"?>
-                <configuration>
-                  <packageSources>
-                    <add key="LocalNugetPackages" value="'$(pwd)/nuget-sources'" />
-                  </packageSources>
-                  <disabledPackageSources>
-                    <add key="nuget.org" value="true" />
-                  </disabledPackageSources>
-                </configuration>'
-        modules:
-          - name: teckit
-            cleanup:
-              - "/include"
-              - "*.a"
-            sources:
-              - type: git
-                url: https://github.com/silnrsi/teckit
-                tag: v2.5.10
-                commit: 1c510d4de7ff844207b1273e856fd27a15b3486d
-      - name: flexbridge
-        buildsystem: simple
-        build-options:
-          env:
-            PREFIX: /app
-            MONO_PREFIX: /app
-            MONO_SILPKGDIR: /app
-            CONFIGURATION: Release
-            XDG_DATA_HOME: xdg-data-home
-        build-commands:
-          - |
-            set -xueo pipefail
-
-            pushd nuget-specific
-            for package in *.nupkg; do
-              mkdir -p "../packages/$(basename "${package}" .nupkg)"
-              unzip "${package}" \
-                -d "../packages/$(basename "${package}" .nupkg)"
-            done
-            popd
-
-            # Use the same version of geckofx used by FieldWorks (in
-            # FieldWorks.git Build/nuget-linux/packages.config ).
-            perl -pi -e 's#.*Geckofx60.32.*##' src/FLExBridge/FLExBridge.csproj
-            perl -pi -e \
-              's#.*Geckofx60.64.*#<PackageReference Include="Geckofx45.64.Linux" Version="45.0.36" />#' \
-              src/FLExBridge/FLExBridge.csproj
-
-            make process_l10ns
-
-            msbuild \
-              -p:Configuration=${CONFIGURATION} \
-              -p:DisableGitVersionTask=true \
-              -p:GitVersion_SemVer=1.2.3 \
-              -p:Version=1.2.3 \
-              -p:WriteVersionInfoToBuildLog=false \
-              build/FLExBridge.proj
-            # Fix path on fixutf8 extension
-            perl -ni -e 'print unless /^fixutf8/' Mercurial/mercurial.ini
-            tee --append Mercurial/mercurial.ini <<< \
-              "fixutf8=/app/lib/flexbridge/MercurialExtensions/fixutf8/fixutf8.py"
-            # Help hg find python (in /app).
-            perl -pi -e 's#/usr/bin/python#/usr/bin/env python#' Mercurial/hg
-
-            make install-core
-        sources:
-          - type: git
-            # TODO still clean up this section before submission
-            # Build from main repo
-            #url: https://github.com/sillsdev/flexbridge.git
-            #branch: develop
-            #tag: TODO
-            #commit: TODO
-
-            # Build from commit still in review
-            url: https://github.com/sillsdev/flexbridge.git
-            commit: 8d715d145e3dbb73bc5adc23133075dcee191f46
-
-            # Build from local repo
-            #url: ../flexbridge
-            #branch: feature/flatpak
-          - type: file
-            # To update: Choose a new l10n artifact at
-            # https://github.com/sillsdev/flexbridge/releases , possibly after
-            # running the localizations GHA.
-            url: https://github.com/sillsdev/flexbridge/releases/download/l10n-v3.3.0-38-gf6ef2ba8/FieldWorksL10ns.zip
-            sha512: d395f26be1ef1777351e5515e34a3f7004d126590b00049aa5ec03d7ab392af60a26bce31a6af16a9eefdb5e79854f8bf24d40a61aed214558b3f35041b53149
-            dest: l10n/
-          - type: file
-            url: https://dist.nuget.org/win-x86-commandline/v5.9.0/nuget.exe
-            sha512: 980b62387ce9540eff0d49ef6dd5b4da121a8648646a465bc6445534e9ec0d7605483fad933b26f9b0b3797db4d4b1ec82ed354b3daf13e1dcc0818292815dca
-            dest: build/
-          # These nuget packages are installed by build/FLExBridge.proj by
-          # directly running nuget.exe. To update: Check on what current
-          # packages and versions are needed with
-          # `grep NuGetCommand build/FLExBridge.proj`. Then manually edit the
-          # yml to change or add.
-          # Note that attempting to install
-          # SIL.Windows.Forms.GeckoBrowserAdapter results in it trying to
-          # identify dependencies to install, and works differently than the
-          # other nuget installations that use a similar command. A solution is
-          # to write the GeckoBrowserAdapter nuget file to dest nuget-sources,
-          # rather than nuget-specific. The dependencies may not need special
-          # handling, but if they start to, then note that the dependencies
-          # don't seem to be mentioned in the .nupkg file itself, nor on the
-          # nuget.org web site, but can be determined by running in flexbridge
-          # `msbuild build/FLExBridge.proj -t:RestoreBuildTasks` and observing
-          # how it resolves dependencies.
-          - flexbridge-sources-nuget-specific.yml
-          # Use local nuget packages
-          - type: shell
-            commands:
-              - |
-                tee nuget.config <<< '<?xml version="1.0" encoding="utf-8"?>
-                <configuration>
-                  <packageSources>
-                    <add key="LocalNugetPackages" value="'$(pwd)/nuget-sources'" />
-                  </packageSources>
-                  <disabledPackageSources>
-                    <add key="nuget.org" value="true" />
-                  </disabledPackageSources>
-                </configuration>'
-          # Regenerate: Set flexbridge git dir to newer code. Then run (in the
-          # directory with the flatpak manifest):
-          #   .../flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py flexbridge-sources-nuget.json $(find $HOME/fwrepo/flexbridge -name \*.csproj -o -name \*.proj)
-          # Also, to work with FW 9.0, FW needs geckofx45 not 60.
-          - flexbridge-sources-nuget.json
-          # Dependencies specified from FLExBridge.dep
-          # Determine what is needed by running in the flexbridge repo:
-          #   msbuild -t:DownloadDependencies build/FLExBridge.proj && cat build/FLExBridge.files
-          - flexbridge-sources-deps.yml
-          #TODO trying without gitversion.json
-          # - type: file
-          #   dest: build/
-          #   path: patches/flexbridge/gitversion.json
-          - type: shell
-            commands:
-              - tee gitversion.properties <<< 'BuildVersion=3.4.0-beta.9.0'
       - name: xchm
         # Help file viewer
         cleanup:
@@ -705,16 +477,6 @@ modules:
                 # worked, rendering the html.
                 tag: v3.0.4
                 commit: 721d62adde3f8ba8704a9cf56efeb050f652dfbf
-      - name: fonts-sil-doulos
-        # From https://software.sil.org/doulos/download/previous-versions/
-        buildsystem: simple
-        build-commands:
-          - mkdir -p /app/share/fonts/truetype/doulos
-          - cp -a *.ttf /app/share/fonts/truetype/doulos
-        sources:
-          - type: archive
-            url: https://software.sil.org/downloads/r/doulos/DoulosSIL-5.000.zip
-            sha512: 3698b3f330d34cfa2be93f9dfc87c113a0b3e174a40ce9c2277bb452161cda61aab4688338ab3aeaaaa3cc684cedc58bbb3f066392e3911246a230d1a9fb02f3
       - name: fonts-sil-charis
         # From https://software.sil.org/charis/download/previous-versions/
         buildsystem: simple
@@ -725,23 +487,3 @@ modules:
           - type: archive
             url: https://software.sil.org/downloads/r/charis/CharisSIL-5.000.zip
             sha512: f85da6c9b93c0ef81617241219b208ca262c12fcecae1d447163b7aff31ea8bfc3f09636dcfc0a322c86201a0d551288884e4017fded5bb71bbb54c8093faaed
-      - name: fonts-sil-galatia
-        # From https://software.sil.org/galatia/#downloads
-        buildsystem: simple
-        build-commands:
-          - mkdir -p /app/share/fonts/truetype/galatia
-          - cp -a *.ttf /app/share/fonts/truetype/galatia
-        sources:
-          - type: archive
-            url: https://software.sil.org/downloads/r/galatia/GalatiaSIL-2.1.zip
-            sha512: ff408660ab892d04e81db24f4395ffb1e3732921a2277173dfcc1b080338c68d22aa004f3838959ece724114ff0e5cf3be101c41341ec5ba22a1736458e25672
-      - name: fonts-sil-ezra
-        # From https://software.sil.org/ezra/
-        buildsystem: simple
-        build-commands:
-          - mkdir -p /app/share/fonts/truetype/ezra
-          - cp -a *.ttf /app/share/fonts/truetype/ezra
-        sources:
-          - type: archive
-            url: https://software.sil.org/downloads/r/ezra/EzraSIL-2.51.zip
-            sha512: 404f273a078ce89b84c1fcb91a7d9b729a80934b1327eb62d6625db245fcd4e96400c5fb5350014011771bfeac3191481b6c95e724232355b031f46eb51aab15
