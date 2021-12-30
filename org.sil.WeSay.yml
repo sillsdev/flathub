@@ -1,4 +1,4 @@
-# FieldWorks Flatpak package build specification
+# WeSay Flatpak package build specification
 #
 # Copyright (c) 2021 SIL International. MIT License.
 #
@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-app-id: org.sil.FieldWorks
+app-id: org.sil.WeSay
 
 # org.gnome.Platform provides some pieces that we would need to manually specify
 # if we use org.freedesktop.Platform.
@@ -30,168 +30,110 @@ runtime: org.gnome.Platform
 runtime-version: "3.36"
 sdk: org.gnome.Sdk
 
+# Note that WeSay wries to write to these locations
+# ~/.mono/registry/CurrentUser/software/wesay
+# ~/.config/WeSay
+# ~/WeSay
+# ~/.local/share/WeSay
+# ~/.local/share/SIL/WeSay Configuration Tool
+# ~/.local/share/SIL/WeSay.ConfigTool.exe_Url_7e5be1cbac899b94146387aca5d1128238e2538f
+# ~/.local/share/SIL/WeSay.ConfigTool.exe_Url_13c62d6283f40fa747e42cac2b151f29bd79d24f
+
+
 finish-args:
   - --socket=x11
   - --share=ipc
-  # FieldWorks can synchronize project data over the network with other users.
+  # WeSay can synchronize project data over the network with other users.
   - --share=network
-  # FieldWorks allows playing sound files and playing and recording in audio
-  # writing systems.
-  - --socket=pulseaudio
-  # FieldWorks can import language and dictionary data, restore from backup
-  # files, and link to pictures or other media to appear in a dictionary.
-  - --filesystem=home:ro
-  # Data, including projects. Default location to store project backups.
-  - --filesystem=xdg-data/fieldworks:create
   # Writing system definition files. Shared with other applications.
   - --filesystem=xdg-data/SIL/WritingSystemRepository:create
-  # Encoding Converter location for configuration and potentially user-made
-  # converters. Shared with other applications.
-  - --filesystem=xdg-data/SIL/encoding-converters:create
-  # Configuration and settings of FieldWorks and included components.
-  - --filesystem=xdg-config/fieldworks:create
-  - --filesystem=~/.mono/registry/CurrentUser/software/sil:create
-  # Users can create a launcher to a specific project by clicking
-  # File - Project Management - Create Shortcut on Desktop.
-  - --filesystem=xdg-desktop:rw
   # Directory for libpalaso GlobalMutex.
   - --filesystem=xdg-run/sil-lock:create
-  # Shared writing system and encoding converters data location used by
-  # FieldWorks .deb packages, that may have configuration that some users might
-  # rely on.
-  - --filesystem=/var/lib/fieldworks:ro
-  # FieldWorks uses FlexBridge to synchronize data over the network or by USB
-  # Flash Drives. FlexBridge uses NDesk D-Bus
+  # WeSay can synchronize data over the network or by USB
+  # Flash Drives. WeSay uses NDesk D-Bus
   # (https://github.com/sillsdev/dbus-sharp) to query for avaliable USB Flash
-  # Drives. Without access to the system D-Bus, Flexbridge crashes, such as when
-  # clicking "Get project from a colleague" on the welcome dialog.
+  # Drives.
   - --socket=system-bus
 
-command: fieldworks-flex
+# Note that 3 commands are provided: wesay wesay-config chorus
+command: wesay
 
 modules:
-  - name: fieldworks
-    buildsystem: simple
+  - name: wesay
     build-options:
       env:
-        PREFIX: "/app"
-        PERL5LIB: "/app/perl-modules/lib/perl5"
+        #PREFIX: "/app"
         MONO_PREFIX: "/app"
-        MONO_SILPKGDIR: "/app"
-        NUGET_DEST: "fw/packages"
-        FW_ROOT_PATH: "/run/build/fieldworks/fw"
         INSTALLATION_PREFIX: "/app"
-        RUNMODE: "PACKAGING"
+        RUNMODE: "BUILDINGPACKAGE"
         # BUILD_CONFIG settings include Debug and Release.
         BUILD_CONFIG: "Release"
-        # BUILD_TYPE settings include d and r.
-        BUILD_TYPE: r
-    build-commands:
-      - |
-        # Run the rest in bash rather than sh.
-        bash <<_
-        set -xueo pipefail
-        # Apply outstanding FwBuildTasks code changes, if any.
-        cd ${FW_ROOT_PATH}/Build/Src/FwBuildTasks
-        ${FW_ROOT_PATH}/Build/run-in-environ msbuild
+    # build-commands:
+    #   - |
+    #     # Run the rest in bash rather than sh.
+    #     bash <<_
+    #     set -xueo pipefail
+    #     # Apply outstanding FwBuildTasks code changes, if any.
+    #     cd ${FW_ROOT_PATH}/Build/Src/FwBuildTasks
+    #     ${FW_ROOT_PATH}/Build/run-in-environ msbuild
 
-        cd ${FW_ROOT_PATH}
-        Build/run-in-environ make \
-          BUILD_TYPE=${BUILD_TYPE} \
-          BUILD_CONFIG=${BUILD_CONFIG} \
-          disableDownloads=true \
-          build-package-for-flatpak
+    #     cd ${FW_ROOT_PATH}
+    #     Build/run-in-environ make \
+    #       BUILD_TYPE=${BUILD_TYPE} \
+    #       BUILD_CONFIG=${BUILD_CONFIG} \
+    #       disableDownloads=true \
+    #       build-package-for-flatpak
 
-        cd ${FW_ROOT_PATH}
-        Build/run-in-environ make \
-          BUILD_TYPE=${BUILD_TYPE} \
-          BUILD_CONFIG=${BUILD_CONFIG} \
-          disableDownloads=true \
-          install-for-flatpak
+    #     cd ${FW_ROOT_PATH}
+    #     Build/run-in-environ make \
+    #       BUILD_TYPE=${BUILD_TYPE} \
+    #       BUILD_CONFIG=${BUILD_CONFIG} \
+    #       disableDownloads=true \
+    #       install-for-flatpak
 
-        mv -v /app/share/applications/{fieldworks-applications,org.sil.FieldWorks}.desktop
-        perl -pi -e 's/Icon=fieldworks-flex/Icon=org.sil.FieldWorks/g' \
-          /app/share/applications/org.sil.FieldWorks.desktop
-        mv -v /app/share/icons/hicolor/128x128/apps/{fieldworks-flex,org.sil.FieldWorks}.png
-        mv -v /app/share/icons/hicolor/64x64/apps/{fieldworks-flex,org.sil.FieldWorks}.png
+    #     mv -v /app/share/applications/{fieldworks-applications,org.sil.FieldWorks}.desktop
+    #     perl -pi -e 's/Icon=fieldworks-flex/Icon=org.sil.FieldWorks/g' \
+    #       /app/share/applications/org.sil.FieldWorks.desktop
+    #     mv -v /app/share/icons/hicolor/128x128/apps/{fieldworks-flex,org.sil.FieldWorks}.png
+    #     mv -v /app/share/icons/hicolor/64x64/apps/{fieldworks-flex,org.sil.FieldWorks}.png
     cleanup:
       - "/include"
       - "/lib/*/include"
       - "*.a"
     sources:
       - type: git
-        dest: fw
-        #TODO still clean up this section for submission
         # Build from main repo
-        #url: https://github.com/sillsdev/FieldWorks.git
-        #branch: support/9.0
+        #url: https://github.com/sillsdev/wesay.git
+        #branch: develop
         #tag: TODO
         #commit: TODO
 
         # Build from commit still in review
-        url: https://gerrit.lsdev.sil.org/FieldWorks
-        commit: 730c7d8bc612fde1f1eef4a3c78e5502d295f604
+        #url: https://github.com/sillsdev/wesay.git
+        #commit:
 
         # Build from local repo
-        # url: ../fw
-        # branch: feature/flatpak
-      - type: git
-        # liblcm is cloned for use during localization. But the actual liblcm
-        # assemblies used are fetched separately.
-        dest: liblcm
-        url: https://github.com/sillsdev/liblcm.git
-        branch: master
-        commit: 6a6ed9bbe8433352769d6909079fe54b77368b99
-      - type: git
-        dest: libcom
-        url: https://github.com/sillsdev/libcom.git
-        # Branch develop
-        tag: fieldworks-9.0.17
-        commit: 035225805e477061e9a2d72180a96bcaa7cc1952
-      - type: git
-        dest: fw/DistFiles/Helps
-        url: https://github.com/sillsdev/FwHelps.git
-        # Branch support/9.0
-        tag: FieldWorks9.0.17
-        commit: 02c9b5b0fd293e883b4d19be8439905595189ac1
-      - type: git
-        dest: fw/Localizations
-        url: https://github.com/sillsdev/FwLocalizations.git
-        # Branch develop
-        tag: FieldWorks9.0.17
-        commit: 6d09370772ecd99f3efbe776c55c6561d1b7af88
-      - type: file
-        url: https://github.com/sillsdev/FwLocalizations/releases/download/v9.0.17-14-g37c0f8f/crowdin.zip
-        sha512: 08586f7479d5c99d668d4ec92a1824e02f2982683abf3d13549e07dc1378eaf1204547a1ce6cf9a29f4a9ee418aeaf558e00a13e25e9bd41a0de880a20de1f39
-        dest: fw/Downloads/
+        url: ../wesay
+        branch: task/linux
+      # Use local nuget packages
       - type: shell
-        commands:
-          - mv fw/Downloads/crowdin.zip fw/Downloads/Crowdin.zip
-      # FW nuget dependencies
-      # Preview updates via FieldWorks.git:
-      #   git log -p -- Build/nuget-{common,linux}/packages.config
-      # To regenerate input sources:
-      #   ./compose-nuget-sources ~/fwrepo/fw/Build/nuget-linux/packages.config packages fieldworks-sources-nuget-linux.yml
-      #   ./compose-nuget-sources ~/fwrepo/fw/Build/nuget-common/packages.config packages fieldworks-sources-nuget-common.yml
-      - fieldworks-sources-nuget-common.yml
-      - fieldworks-sources-nuget-linux.yml
-      - type: shell
-        # Extract nuget packages. The 'type: archive', 'archive-type: zip' had
-        # some trouble working, so manually extract.
         commands:
           - |
-            for package in *.nupkg; do
-              mkdir -p "${NUGET_DEST}/$(basename "${package}" .nupkg)" &&
-                unzip "${package}" \
-                  -d "${NUGET_DEST}/$(basename "${package}" .nupkg)"
-            done
-      # FW dependencies
-      # Find updates via FieldWorks.git with a command like:
-      #   git log -p FieldWorks9.0.13..FieldWorks9.0.16 -- Build/mkall.targets
-      # Manually apply changes by editing fieldworks-sources-urls-input.yml.
-      # Regenerate input sources:
-      #   ./compose-url-sources fieldworks-sources-urls-input.yml fieldworks-sources-urls.yml
-      - fieldworks-sources-urls.yml
+            tee nuget.config <<< '<?xml version="1.0" encoding="utf-8"?>
+            <configuration>
+              <packageSources>
+                <add key="LocalNugetPackages" value="'$(pwd)/nuget-sources'" />
+              </packageSources>
+              <disabledPackageSources>
+                <add key="nuget.org" value="true" />
+              </disabledPackageSources>
+            </configuration>'
+      # Regenerate: ./compose-nuget-sources wesay-sources-nuget.yml $(find ../wesay -name packages.config | grep -v Test)
+      - wesay-sources-nuget.yml
+      # Regenerate: Set wesay git dir to newer code. Then run (in the
+      # directory with the flatpak manifest):
+      #   .../flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py wesay-sources-nuget.json $(find .../wesay -name \*.csproj -o -name \*.proj)
+      - wesay-sources-nuget.json
     modules:
       - name: libboost
         buildsystem: simple
