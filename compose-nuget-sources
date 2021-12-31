@@ -1,6 +1,6 @@
 #!/usr/bin/env xonsh
 
-# Derive nuget sources
+# Derive flatpak sources from nuget package.config files
 #
 # Copyright (c) 2021 SIL International. MIT License.
 #
@@ -26,10 +26,11 @@
 # files. NuGet packages will be downloaded (and cached) to compute their
 # checksums.
 # Usage:
-#   nuget-sources output-sources-filename.yml dir1/packages.config [dir2/packages.config ...]
+#   nuget-sources output-sources-filename.yml dest-dir-in-build dir1/packages.config [dir2/packages.config ...]
 # Dependencies: sudo apt install xonsh wget
 
 import sys
+import collections
 import xml.etree.ElementTree as ET
 $RAISE_SUBPROC_ERROR = True
 
@@ -37,10 +38,18 @@ $RAISE_SUBPROC_ERROR = True
 # $XONSH_TRACE_SUBPROC = True
 
 outputSourcesPath = sys.argv[1]
-packagesConfigPaths = sys.argv[2:]
+destDir = sys.argv[2]
+packagesConfigPaths = sys.argv[3:]
+
+PackageAndVersionSpecification = collections.namedtuple('PackageAndVersionSpecification', ['name', 'version'])
 
 nugetSources = []
-packageSet = dict()
+# packageSet should specify pairs of dependencies and versions, with no
+# duplicates. For example:
+#   Newtonsoft.Json version 11
+#   Newtonsoft.Json version 12
+#   NUnit version 3
+packageSet = set()
 if 'XDG_CACHE_HOME' in ${...}:
     cacheHome = $XDG_CACHE_HOME
 else:
@@ -55,8 +64,7 @@ def processPackagesConfig(path):
     for package in packageElements:
         name = package.attrib['id'] #.lower()
         version = package.attrib['version'] #.lower()
-        packageSet[name] = version
-        #writeSourceRecord(name,version)
+        packageSet.add(PackageAndVersionSpecification(name=name, version=version))
 
 def writeSourceRecord(name, version):
     url = 'https://api.nuget.org/v3-flatcontainer/{}/{}/{}.{}.nupkg'.format(name, version, name, version)
@@ -67,12 +75,14 @@ def writeSourceRecord(name, version):
     nugetSources.append('- type: file')
     nugetSources.append('  url: {}'.format(url))
     nugetSources.append('  sha512: {}'.format(sha512))
+    nugetSources.append('  dest: {}'.format(destDir))
 
 for packagesConfigPath in packagesConfigPaths:
     processPackagesConfig(packagesConfigPath)
 
-for name in packageSet.keys():
-    version = packageSet[name]
+for packageSpecification in sorted(packageSet):
+    name = packageSpecification.name
+    version = packageSpecification.version
     writeSourceRecord(name, version)
 
 with open(outputSourcesPath, 'w') as out:
