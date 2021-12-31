@@ -1,15 +1,18 @@
 #!/bin/bash
 
-# Duplicate output to a log file
-exec &> >(tee /tmp/flatpak-build-fw-$(date +"%F-%H%M%S").log)
+# Duplicate output to a log file for easier inspection
+exec &> >(tee /tmp/flatpak-build-$(date +"%F-%H%M%S").log)
 
 set -xueo pipefail
 
+PRODUCT="org.sil.WeSay"
+
+XDG_CACHE_HOME="${XDG_CACHE_HOME-${HOME}/.cache}"
+DEV_REPO_PATH="${XDG_CACHE_HOME}/dev-flatpak-repo"
+
 # Delete the build dirs from last time. But then --keep-build-dirs, not --delete-build-dirs so that the build dirs from this time are left in place for optional inspection.
 rm -rf .flatpak-builder/build
-# Using --no-shallow-clone for flexbridge for GitVersion.
-flatpak-builder --user --repo=local-repo --keep-build-dirs --no-shallow-clone --force-clean build-dir org.sil.WeSay.yml "$@"
-flatpak --user remote-add --no-gpg-verify --if-not-exists local-repo ./local-repo
-# If a WeSay flatpak is already installed, such as from a downloaded .flatpak file, remove it so we don't fail to install what we just built.
-flatpak remove --assumeyes org.sil.WeSay org.sil.WeSay.Debug org.sil.WeSay.Locale || echo "flatpak was not already installed."
-flatpak --user install --or-update --noninteractive local-repo org.sil.WeSay org.sil.WeSay.Debug
+flatpak-builder --user --repo="${DEV_REPO_PATH}" --keep-build-dirs --no-shallow-clone --force-clean build-dir ${PRODUCT}.yml "$@"
+flatpak --user remote-add --no-gpg-verify --if-not-exists local-dev-repo "${DEV_REPO_PATH}"
+flatpak remove --assumeyes ${PRODUCT} ${PRODUCT}.Debug ${PRODUCT}.Locale || echo "flatpak was not already installed."
+flatpak --user install --or-update --noninteractive local-dev-repo ${PRODUCT} ${PRODUCT}.Debug

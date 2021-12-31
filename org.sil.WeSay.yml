@@ -30,7 +30,7 @@ runtime: org.gnome.Platform
 runtime-version: "3.36"
 sdk: org.gnome.Sdk
 
-# Note that WeSay wries to write to these locations
+# TODO Note that WeSay wries to write to these locations
 # ~/.mono/registry/CurrentUser/software/wesay
 # ~/.config/WeSay
 # ~/WeSay
@@ -38,7 +38,6 @@ sdk: org.gnome.Sdk
 # ~/.local/share/SIL/WeSay Configuration Tool
 # ~/.local/share/SIL/WeSay.ConfigTool.exe_Url_7e5be1cbac899b94146387aca5d1128238e2538f
 # ~/.local/share/SIL/WeSay.ConfigTool.exe_Url_13c62d6283f40fa747e42cac2b151f29bd79d24f
-
 
 finish-args:
   - --socket=x11
@@ -49,13 +48,12 @@ finish-args:
   - --filesystem=xdg-data/SIL/WritingSystemRepository:create
   # Directory for libpalaso GlobalMutex.
   - --filesystem=xdg-run/sil-lock:create
-  # WeSay can synchronize data over the network or by USB
-  # Flash Drives. WeSay uses NDesk D-Bus
-  # (https://github.com/sillsdev/dbus-sharp) to query for avaliable USB Flash
-  # Drives.
+  # WeSay can synchronize data over the network or by USB Flash Drives. WeSay
+  # uses NDesk D-Bus (https://github.com/sillsdev/dbus-sharp) to query for
+  # avaliable USB Flash Drives.
   - --socket=system-bus
 
-# Note that 3 commands are provided: wesay wesay-config chorus
+# TODO Note that 3 commands are provided: wesay wesay-config chorus
 command: wesay
 
 modules:
@@ -115,10 +113,20 @@ modules:
         # Build from local repo
         url: ../wesay
         branch: task/linux
+      - type: shell
+        commands:
+          - |
+            tee autogen <<< '#!/bin/bash'
+            chmod +x autogen
+            tee configure <<< '#!/bin/bash'
+            chmod +x configure
       # Use local nuget packages
       - type: shell
         commands:
           - |
+            set -xueo pipefail
+            #mkdir -p nuget-sources
+            #mv --verbose *.nupkg nuget-sources
             tee nuget.config <<< '<?xml version="1.0" encoding="utf-8"?>
             <configuration>
               <packageSources>
@@ -128,8 +136,29 @@ modules:
                 <add key="nuget.org" value="true" />
               </disabledPackageSources>
             </configuration>'
-      # Regenerate: ./compose-nuget-sources wesay-sources-nuget.yml $(find ../wesay -name packages.config | grep -v Test)
+      # Regenerate: ./compose-nuget-sources wesay-sources-nuget.yml nuget-sources $(find ../wesay -name packages.config)
       - wesay-sources-nuget.yml
+      - type: shell
+        # Extract nuget packages.
+        commands:
+          - |
+            set -xueo pipefail
+            for package in nuget-sources/*.nupkg; do
+              mkdir -p "src/packages/$(basename "${package}" .nupkg)" &&
+                unzip "${package}" \
+                  -d "src/packages/$(basename "${package}" .nupkg)"
+            done
+            # Handle oddity in CommonServiceLocator package versioning
+            mv src/packages/CommonServiceLocator.1.0.0 src/packages/CommonServiceLocator.1.0
+            cp -va src/packages .
+      - type: shell
+        # Diagnostics
+        commands:
+          - |
+            set -xueo pipefail
+            pwd
+            env
+            find
     modules:
       - name: dbus-glib
         # For Gecko.
@@ -487,3 +516,32 @@ modules:
           - type: archive
             url: https://software.sil.org/downloads/r/charis/CharisSIL-5.000.zip
             sha512: f85da6c9b93c0ef81617241219b208ca262c12fcecae1d447163b7aff31ea8bfc3f09636dcfc0a322c86201a0d551288884e4017fded5bb71bbb54c8093faaed
+      # - name: xdg-utils
+      #   # To get `xdg-settings` command.
+      #   sources:
+      #     - type: git
+      #       url: https://gitlab.freedesktop.org/xdg/xdg-utils.git
+      #       tag: v1.1.3
+      #       commit: 159fc37075db2decf446f453fe1a796da6921aad
+      #   modules:
+      #     - name: xmlto
+      #       cleanup:
+      #         - '*'
+      #       sources:
+      #         - type: git
+      #           url: https://pagure.io/xmlto.git
+      #           commit: b128bdcf7b15865aaae49635a1dcbcaca07fc6ef
+      #         - type: script
+      #           commands:
+      #             - autoreconf --install
+      #     - name: links2
+      #       post-install:
+      #         - ln -s links /app/bin/elinks
+      #       cleanup:
+      #         - '*'
+      #       sources:
+      #         - type: git
+      #           url: https://salsa.debian.org/debian/links2.git
+      #           tag: upstream/2.25
+      #           commit: 2ee900d6ffc10d95181e78d0aa06e335a06e0cd7
+
