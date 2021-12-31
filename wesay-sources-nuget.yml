@@ -88,8 +88,12 @@
   sha512: ceb2b5024e7ece92d3fdf579f303bd3cc363fe092bfffdc545ee33ff1c5f00f72dc0d95cebf128f632127a694f5c783d9dda39c22492060de348f660e1ae0eb4
   dest: nuget-sources
 - type: file
-  url: https://api.nuget.org/v3-flatcontainer/Mono.Posix/5.4.0.201/Mono.Posix.5.4.0.201.nupkg
-  sha512: 76e9e6ebc44837cfe3aab00a89765ff8d3cbb8a3d902b05848cb22f6e095c3e4e2e94417dc6a524328c1990ba1a700bf4ba73716bc5cfcf12ab33fea0963015e
+  url: https://api.nuget.org/v3-flatcontainer/Mono.Posix/7.0.0-alpha2.21278.1/Mono.Posix.7.0.0-alpha2.21278.1.nupkg
+  sha512: 50449a2da0cf3252b5fbfb60bb7629805dcc439c8eb4a39309a101e9e6f17cef8b9fb220bf7a96929702e37008e80e76319e3bcafee7f8fbedf25e959d70ed05
+  dest: nuget-sources
+- type: file
+  url: https://api.nuget.org/v3-flatcontainer/Mono.Unix/7.0.0-alpha2.21278.1/Mono.Unix.7.0.0-alpha2.21278.1.nupkg
+  sha512: 9296642899f5712861d0d5ae5b4db87006fe9ea9535b4a31bb9e1a73385ace53f2f97f4880a416e142c273bc93c0c42b5a64b75437d492c66fe6eac6da0c82bc
   dest: nuget-sources
 - type: file
   url: https://api.nuget.org/v3-flatcontainer/NAudio/1.10.0/NAudio.1.10.0.nupkg
@@ -102,6 +106,14 @@
 - type: file
   url: https://api.nuget.org/v3-flatcontainer/NHunspell.Patched/1.2.5554/NHunspell.Patched.1.2.5554.nupkg
   sha512: b55f1364e038491a47ef1e5b235f6e4755ae63e51d21ab40b9dd708e2e6f07e80cb41ced4ce0fec391ad2a34791fd101cadbee8b447a51b4b8f905f57bfdb55b
+  dest: nuget-sources
+- type: file
+  url: https://api.nuget.org/v3-flatcontainer/NUnit/2.6.4/NUnit.2.6.4.nupkg
+  sha512: e0510c05364d512d810d8bc5741462cb8eeef06b45101f81106f5489fd9f9987d07050320d4306c41c9bc76fe186735a8e3544be0b496dc416617cf0bdb99600
+  dest: nuget-sources
+- type: file
+  url: https://api.nuget.org/v3-flatcontainer/NUnit/3.13.1/NUnit.3.13.1.nupkg
+  sha512: 78c0c5945ae5a6f60cd21e02a5d365226aaef871ecd3d6d8207114c0add566a89e868c3ba5294414d2326e200cf4a93ef33daaa0f50cfc23045922e0fe3f69e7
   dest: nuget-sources
 - type: file
   url: https://api.nuget.org/v3-flatcontainer/NUnit.Runners.Net4/2.6.4/NUnit.Runners.Net4.2.6.4.nupkg
@@ -144,6 +156,10 @@
   sha512: 475344b1efeb167a4f6fa5a74887ebd38f0b4d1ef5dee8e653451c0e0528af4268a1bab17ec40423cbb58d22e27d67937f4d31381ac9f7b3a55141961835c602
   dest: nuget-sources
 - type: file
+  url: https://api.nuget.org/v3-flatcontainer/SIL.Core.Tests/9.0.0-beta0078/SIL.Core.Tests.9.0.0-beta0078.nupkg
+  sha512: e86e61e432f72d8eacb94e5acf071f32a56d679a253c8b787b4ad83083161e3be55f1a0fd4eb74974ffcef553f1cb0838a06adf1ff547ae0f3e6cc753aae18c2
+  dest: nuget-sources
+- type: file
   url: https://api.nuget.org/v3-flatcontainer/SIL.DictionaryServices/9.0.0-beta0078/SIL.DictionaryServices.9.0.0-beta0078.nupkg
   sha512: 1c30a68ee077d4d76c29b58f5ed54a65e34c4b5e76b83f3e23480f90c46a0fd2a61e2e632ce45477174f9ffa424c73ae2fdea3e713618d9117cf924e758773f1
   dest: nuget-sources
@@ -158,6 +174,10 @@
 - type: file
   url: https://api.nuget.org/v3-flatcontainer/SIL.Media/9.0.0-beta0078/SIL.Media.9.0.0-beta0078.nupkg
   sha512: 1876029fec70dc2ca78c3d01d72cfe11adfb5b4d5b38a86d2f67c551ea5e10e26ef4f4fe8aab7120db9d2c47da1e32e939525ee432e70f4ed27940de57237554
+  dest: nuget-sources
+- type: file
+  url: https://api.nuget.org/v3-flatcontainer/SIL.TestUtilities/9.0.0-beta0078/SIL.TestUtilities.9.0.0-beta0078.nupkg
+  sha512: aa746818c86d93beb7055048e53c4d15e9ae509a2a55701e6ac2b73fdb4d69affaeb9be7075458bc9bd9c1618b7f342a8cb6af9aba570bfbaa3a29b120d960d1
   dest: nuget-sources
 - type: file
   url: https://api.nuget.org/v3-flatcontainer/SIL.Windows.Forms/9.0.0-beta0078/SIL.Windows.Forms.9.0.0-beta0078.nupkg
@@ -178,6 +198,10 @@
 - type: file
   url: https://api.nuget.org/v3-flatcontainer/SIL.WritingSystems/9.0.0-beta0078/SIL.WritingSystems.9.0.0-beta0078.nupkg
   sha512: 6887d06c32a9d0cc08712ed7704ebd056d9abcc23d1d9c7306a9c0567494ff72d33b407074551ca7042ffdeca8ef9500654d5cc887bdee6566fa6678a2c53fb4
+  dest: nuget-sources
+- type: file
+  url: https://api.nuget.org/v3-flatcontainer/SIL.WritingSystems.Tests/9.0.0-beta0078/SIL.WritingSystems.Tests.9.0.0-beta0078.nupkg
+  sha512: 135ef347ae8d97adb226fd8e7e3b3890e3290c92e6f338985c0262b55bff35e44769340beee6bb7ebabab94b8359cc374a6d298a6c9a6236bbc51d24a487dce6
   dest: nuget-sources
 - type: file
   url: https://api.nuget.org/v3-flatcontainer/SharpZipLib/0.86.0/SharpZipLib.0.86.0.nupkg
