@@ -88,14 +88,6 @@
   sha512: ceb2b5024e7ece92d3fdf579f303bd3cc363fe092bfffdc545ee33ff1c5f00f72dc0d95cebf128f632127a694f5c783d9dda39c22492060de348f660e1ae0eb4
   dest: nuget-sources
 - type: file
-  url: https://api.nuget.org/v3-flatcontainer/Mono.Posix/7.0.0-alpha2.21278.1/Mono.Posix.7.0.0-alpha2.21278.1.nupkg
-  sha512: 50449a2da0cf3252b5fbfb60bb7629805dcc439c8eb4a39309a101e9e6f17cef8b9fb220bf7a96929702e37008e80e76319e3bcafee7f8fbedf25e959d70ed05
-  dest: nuget-sources
-- type: file
-  url: https://api.nuget.org/v3-flatcontainer/Mono.Unix/7.0.0-alpha2.21278.1/Mono.Unix.7.0.0-alpha2.21278.1.nupkg
-  sha512: 9296642899f5712861d0d5ae5b4db87006fe9ea9535b4a31bb9e1a73385ace53f2f97f4880a416e142c273bc93c0c42b5a64b75437d492c66fe6eac6da0c82bc
-  dest: nuget-sources
-- type: file
   url: https://api.nuget.org/v3-flatcontainer/NAudio/1.10.0/NAudio.1.10.0.nupkg
   sha512: a4d0cf699bc475758a7740d34d4f640444032527876316fe7098870164c00aac64cb77b3de0a8db0840752db3ff2cfb5cfd6e3dbeda7e7fdad0aa4ab865e8621
   dest: nuget-sources
