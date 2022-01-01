@@ -54,6 +54,7 @@ finish-args:
   # uses NDesk D-Bus (https://github.com/sillsdev/dbus-sharp) to query for
   # avaliable USB Flash Drives.
   - --socket=system-bus
+  - --env=MONO_PREFIX=/app
 
 # TODO Note that 3 commands are provided: wesay wesay-config chorus
 command: wesay
