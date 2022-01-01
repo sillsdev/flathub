@@ -29,6 +29,8 @@ runtime: org.gnome.Platform
 # build and test on without flatpak.
 runtime-version: "3.36"
 sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.mono6
 
 # TODO Note that WeSay wries to write to these locations
 # ~/.mono/registry/CurrentUser/software/wesay
@@ -329,6 +331,10 @@ modules:
                         for PATCH_FILE in $(cat debian/patches/series); do
                           patch -p1 -i debian/patches/${PATCH_FILE}
                         done
+      - name: mono6
+        buildsystem: simple
+        build-commands:
+          - /usr/lib/sdk/mono6/install.sh
       - name: mono5-sil
         cleanup:
           - "/include"
