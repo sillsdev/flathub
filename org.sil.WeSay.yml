@@ -38,6 +38,7 @@ sdk: org.gnome.Sdk
 # ~/.local/share/SIL/WeSay Configuration Tool
 # ~/.local/share/SIL/WeSay.ConfigTool.exe_Url_7e5be1cbac899b94146387aca5d1128238e2538f
 # ~/.local/share/SIL/WeSay.ConfigTool.exe_Url_13c62d6283f40fa747e42cac2b151f29bd79d24f
+# CLEAN COMMAND: rm -rf ~/WeSay ~/.mono/registry/CurrentUser/software/wesay ~/.config/WeSay ~/.local/share/WeSay ~/.local/share/SIL/WeSay*
 
 finish-args:
   - --socket=x11
