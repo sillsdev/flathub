@@ -48,6 +48,8 @@ finish-args:
   - --filesystem=xdg-data/SIL/WritingSystemRepository:create
   # Directory for libpalaso GlobalMutex.
   - --filesystem=xdg-run/sil-lock:create
+  # Older directory for libpalaso GlobalMutex until update libpalaso.
+  - --filesystem=/var/lock
   # WeSay can synchronize data over the network or by USB Flash Drives. WeSay
   # uses NDesk D-Bus (https://github.com/sillsdev/dbus-sharp) to query for
   # avaliable USB Flash Drives.
