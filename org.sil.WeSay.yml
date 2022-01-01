@@ -40,6 +40,16 @@ sdk: org.gnome.Sdk
 # ~/.local/share/SIL/WeSay.ConfigTool.exe_Url_13c62d6283f40fa747e42cac2b151f29bd79d24f
 # CLEAN COMMAND: rm -rf ~/WeSay ~/.mono/registry/CurrentUser/software/wesay ~/.config/WeSay ~/.local/share/WeSay ~/.local/share/SIL/WeSay*
 
+
+# TODO fix:
+# Not exporting share/applications/sil-wesay.desktop, non-allowed export filename
+# Not exporting share/applications/sil-wesay-config.desktop, non-allowed export filename
+# Not exporting share/icons/sil-wesay-config.svg, non-allowed export filename
+# Not exporting share/icons/sil-wesay-config.png, non-allowed export filename
+# Not exporting share/icons/sil-wesay.png, non-allowed export filename
+# Not exporting share/icons/sil-wesay.svg, non-allowed export filename
+
+
 finish-args:
   - --socket=x11
   - --share=ipc
