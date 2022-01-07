@@ -22,9 +22,9 @@ name: Build flatpak
 
 on:
   push:
-    branches: [ org.sil.FieldWorks ]
+    branches: [ org.sil.FieldWorks dev-fieldworks ]
   pull_request:
-    branches: [ org.sil.FieldWorks ]
+    branches: [ org.sil.FieldWorks dev-fieldworks ]
   workflow_dispatch:
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
         run: |
           set -xueo pipefail
           df -h /
-          
+
           sudo apt-get purge --assume-yes \
             google-cloud-sdk \
             adoptopenjdk-11-hotspot \
@@ -70,7 +70,7 @@ jobs:
 
           # echo 'Packages using space:'
           # dpkg-query -W -f='${Installed-Size}\t${binary:Package}\t${Version}\n' | sort --numeric-sort --reverse|head --lines=30
-            
+
           sudo apt-get autoremove --assume-yes
           sudo apt-get clean
           # du -sh /usr/share/dotnet /usr/local/lib/android /opt/ghc || true
@@ -119,7 +119,7 @@ jobs:
           ls -al artifacts
       - name: Save artifacts
         uses: actions/upload-artifact@v2
-        with: 
+        with:
           name: fw-flatpak-bundle
           path: |
             artifacts/
