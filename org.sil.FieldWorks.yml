@@ -171,8 +171,8 @@ modules:
       # Preview updates via FieldWorks.git:
       #   git log -p -- Build/nuget-{common,linux}/packages.config
       # To regenerate input sources:
-      #   ./compose-nuget-sources ~/fwrepo/fw/Build/nuget-linux/packages.config packages fieldworks-sources-nuget-linux.yml
-      #   ./compose-nuget-sources ~/fwrepo/fw/Build/nuget-common/packages.config packages fieldworks-sources-nuget-common.yml
+      #   ./compose-nuget-sources fieldworks-sources-nuget-linux.yml . ../fw/Build/nuget-linux/packages.config
+      #   ./compose-nuget-sources fieldworks-sources-nuget-common.yml . ../fw/Build/nuget-common/packages.config
       - fieldworks-sources-nuget-common.yml
       - fieldworks-sources-nuget-linux.yml
       - type: shell

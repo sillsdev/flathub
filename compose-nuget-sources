@@ -1,6 +1,6 @@
 #!/usr/bin/env xonsh
 
-# Derive nuget sources
+# Generate flatpak sources from nuget package.config files
 #
 # Copyright (c) 2021 SIL International. MIT License.
 #
@@ -22,22 +22,34 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-# Output a flatpak yaml sources list from a nuget packages.config. NuGet
-# packages will be downloaded (and cached) to compute their checksums.
-# Usage: nuget-sources .../packages.config output-sources-filename.yml
-# Dependencies: sudo apt install xonsh wget
+# Output a flatpak yaml sources list from one or more nuget packages.config
+# files. NuGet packages will be downloaded (and cached) to compute their
+# checksums.
+# Usage:
+#   compose-nuget-sources output-sources.yml dest-dir-in-build dir1/packages.config [dir2/packages.config ...]
+# Dependencies: xonsh wget
 
 import sys
+import collections
 import xml.etree.ElementTree as ET
 $RAISE_SUBPROC_ERROR = True
 
 # trace on
 # $XONSH_TRACE_SUBPROC = True
 
-packagesConfigPath = sys.argv[1]
-outputSourcesPath = sys.argv[2]
+outputSourcesPath = sys.argv[1]
+destDir = sys.argv[2]
+packagesConfigPaths = sys.argv[3:]
+
+PackageAndVersionSpecification = collections.namedtuple('PackageAndVersionSpecification', ['name', 'version'])
 
 nugetSources = []
+# packageSet should specify pairs of dependencies and versions, with no
+# duplicates. For example:
+#   SomeLib.Foo version 11
+#   SomeLib.Foo version 12
+#   OtherLib version 3
+packageSet = set()
 if 'XDG_CACHE_HOME' in ${...}:
     cacheHome = $XDG_CACHE_HOME
 else:
@@ -52,7 +64,7 @@ def processPackagesConfig(path):
     for package in packageElements:
         name = package.attrib['id'] #.lower()
         version = package.attrib['version'] #.lower()
-        writeSourceRecord(name,version)
+        packageSet.add(PackageAndVersionSpecification(name=name, version=version))
 
 def writeSourceRecord(name, version):
     url = 'https://api.nuget.org/v3-flatcontainer/{}/{}/{}.{}.nupkg'.format(name, version, name, version)
@@ -60,12 +72,20 @@ def writeSourceRecord(name, version):
     filename = '{}.{}.nupkg'.format(name, version)
     pathToCachedFile = '{}/{}'.format(cachePath, filename)
     sha512 = $(sha512sum @(pathToCachedFile) | perl -p -e 's/ .*$//').rstrip()
-    nugetSources.append('  - type: file')
-    nugetSources.append('    url: {}'.format(url))
-    nugetSources.append('    sha512: {}'.format(sha512))
+    nugetSources.append('- type: file')
+    nugetSources.append('  url: {}'.format(url))
+    nugetSources.append('  sha512: {}'.format(sha512))
+    nugetSources.append('  dest: {}'.format(destDir))
 
-processPackagesConfig(packagesConfigPath)
+for packagesConfigPath in packagesConfigPaths:
+    processPackagesConfig(packagesConfigPath)
+
+for packageSpecification in sorted(packageSet):
+    name = packageSpecification.name
+    version = packageSpecification.version
+    writeSourceRecord(name, version)
 
 with open(outputSourcesPath, 'w') as out:
+    out.write('# Generated file\n')
     for line in nugetSources:
         out.write(line + '\n')

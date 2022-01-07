@@ -1,6 +1,6 @@
 #!/usr/bin/env xonsh
 
-# Generate sources from URLs
+# Generate flatpak sources from URLs
 #
 # Copyright (c) 2021 SIL International. MIT License.
 #
@@ -24,8 +24,8 @@
 #
 # Output a flatpak yaml sources list from an input yaml file specifying files at
 # base URLs. Files will be downloaded (and cached) to compute their checksums.
-# Usage: url-sources input.yml output.yml
-# Dependencies: sudo apt install xonsh wget
+# Usage: compose-url-sources input.yml output.yml
+# Dependencies: xonsh wget
 #
 # Input should be formatted like the following example:
 #   - name: My Assembly
@@ -35,11 +35,16 @@
 #       - My.Assembly.dll
 #       - My.Assembly.dll.config
 #   - name: Something else
-#     baseurl: https://www.example.com/something-else/
+#     baseurl: https://project.example.com/something-else/
 #     dest: other-dependencies
 #     files:
 #       - deps.tar.xz
 #       - icon.png
+# output.yml will then specify to download the following files:
+#   https://www.example.com/my-assembly/My.Assembly.dll
+#   https://www.example.com/my-assembly/My.Assembly.dll.config
+#   https://project.example.com/something-else/deps.tar.xz
+#   https://project.example.com/something-else/icon.png
 
 import sys
 import yaml
@@ -48,7 +53,7 @@ $RAISE_SUBPROC_ERROR = True
 # trace on
 # $XONSH_TRACE_SUBPROC = True
 
-tcInputsPath = sys.argv[1]
+inputsPath = sys.argv[1]
 outputSourcesPath = sys.argv[2]
 
 nugetSources = []
@@ -80,7 +85,7 @@ def prepareSourceRecord(name, baseurl, dest, file):
       'dest': dest
     })
 
-processInputSourcesList(tcInputsPath)
+processInputSourcesList(inputsPath)
 
 with open(outputSourcesPath, 'w') as out:
     yaml.dump(nugetSources, out)
