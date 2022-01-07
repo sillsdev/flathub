@@ -91,7 +91,7 @@ modules:
     build-commands:
       - |
         # Run the rest in bash rather than sh.
-        bash <<_
+        bash << END
         set -xueo pipefail
         # Apply outstanding FwBuildTasks code changes, if any.
         cd ${FW_ROOT_PATH}/Build/Src/FwBuildTasks
@@ -117,6 +117,7 @@ modules:
           /app/share/applications/org.sil.FieldWorks.desktop
         #mv -v /app/share/icons/hicolor/128x128/apps/{fieldworks-flex,org.sil.FieldWorks}.png
         #mv -v /app/share/icons/hicolor/64x64/apps/{fieldworks-flex,org.sil.FieldWorks}.png
+        END
     cleanup:
       - "/include"
       - "/lib/*/include"
