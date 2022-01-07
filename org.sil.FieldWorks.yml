@@ -632,8 +632,8 @@ modules:
             msbuild \
               -p:Configuration=${CONFIGURATION} \
               -p:DisableGitVersionTask=true \
-              -p:GitVersion_SemVer=1.2.3 \
-              -p:Version=1.2.3 \
+              -p:GitVersion_SemVer=1.0.0 \
+              -p:Version=1.0.0 \
               -p:WriteVersionInfoToBuildLog=false \
               build/FLExBridge.proj
             # Fix path on fixutf8 extension
@@ -716,7 +716,7 @@ modules:
           #   path: patches/flexbridge/gitversion.json
           - type: shell
             commands:
-              - tee gitversion.properties <<< 'BuildVersion=3.4.0-beta.9.0'
+              - tee gitversion.properties <<< 'BuildVersion=1.0.0'
       - name: xchm
         # Help file viewer
         cleanup:
