@@ -63,8 +63,7 @@ finish-args:
   # FieldWorks uses FlexBridge to synchronize data over the network or by USB
   # Flash Drives. FlexBridge uses NDesk D-Bus
   # (https://github.com/sillsdev/dbus-sharp) to query for avaliable USB Flash
-  # Drives. Without access to the system D-Bus, Flexbridge crashes, such as when
-  # clicking "Get project from a colleague" on the welcome dialog.
+  # Drives using the system bus.
   - --socket=system-bus
 
 command: fieldworks-flex
@@ -90,8 +89,6 @@ modules:
         BUILD_TYPE: r
     build-commands:
       - |
-        # Run the rest in bash rather than sh.
-        bash << END
         set -xueo pipefail
         # Apply outstanding FwBuildTasks code changes, if any.
         cd ${FW_ROOT_PATH}/Build/Src/FwBuildTasks
@@ -110,14 +107,6 @@ modules:
           BUILD_CONFIG=${BUILD_CONFIG} \
           disableDownloads=true \
           install-for-flatpak
-
-        # todo trim desktop and icon lines if no longer needed
-        #mv -v /app/share/applications/{fieldworks-applications,org.sil.FieldWorks}.desktop
-        #perl -pi -e 's/Icon=fieldworks-flex/Icon=org.sil.FieldWorks/g' \
-          /app/share/applications/org.sil.FieldWorks.desktop
-        #mv -v /app/share/icons/hicolor/128x128/apps/{fieldworks-flex,org.sil.FieldWorks}.png
-        #mv -v /app/share/icons/hicolor/64x64/apps/{fieldworks-flex,org.sil.FieldWorks}.png
-        END
     cleanup:
       - "/include"
       - "/lib/*/include"
@@ -125,16 +114,14 @@ modules:
     sources:
       - type: git
         dest: fw
-        #TODO still clean up this section for submission
         # Build from main repo
-        #url: https://github.com/sillsdev/FieldWorks.git
-        #branch: support/9.0
-        #tag: TODO
-        #commit: TODO
+        url: https://github.com/sillsdev/FieldWorks.git
+        branch: support/9.0
+        commit: 79f6e77d5cc3660d43ef775015bbc33a95bf6a0f
 
         # Build from commit still in review
-        url: https://gerrit.lsdev.sil.org/FieldWorks
-        commit: 80572136821ea919e7509f72e36098a0587f407c
+        # url: https://gerrit.lsdev.sil.org/FieldWorks
+        # commit: 
 
         # Build from local repo
         # url: ../fw
@@ -205,7 +192,6 @@ modules:
           - --prefix=/app
         build-commands:
           - ./bootstrap.sh
-          # It installs to /usr/local unless we specify a prefix.
           - ./b2 install variant=release --prefix=/app
         cleanup:
           # Don't ship.
@@ -507,9 +493,8 @@ modules:
                 commit: de2120737dbbeb00728054232a21c6b03c1ae687
       - name: icu-fw
         # FW ICU should install to paths like
-        # /app/lib/fieldworks/lib/libicuuc.so . The icu-fw package debian/rules
-        # file installs bin/* and sbin/* to icu-bin/ . The FieldWorks build
-        # expects icu-config to be there, such as in _init.mak.lnx and environ.
+        # /app/lib/fieldworks/lib/libicuuc.so . The FieldWorks build expects
+        # icu-config to be in icu-bin, such as in _init.mak.lnx and environ.
         config-opts:
           - --prefix=/app/lib/fieldworks
           - --bindir=/app/lib/fieldworks/icu-bin
@@ -650,7 +635,6 @@ modules:
             make install-core
         sources:
           - type: git
-            # TODO still clean up this section before submission
             # Build from main repo
             url: https://github.com/sillsdev/flexbridge.git
             branch: develop
@@ -758,8 +742,7 @@ modules:
                 # v3.0.4 is used in Ubuntu 20.04.
                 # v3.1.1+ is needed for xchm to write to XDG_CONFIG_HOME.
                 # However, v3.1.0 appears to introduce a problem rendering the
-                # chm html that still needs investigating. v3.0.5.1 still
-                # worked, rendering the html.
+                # chm html. v3.0.5.1 still worked, rendering the html.
                 tag: v3.0.4
                 commit: 721d62adde3f8ba8704a9cf56efeb050f652dfbf
       - name: fonts-sil-doulos
