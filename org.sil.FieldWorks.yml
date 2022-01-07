@@ -130,7 +130,7 @@ modules:
 
         # Build from commit still in review
         url: https://gerrit.lsdev.sil.org/FieldWorks
-        commit: 730c7d8bc612fde1f1eef4a3c78e5502d295f604
+        commit: 80572136821ea919e7509f72e36098a0587f407c
 
         # Build from local repo
         # url: ../fw
