@@ -710,10 +710,6 @@ modules:
           # Determine what is needed by running in the flexbridge repo:
           #   msbuild -t:DownloadDependencies build/FLExBridge.proj && cat build/FLExBridge.files
           - flexbridge-sources-deps.yml
-          #TODO trying without gitversion.json
-          # - type: file
-          #   dest: build/
-          #   path: patches/flexbridge/gitversion.json
           - type: shell
             commands:
               - tee gitversion.properties <<< 'BuildVersion=1.0.0'
