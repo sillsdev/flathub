@@ -648,18 +648,17 @@ modules:
           - type: git
             # TODO still clean up this section before submission
             # Build from main repo
-            #url: https://github.com/sillsdev/flexbridge.git
-            #branch: develop
-            #tag: TODO
-            #commit: TODO
+            url: https://github.com/sillsdev/flexbridge.git
+            branch: develop
+            commit: 2702b46cbd228f98e17ef3ca0e3d8a95953b6830
 
             # Build from commit still in review
-            url: https://github.com/sillsdev/flexbridge.git
-            commit: 8d715d145e3dbb73bc5adc23133075dcee191f46
+            # url: https://github.com/sillsdev/flexbridge.git
+            # commit:
 
             # Build from local repo
-            #url: ../flexbridge
-            #branch: feature/flatpak
+            # url: ../flexbridge
+            # branch: feature/flatpak
           - type: file
             # To update: Choose a new l10n artifact at
             # https://github.com/sillsdev/flexbridge/releases , possibly after
