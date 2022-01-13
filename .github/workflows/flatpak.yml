@@ -38,7 +38,7 @@ jobs:
           cd /tmp
           wget 'https://github.com/sillsdev/flathub/releases'
           wget 'https://api.github.com/repos/sillsdev/flathub/releases'
-          wget 'https://api.nuget.org/v3-flatcontainer'
+          wget 'https://api.nuget.org/v3/index.json'
           wget 'https://api.nuget.org/v3-flatcontainer/Geckofx45.64.Linux/45.0.21/Geckofx45.64.Linux.45.0.21.nupkg'
           wget 'https://flathub.org/repo/flathub.flatpakrepo'
           wget 'https://salsa.debian.org/public'
