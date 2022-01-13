@@ -32,6 +32,16 @@ jobs:
     name: "Flatpak"
     runs-on: ubuntu-latest
     steps:
+      - name: "Check if it's plugged in"
+        run: |
+          set -xueo pipefail
+          cd /tmp
+          wget 'https://github.com/sillsdev/flathub/releases'
+          wget 'https://api.github.com/repos/sillsdev/flathub/releases'
+          wget 'https://api.nuget.org/v3-flatcontainer'
+          wget 'https://api.nuget.org/v3-flatcontainer/Geckofx45.64.Linux/45.0.21/Geckofx45.64.Linux.45.0.21.nupkg'
+          wget 'https://flathub.org/repo/flathub.flatpakrepo'
+          wget 'https://salsa.debian.org/public'
       - name: Adjust disk space
         run: |
           set -xueo pipefail
