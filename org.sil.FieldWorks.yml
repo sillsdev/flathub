@@ -104,8 +104,6 @@ modules:
         perl -pi -e \
           '/<runtime>/ and s/^/  <dllmap dll="libdl.so" target="libdl.so.2" \/>\n/' \
           $(find "${FW_ROOT_PATH}" -name SIL.LCModel.Core.dll.config)
-        #echo TODO DEBUG;find "${FW_ROOT_PATH}" -name SIL.LCModel.Core.dll.config
-        #find "${FW_ROOT_PATH}" -name SIL.LCModel.Core.dll.config|xargs cat;pwd
 
         cd ${FW_ROOT_PATH}
         Build/run-in-environ make \
