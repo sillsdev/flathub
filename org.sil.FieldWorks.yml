@@ -65,6 +65,16 @@ finish-args:
   # (https://github.com/sillsdev/dbus-sharp) to query for avaliable USB Flash
   # Drives using the system bus.
   - --socket=system-bus
+  # Trying more things for ibus keyboarding
+  - --socket=session-bus
+  - --talk-name=org.freedesktop.IBus
+  - --talk-name=org.freedesktop.DBus.Properties
+  - --socket=wayland
+  - --device=dri
+  - --socket=fallback-x11
+  - --filesystem=xdg-run/dconf
+  - --filesystem=xdg-config/dconf:ro
+  - --filesystem=xdg-config/ibus
 
 command: fieldworks-flex
 rename-desktop-file: fieldworks-applications.desktop
@@ -359,6 +369,26 @@ modules:
                         for PATCH_FILE in $(cat debian/patches/series); do
                           patch -p1 -i debian/patches/${PATCH_FILE}
                         done
+          - name: ibus
+            config-opts:
+              - --enable-wayland
+              - --disable-tests
+              - --disable-glibtest
+              - --disable-python-library
+              - --disable-python2
+              - --disable-unicode-dict
+              - --disable-emoji-dict
+              # - --disable-engine
+              # - --disable-ui
+            make-install-args:
+              - -C
+              - client
+            sources:
+              - type: git
+                url: https://github.com/ibus/ibus.git
+                # Using a commit on master since tag 1.5.25 requires
+                # gnome-autogen.sh.
+                commit: 2bc47f09832073c87ccdf1060bd93ff95878685a
       - name: wget
         buildsystem: autotools
         cleanup:
