@@ -383,6 +383,12 @@ modules:
             make-install-args:
               - -C
               - client
+            post-install:
+              - gtk-query-immodules-2.0 --update-cache
+              - echo todo debug
+              - ls -al /app/lib/gtk-2.0/2.10.0/ || true
+              - echo should have ibus now
+              - cat /app/lib/gtk-2.0/2.10.0/immodules.cache || true
             sources:
               - type: git
                 url: https://github.com/ibus/ibus.git
