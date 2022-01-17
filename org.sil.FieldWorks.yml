@@ -40,20 +40,11 @@ finish-args:
   - --socket=pulseaudio
   # FieldWorks can import language and dictionary data, restore from backup
   # files, and link to pictures or other media to appear in a dictionary.
-  - --filesystem=home:ro
-  # Data, including projects. Default location to store project backups.
-  - --filesystem=xdg-data/fieldworks:create
-  # Writing system definition files. Shared with other applications.
-  - --filesystem=xdg-data/SIL/WritingSystemRepository:create
-  # Encoding Converter location for configuration and potentially user-made
-  # converters. Shared with other applications.
-  - --filesystem=xdg-data/SIL/encoding-converters:create
-  # Configuration and settings of FieldWorks and included components.
-  - --filesystem=xdg-config/fieldworks:create
-  - --filesystem=~/.mono/registry/CurrentUser/software/sil:create
-  # Users can create a launcher to a specific project by clicking
-  # File - Project Management - Create Shortcut on Desktop.
-  - --filesystem=xdg-desktop:rw
+  # Users need to save project data, project backups, Encoding Converter
+  # configurations, and configuration and settings of FieldWorks and included
+  # components.
+  # Users need to be able to export dictionaries to arbitrary locations.
+  - --filesystem=host
   # Directory for libpalaso GlobalMutex.
   - --filesystem=xdg-run/sil-lock:create
   # Shared writing system and encoding converters data location used by
@@ -65,6 +56,7 @@ finish-args:
   # (https://github.com/sillsdev/dbus-sharp) to query for avaliable USB Flash
   # Drives using the system bus.
   - --socket=system-bus
+
   # Trying more things for ibus keyboarding
   - --socket=session-bus
   - --talk-name=org.freedesktop.IBus
@@ -75,6 +67,25 @@ finish-args:
   - --filesystem=xdg-run/dconf
   - --filesystem=xdg-config/dconf:ro
   - --filesystem=xdg-config/ibus
+
+  # Carefully worked-out permissions that don't need specified if we just
+  # give filesystem=host:
+  # FieldWorks can import language and dictionary data, restore from backup
+  # files, and link to pictures or other media to appear in a dictionary.
+  # - --filesystem=home:ro
+  # Data, including projects. Default location to store project backups.
+  # - --filesystem=xdg-data/fieldworks:create
+  # Writing system definition files. Shared with other applications.
+  # - --filesystem=xdg-data/SIL/WritingSystemRepository:create
+  # Encoding Converter location for configuration and potentially user-made
+  # converters. Shared with other applications.
+  # - --filesystem=xdg-data/SIL/encoding-converters:create
+  # Configuration and settings of FieldWorks and included components.
+  # - --filesystem=xdg-config/fieldworks:create
+  # - --filesystem=~/.mono/registry/CurrentUser/software/sil:create
+  # Users can create a launcher to a specific project by clicking
+  # File - Project Management - Create Shortcut on Desktop.
+  # - --filesystem=xdg-desktop:rw
 
 command: fieldworks-flex
 rename-desktop-file: fieldworks-applications.desktop
