@@ -59,8 +59,8 @@ finish-args:
   - --device=dri
   - --socket=fallback-x11
   - --filesystem=xdg-run/dconf
-  - --filesystem=xdg-config/dconf:ro
-  - --filesystem=xdg-config/ibus
+  # - --filesystem=xdg-config/dconf:ro
+  # - --filesystem=xdg-config/ibus
 
   # Carefully worked-out permissions that don't need specified if we give home
   # rw permission.
