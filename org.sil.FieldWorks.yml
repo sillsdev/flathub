@@ -45,12 +45,6 @@ finish-args:
   # components.
   # Users need to be able to export dictionaries to arbitrary locations.
   - --filesystem=host
-  # Directory for libpalaso GlobalMutex.
-  - --filesystem=xdg-run/sil-lock:create
-  # Shared writing system and encoding converters data location used by
-  # FieldWorks .deb packages, that may have configuration that some users might
-  # rely on.
-  - --filesystem=/var/lib/fieldworks:ro
   # FieldWorks uses FlexBridge to synchronize data over the network or by USB
   # Flash Drives. FlexBridge uses NDesk D-Bus
   # (https://github.com/sillsdev/dbus-sharp) to query for avaliable USB Flash
@@ -68,8 +62,8 @@ finish-args:
   - --filesystem=xdg-config/dconf:ro
   - --filesystem=xdg-config/ibus
 
-  # Carefully worked-out permissions that don't need specified if we just
-  # give filesystem=host:
+  # Carefully worked-out permissions that don't need specified if we give home
+  # rw permission.
   # FieldWorks can import language and dictionary data, restore from backup
   # files, and link to pictures or other media to appear in a dictionary.
   # - --filesystem=home:ro
@@ -86,6 +80,16 @@ finish-args:
   # Users can create a launcher to a specific project by clicking
   # File - Project Management - Create Shortcut on Desktop.
   # - --filesystem=xdg-desktop:rw
+
+  # Carefully worked-out permissions that don't need specified if we give host
+  # rw permission.
+  # Directory for libpalaso GlobalMutex.
+  # - --filesystem=xdg-run/sil-lock:create
+  # Shared writing system and encoding converters data location used by
+  # FieldWorks .deb packages, that may have configuration that some users might
+  # rely on.
+  # - --filesystem=/var/lib/fieldworks:ro
+
 
 command: fieldworks-flex
 rename-desktop-file: fieldworks-applications.desktop
