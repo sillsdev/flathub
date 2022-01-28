@@ -36,12 +36,20 @@ jobs:
         run: |
           set -xueo pipefail
           cd /tmp
-          wget 'https://github.com/sillsdev/flathub/releases'
-          wget 'https://api.github.com/repos/sillsdev/flathub/releases'
-          wget 'https://api.nuget.org/v3/index.json'
-          wget 'https://api.nuget.org/v3-flatcontainer/Geckofx45.64.Linux/45.0.21/Geckofx45.64.Linux.45.0.21.nupkg'
-          wget 'https://flathub.org/repo/flathub.flatpakrepo'
-          wget 'https://salsa.debian.org/public'
+          attempt=1
+          while (( attempt++ < 10 )); do
+            (
+              wget 'https://github.com/sillsdev/flathub/releases'
+              wget 'https://api.github.com/repos/sillsdev/flathub/releases'
+              wget 'https://api.nuget.org/v3/index.json'
+              # Fetching Geckofx45 can fail even if fetching the index.json succeeds.
+              wget 'https://api.nuget.org/v3-flatcontainer/Geckofx45.64.Linux/45.0.21/Geckofx45.64.Linux.45.0.21.nupkg'
+              wget 'https://flathub.org/repo/flathub.flatpakrepo'
+              wget 'https://salsa.debian.org/public'
+            ) && break
+            echo "Failed attempt ${attempt}"
+            sleep 1m
+          done
       - name: Adjust disk space
         run: |
           set -xueo pipefail
