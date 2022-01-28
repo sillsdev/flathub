@@ -39,6 +39,7 @@ jobs:
           attempt=1
           while (( attempt++ < 10 )); do
             (
+              set -e
               wget 'https://github.com/sillsdev/flathub/releases'
               wget 'https://api.github.com/repos/sillsdev/flathub/releases'
               wget 'https://api.nuget.org/v3/index.json'
