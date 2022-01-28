@@ -48,6 +48,8 @@ jobs:
               wget 'https://salsa.debian.org/public'
             ) && break
             echo "Failed attempt ${attempt}"
+            cat /etc/hosts
+            sudo tee -a /etc/hosts <<< '152.199.4.184 api.nuget.org'
             sleep 1m
           done
       - name: Adjust disk space
