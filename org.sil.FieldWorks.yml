@@ -45,21 +45,31 @@ finish-args:
   # components.
   # Users need to be able to export dictionaries to arbitrary locations.
   - --filesystem=host
+  # As a language-documentation tool, FieldWorks allows a user to assign
+  # specific keyboard input methods to specific writing systems, and then
+  # automatically switches between those keyboards when the user moves between
+  # fields for the different writing systems. For example, writing a lexeme form
+  # in the vernacular language, and then using the analysis language in the
+  # gloss field. This feature uses the desktop environment's list of defined
+  # keyboard input methods, as well as notifying the desktop environment about
+  # what keyboard was switched to.
+  - --talk-name=org.gnome.Shell
   # FieldWorks uses FlexBridge to synchronize data over the network or by USB
   # Flash Drives. FlexBridge uses queries for avaliable USB Flash Drives using
   # the system bus.
   - --socket=system-bus
 
   # Trying more things for ibus keyboarding
-  - --socket=session-bus
-  - --talk-name=org.freedesktop.IBus
-  - --talk-name=org.freedesktop.DBus.Properties
-  - --socket=wayland
-  - --device=dri
-  - --socket=fallback-x11
-  - --filesystem=xdg-run/dconf
-  # - --filesystem=xdg-config/dconf:ro
-  # - --filesystem=xdg-config/ibus
+  # - --socket=session-bus
+  # - --talk-name=org.freedesktop.IBus
+  # - --talk-name=org.freedesktop.DBus.Properties
+  #n - --socket=wayland
+  #n - --device=dri
+  #n - --socket=fallback-x11
+  #n - --filesystem=xdg-run/dconf
+  #x - --filesystem=xdg-config/dconf:ro
+  #x - --filesystem=xdg-config/ibus
+  #n - --talk-name=org.gnome.desktop.input-sources
 
   # Carefully worked-out permissions that don't need specified if we give home
   # rw permission.
