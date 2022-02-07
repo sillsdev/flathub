@@ -875,3 +875,23 @@ modules:
           - type: archive
             url: https://xorg.freedesktop.org/releases/individual/data/xkeyboard-config/xkeyboard-config-2.34.tar.gz
             sha512: 8ddb21da44dd22dedd3206990c54ce3f91cd3081f4fc8c4a49f6f0b49d91a865df530c1d30a7ca0054526462cfb7aab24b13c07d5370af7d2041f270684944af
+  - name: Local final adjustments
+    buildsystem: simple
+    build-commands:
+      - |
+        set -xueo pipefail
+    #     ls -al
+    #     rm --verbose --force /app/lib/fieldworks/ibusdotnet.dll /app/lib/fieldworks/ibusdotnet.pdb
+    #     cp --verbose ibusdotnet-local/ibusdotnet.* /app/lib/fieldworks/
+    #     for libpalaso_file in SIL.Core.dll SIL.Core.pdb SIL.Core.Desktop.dll SIL.Core.Desktop.pdb SIL.Windows.Forms.Keyboarding.dll SIL.Windows.Forms.Keyboarding.pdb; do
+    #       rm --verbose --force "/app/lib/fieldworks/${libpalaso_file}"
+    #       cp --verbose "libpalaso-local/${libpalaso_file}" /app/lib/fieldworks/
+    #     done
+    #     exit 0
+    # sources:
+    #   - type: dir
+    #     path: /home/vagrant/code/ibusdotnet/output/Debug/net461
+    #     dest: ibusdotnet-local
+    #   - type: dir
+    #     path: /home/vagrant/projects/libpalaso/output/DebugMonoStrongName
+    #     dest: libpalaso-local
