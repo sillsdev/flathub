@@ -46,9 +46,8 @@ finish-args:
   # Users need to be able to export dictionaries to arbitrary locations.
   - --filesystem=host
   # FieldWorks uses FlexBridge to synchronize data over the network or by USB
-  # Flash Drives. FlexBridge uses NDesk D-Bus
-  # (https://github.com/sillsdev/dbus-sharp) to query for avaliable USB Flash
-  # Drives using the system bus.
+  # Flash Drives. FlexBridge uses queries for avaliable USB Flash Drives using
+  # the system bus.
   - --socket=system-bus
 
   # Trying more things for ibus keyboarding
