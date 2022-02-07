@@ -123,6 +123,15 @@ modules:
         BUILD_TYPE: r
     build-commands:
       - |
+        SKIP_FW_BUILD=false
+        if [[ $SKIP_FW_BUILD == true ]]; then
+          cd fw
+          make install-menuentries install-packagemetadata
+          install Lib/linux/fieldworks-flex ${PREFIX}/bin
+          echo "WARNING skipping fw build"
+          exit 0
+        fi
+
         set -xueo pipefail
         # Apply outstanding FwBuildTasks code changes, if any.
         cd ${FW_ROOT_PATH}/Build/Src/FwBuildTasks
