@@ -99,6 +99,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
+          fetch-depth: 0
       - name: Install flatpak dependencies
         run: |
           set -xueo pipefail
