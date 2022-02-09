@@ -57,7 +57,7 @@ finish-args:
   # FieldWorks uses FlexBridge to synchronize data over the network or by USB
   # Flash Drives. FlexBridge uses queries for avaliable USB Flash Drives using
   # the system bus.
-  - --socket=system-bus
+  - --system-talk-name=org.freedesktop.Udisks2
 
   # Trying more things for ibus keyboarding
   # - --socket=session-bus
