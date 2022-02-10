@@ -39,6 +39,7 @@ jobs:
           while (( i < 100 )); do
             echo "i $i $(date -Is)"
             sleep 1m
+            i=$(( i++ ))
           done
 
           set -xueo pipefail
