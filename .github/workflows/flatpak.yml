@@ -35,7 +35,6 @@ jobs:
     steps:
       - name: "Check if it's plugged in"
         run: |
-          sleep 30m
           set -xueo pipefail
           cd /tmp
           attempt=1

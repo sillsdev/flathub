@@ -238,8 +238,8 @@ modules:
         config-opts:
           - --prefix=/app
         build-commands:
-          - ./bootstrap.sh
-          - ./b2 install variant=release --prefix=/app
+          - echo ./bootstrap.sh
+          - echo ./b2 install variant=release --prefix=/app
         cleanup:
           # Don't ship.
           - "*"
