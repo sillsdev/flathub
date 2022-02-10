@@ -112,7 +112,7 @@ jobs:
       - name: Build flatpak package
         run: |
           set -xueo pipefail
-          flatpak-builder --verbose --user --repo=local-repo --keep-build-dirs --force-clean build-dir org.sil.FieldWorks.yml
+          flatpak-builder --verbose --user --repo=local-repo --keep-build-dirs --force-clean build-dir org.sil.FieldWorks.yml > log.txt
       - name: Determine package version
         run: |
           set -xueo pipefail
