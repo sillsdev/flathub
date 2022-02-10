@@ -35,12 +35,12 @@ jobs:
     steps:
       - name: "Check if it's plugged in"
         run: |
-          i=0
-          while (( i < 100 )); do
-            echo "i $i $(date -Is)"
-            sleep 1m
-            i=$(( i++ ))
-          done
+          #i=0
+          #while (( i < 100 )); do
+          #  echo "i $i $(date -Is)"
+          #  sleep 1m
+          #  i=$(( i++ ))
+          #done
 
           set -xueo pipefail
           cd /tmp
