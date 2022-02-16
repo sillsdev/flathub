@@ -59,18 +59,6 @@ finish-args:
   # the system bus.
   - --system-talk-name=org.freedesktop.Udisks2
 
-  # Trying more things for ibus keyboarding
-  # - --socket=session-bus
-  # - --talk-name=org.freedesktop.IBus
-  # - --talk-name=org.freedesktop.DBus.Properties
-  #n - --socket=wayland
-  #n - --device=dri
-  #n - --socket=fallback-x11
-  #n - --filesystem=xdg-run/dconf
-  #x - --filesystem=xdg-config/dconf:ro
-  #x - --filesystem=xdg-config/ibus
-  #n - --talk-name=org.gnome.desktop.input-sources
-
   # Carefully worked-out permissions that don't need specified if we give home
   # rw permission.
   # FieldWorks can import language and dictionary data, restore from backup
