@@ -105,6 +105,8 @@ jobs:
         run: |
           set -xueo pipefail
           sudo apt-get update
+          sudo add-apt-repository ppa:flatpak/stable
+          sudo apt-get update
           sudo apt-get install flatpak-builder
           sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
           sudo flatpak install --noninteractive flathub org.gnome.Sdk//3.36
