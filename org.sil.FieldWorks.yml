@@ -422,19 +422,19 @@ modules:
           - type: archive
             url: https://ftp.gnu.org/gnu/wget/wget-1.20.3.tar.gz
             sha512: e8b82b40e270296228094a78d47f81580bdbdea9e6b93fd61b37dccb39430aeb9bda5397dc53a31c952a61629383c7e2a8c8abf414c8a4dd369af6ecf2717e6c
-      - name: gnome-desktop
-        # to help gtk3 get loaded for ibus??
-        buildsystem: meson
-        config-opts:
-          - -Ddesktop_docs=false
-          - -Ddebug_tools=false
-          - -Dudev=disabled
-        # todo cleanup
-        sources:
-          - type: git
-            url: https://gitlab.gnome.org/GNOME/gnome-desktop.git
-            # Using branch gnome-3-36
-            commit: d0bd232482302a28ff444c27c91b0bf82bb7f365
+      # - name: gnome-desktop
+      #   # to help gtk3 get loaded for ibus??
+      #   buildsystem: meson
+      #   config-opts:
+      #     - -Ddesktop_docs=false
+      #     - -Ddebug_tools=false
+      #     - -Dudev=disabled
+      #   # todo cleanup
+      #   sources:
+      #     - type: git
+      #       url: https://gitlab.gnome.org/GNOME/gnome-desktop.git
+      #       # Using branch gnome-3-36
+      #       commit: d0bd232482302a28ff444c27c91b0bf82bb7f365
       - name: mono5-sil
         cleanup:
           - "/include"
