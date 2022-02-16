@@ -851,7 +851,7 @@ modules:
         # done
         #     exit 0
 
-        cp --verbose ibusdotnet/* libpalaso/* /app/lib/fieldworks/
+        cp --verbose --force ibusdotnet/* libpalaso/* /app/lib/fieldworks/
 
     sources:
       # update:  ~/projects/libpalaso/mybuild && cp -a ~/code/ibusdotnet/output/Debug/net461/{ibusdotnet.dll,ibusdotnet.pdb} ~/fwrepo/flathub/ibusdotnet/ && cp -a ~/projects/libpalaso/output/DebugMonoStrongName/{SIL.Core.dll,SIL.Core.pdb,SIL.Core.Desktop.dll,SIL.Core.Desktop.pdb,SIL.Windows.Forms.Keyboarding.dll,SIL.Windows.Forms.Keyboarding.pdb} ~/fwrepo/flathub/libpalaso
