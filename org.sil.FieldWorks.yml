@@ -151,7 +151,7 @@ modules:
         dest: fw
         # Build from main repo
         url: https://github.com/sillsdev/FieldWorks.git
-        branch: support/9.0
+        # From branch support/9.0
         commit: 79f6e77d5cc3660d43ef775015bbc33a95bf6a0f
 
         # Build from commit still in review
