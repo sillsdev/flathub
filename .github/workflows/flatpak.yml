@@ -106,8 +106,8 @@ jobs:
           path: .flatpak-builder
           # Store to flatpak-builder-Branch or flatpak-builder-SomePR.
           # Fetch from there but also from flatpak-builder-PRTargetBranch.
-          key: flatpak-builder-{GITHUB_REF_NAME}
-          restore-keys: flatpak-builder-{GITHUB_BASE_REF}
+          key: flatpak-builder-${{ env.GITHUB_REF_NAME }}
+          restore-keys: flatpak-builder-${{ env.GITHUB_BASE_REF }}
       - name: Install flatpak dependencies
         run: |
           set -xueo pipefail
