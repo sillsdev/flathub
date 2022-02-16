@@ -219,6 +219,22 @@ modules:
       #   ./compose-url-sources fieldworks-sources-urls-input.yml fieldworks-sources-urls.yml
       - fieldworks-sources-urls.yml
     modules:
+      - name: libboost
+        buildsystem: simple
+        build-options:
+          prefix: /app
+        config-opts:
+          - --prefix=/app
+        build-commands:
+          - ./bootstrap.sh
+          - ./b2 install variant=release --prefix=/app
+        cleanup:
+          # Don't ship.
+          - "*"
+        sources:
+          - type: archive
+            url: https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.bz2
+            sha512: b7937d50c4512cf13cadd0ca829de36cf2cbc6fb788f45b1d4565ad0753e2b206c545125a5862016c2f16016f2e4a6b687928963b466fff17c3e0a4437142c20
       - name: dbus-glib
         # For Gecko.
         cleanup:
@@ -798,22 +814,6 @@ modules:
           - type: archive
             url: https://xorg.freedesktop.org/releases/individual/data/xkeyboard-config/xkeyboard-config-2.34.tar.gz
             sha512: 8ddb21da44dd22dedd3206990c54ce3f91cd3081f4fc8c4a49f6f0b49d91a865df530c1d30a7ca0054526462cfb7aab24b13c07d5370af7d2041f270684944af
-      - name: libboost
-        buildsystem: simple
-        build-options:
-          prefix: /app
-        config-opts:
-          - --prefix=/app
-        build-commands:
-          - ./bootstrap.sh
-          - ./b2 install variant=release --prefix=/app
-        cleanup:
-          # Don't ship.
-          - "*"
-        sources:
-          - type: archive
-            url: https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.bz2
-            sha512: b7937d50c4512cf13cadd0ca829de36cf2cbc6fb788f45b1d4565ad0753e2b206c545125a5862016c2f16016f2e4a6b687928963b466fff17c3e0a4437142c20
   - name: Local final adjustments
     buildsystem: simple
     build-commands:
