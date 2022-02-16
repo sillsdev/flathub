@@ -101,19 +101,19 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - uses: actions/cache@v2
-        with:
-          path: .flatpak-builder
-          # Store to flatpak-builder-Branch or flatpak-builder-SomePR.
-          # Fetch from there but also from flatpak-builder-PRTargetBranch.
-          key: flatpak-builder-{GITHUB_REF_NAME}
-          restore-keys: flatpak-builder-{GITHUB_BASE_REF}
+      # - uses: actions/cache@v2
+      #   with:
+      #     path: .flatpak-builder
+      #     # Store to flatpak-builder-Branch or flatpak-builder-SomePR.
+      #     # Fetch from there but also from flatpak-builder-PRTargetBranch.
+      #     key: flatpak-builder-{GITHUB_REF_NAME}
+      #     restore-keys: flatpak-builder-{GITHUB_BASE_REF}
       - name: Install flatpak dependencies
         run: |
           set -xueo pipefail
           sudo apt-get update
-          sudo add-apt-repository ppa:flatpak/stable
-          sudo apt-get update
+          # sudo add-apt-repository ppa:flatpak/stable
+          # sudo apt-get update
           sudo apt-get install flatpak-builder
           sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
           sudo flatpak install --noninteractive flathub org.gnome.Sdk//3.36
@@ -121,7 +121,7 @@ jobs:
       - name: Build flatpak package
         run: |
           set -xueo pipefail
-          flatpak-builder --verbose --user --sandbox --cache --repo=local-repo --keep-build-dirs --force-clean build-dir org.sil.FieldWorks.yml
+          flatpak-builder --verbose --user --sandbox --ccache --repo=local-repo --keep-build-dirs --force-clean build-dir org.sil.FieldWorks.yml
       - name: Determine package version
         run: |
           set -xueo pipefail
