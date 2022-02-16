@@ -231,22 +231,6 @@ modules:
       #   ./compose-url-sources fieldworks-sources-urls-input.yml fieldworks-sources-urls.yml
       - fieldworks-sources-urls.yml
     modules:
-      - name: libboost
-        buildsystem: simple
-        build-options:
-          prefix: /app
-        config-opts:
-          - --prefix=/app
-        build-commands:
-          - ./bootstrap.sh
-          - ./b2 install variant=release --prefix=/app
-        cleanup:
-          # Don't ship.
-          - "*"
-        sources:
-          - type: archive
-            url: https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.bz2
-            sha512: b7937d50c4512cf13cadd0ca829de36cf2cbc6fb788f45b1d4565ad0753e2b206c545125a5862016c2f16016f2e4a6b687928963b466fff17c3e0a4437142c20
       - name: dbus-glib
         # For Gecko.
         cleanup:
@@ -274,6 +258,22 @@ modules:
                 for PATCH_FILE in $(cat debian/patches/series); do
                   patch -p1 -i debian/patches/${PATCH_FILE}
                 done
+      - name: libboost
+        buildsystem: simple
+        build-options:
+          prefix: /app
+        config-opts:
+          - --prefix=/app
+        build-commands:
+          - ./bootstrap.sh
+          - ./b2 install variant=release --prefix=/app
+        cleanup:
+          # Don't ship.
+          - "*"
+        sources:
+          - type: archive
+            url: https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.bz2
+            sha512: b7937d50c4512cf13cadd0ca829de36cf2cbc6fb788f45b1d4565ad0753e2b206c545125a5862016c2f16016f2e4a6b687928963b466fff17c3e0a4437142c20
       - name: gtkmm2.4
         config-opts:
           - --disable-documentation
