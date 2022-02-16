@@ -820,20 +820,61 @@ modules:
       - type: archive
         url: http://archive.ubuntu.com/ubuntu/pool/universe/w/wmctrl/wmctrl_1.07.orig.tar.gz
         sha512: 4c77ad1e204e8d444f682ad1d05c0993bcab9097ac6d4b6a944556ab85acbe713f549dbaf443cd4d1226a162ce7d46fbd209c92652e87fc8e609feee74907daa
+  # - name: libpalaso custom
+  #   buildsystem: simple
+  #   build-commands:
+  #     - |
+  #       set -xueo pipefail
+  #   sources:
+  #     - type: git
+  #       url: https://github.com/sillsdev/libpalaso.git
+  #       # PR
+        comit: 1edf7f77c63da761531232b9b81e3a325f7c1c9e
   - name: Local final adjustments
     buildsystem: simple
     build-commands:
       - |
         set -xueo pipefail
-    #     ls -al
-    #     rm --verbose --force /app/lib/fieldworks/ibusdotnet.dll /app/lib/fieldworks/ibusdotnet.pdb
-    #     cp --verbose ibusdotnet-local/ibusdotnet.* /app/lib/fieldworks/
-    #     for libpalaso_file in SIL.Core.dll SIL.Core.pdb SIL.Core.Desktop.dll SIL.Core.Desktop.pdb SIL.Windows.Forms.Keyboarding.dll SIL.Windows.Forms.Keyboarding.pdb; do
-    #       rm --verbose --force "/app/lib/fieldworks/${libpalaso_file}"
-    #       cp --verbose "libpalaso-local/${libpalaso_file}" /app/lib/fieldworks/
-    #     done
-    #     exit 0
-    # sources:
+
+
+        #     ls -al
+        #     rm --verbose --force /app/lib/fieldworks/ibusdotnet.dll /app/lib/fieldworks/ibusdotnet.pdb
+        # cp --verbose ibusdotnet-local/ibusdotnet.* /app/lib/fieldworks/
+        # for libpalaso_file in SIL.Core.dll SIL.Core.pdb SIL.Core.Desktop.dll SIL.Core.Desktop.pdb SIL.Windows.Forms.Keyboarding.dll SIL.Windows.Forms.Keyboarding.pdb; do
+        #   rm --verbose --force "/app/lib/fieldworks/${libpalaso_file}"
+        #   cp --verbose "libpalaso-local/${libpalaso_file}" /app/lib/fieldworks/
+        # done
+        #     exit 0
+
+        cp --verbose ibusdotnet/* libpalaso/* /app/lib/fieldworks/
+
+    sources:
+      # update:  ~/projects/libpalaso/mybuild && cp -a ~/code/ibusdotnet/output/Debug/net461/{ibusdotnet.dll,ibusdotnet.pdb} ~/fwrepo/flathub/ibusdotnet/ && cp -a ~/projects/libpalaso/output/DebugMonoStrongName/{SIL.Core.dll,SIL.Core.pdb,SIL.Core.Desktop.dll,SIL.Core.Desktop.pdb,SIL.Windows.Forms.Keyboarding.dll,SIL.Windows.Forms.Keyboarding.pdb} ~/fwrepo/flathub/libpalaso
+      - type: file
+        path: ibusdotnet/ibusdotnet.dll
+        dest: ibusdotnet
+      - type: file
+        path: ibusdotnet/ibusdotnet.pdb
+        dest: ibusdotnet
+      - type: file
+        path: libpalaso/SIL.Core.dll
+        dest: libpalaso
+      - type: file
+        path: libpalaso/SIL.Core.pdb
+        dest: libpalaso
+      - type: file
+        path: libpalaso/SIL.Core.Desktop.dll
+        dest: libpalaso
+      - type: file
+        path: libpalaso/SIL.Core.Desktop.pdb
+        dest: libpalaso
+      - type: file
+        path: libpalaso/SIL.Windows.Forms.Keyboarding.dll
+        dest: libpalaso
+      - type: file
+        path: libpalaso/SIL.Windows.Forms.Keyboarding.pdb
+        dest: libpalaso
+
     #   - type: dir
     #     path: /home/vagrant/code/ibusdotnet/output/Debug/net461
     #     dest: ibusdotnet-local
