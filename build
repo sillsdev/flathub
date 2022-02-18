@@ -1,6 +1,7 @@
 #!/bin/bash
-
 set -xueo pipefail
+cd "$(dirname "$0")"
+
 XDG_CACHE_HOME="${XDG_CACHE_HOME-"${HOME}/.cache"}"
 LOG_DIR="${XDG_CACHE_HOME}/flatpak-build-logs"
 mkdir -p "${LOG_DIR}"
