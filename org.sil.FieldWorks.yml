@@ -834,7 +834,7 @@ modules:
   #     - type: git
   #       url: https://github.com/sillsdev/libpalaso.git
   #       # PR
-        comit: 1edf7f77c63da761531232b9b81e3a325f7c1c9e
+  #       commit: 1edf7f77c63da761531232b9b81e3a325f7c1c9e
   - name: Addenda
     buildsystem: simple
     build-commands:
