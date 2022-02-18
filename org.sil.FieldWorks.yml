@@ -835,7 +835,18 @@ modules:
   #       url: https://github.com/sillsdev/libpalaso.git
   #       # PR
         comit: 1edf7f77c63da761531232b9b81e3a325f7c1c9e
-  - name: Local final adjustments
+  - name: Addenda
+    buildsystem: simple
+    build-commands:
+      - |
+        set -xueo pipefail
+        cp --verbose --force addenda/* /app/lib/fieldworks/
+    sources:
+      # Update: ~/projects/libpalaso/mybuild && cp -a ~/code/ibusdotnet/output/Debug/net461/{ibusdotnet.dll,ibusdotnet.pdb} ~/projects/libpalaso/output/DebugMonoStrongName/{SIL.Core.dll,SIL.Core.pdb,SIL.Core.Desktop.dll,SIL.Core.Desktop.pdb,SIL.Windows.Forms.Keyboarding.dll,SIL.Windows.Forms.Keyboarding.pdb} ~/fwrepo/flathub/addenda/
+      - type: directory
+        path: addenda/
+        dest: addenda
+  - name: Local-final-adjustments
     buildsystem: simple
     build-commands:
       - |
@@ -854,7 +865,8 @@ modules:
         cp --verbose --force ibusdotnet/* libpalaso/* /app/lib/fieldworks/
 
     sources:
-      # update:  ~/projects/libpalaso/mybuild && cp -a ~/code/ibusdotnet/output/Debug/net461/{ibusdotnet.dll,ibusdotnet.pdb} ~/fwrepo/flathub/ibusdotnet/ && cp -a ~/projects/libpalaso/output/DebugMonoStrongName/{SIL.Core.dll,SIL.Core.pdb,SIL.Core.Desktop.dll,SIL.Core.Desktop.pdb,SIL.Windows.Forms.Keyboarding.dll,SIL.Windows.Forms.Keyboarding.pdb} ~/fwrepo/flathub/libpalaso
+
+
       - type: file
         path: ibusdotnet/ibusdotnet.dll
         dest: ibusdotnet
