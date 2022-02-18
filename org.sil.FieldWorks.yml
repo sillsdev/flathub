@@ -862,35 +862,12 @@ modules:
         # done
         #     exit 0
 
-        cp --verbose --force ibusdotnet/* libpalaso/* /app/lib/fieldworks/
+        # cp --verbose --force ibusdotnet/* libpalaso/* /app/lib/fieldworks/
+        # cp --verbose --force fw/* /app/lib/fieldworks/
 
     sources:
 
 
-      - type: file
-        path: ibusdotnet/ibusdotnet.dll
-        dest: ibusdotnet
-      - type: file
-        path: ibusdotnet/ibusdotnet.pdb
-        dest: ibusdotnet
-      - type: file
-        path: libpalaso/SIL.Core.dll
-        dest: libpalaso
-      - type: file
-        path: libpalaso/SIL.Core.pdb
-        dest: libpalaso
-      - type: file
-        path: libpalaso/SIL.Core.Desktop.dll
-        dest: libpalaso
-      - type: file
-        path: libpalaso/SIL.Core.Desktop.pdb
-        dest: libpalaso
-      - type: file
-        path: libpalaso/SIL.Windows.Forms.Keyboarding.dll
-        dest: libpalaso
-      - type: file
-        path: libpalaso/SIL.Windows.Forms.Keyboarding.pdb
-        dest: libpalaso
 
     #   - type: dir
     #     path: /home/vagrant/code/ibusdotnet/output/Debug/net461
