@@ -716,6 +716,26 @@ modules:
           - type: shell
             commands:
               - tee gitversion.properties <<< 'BuildVersion=1.0.0'
+        modules:
+          - name: ping
+            # FlexBridge uses .NET/Mono Ping to check connectivity. Mono's Ping
+            # uses the ping utility.
+            buildsystem: meson
+            config-opts:
+              - -DBUILD_ARPING=false
+              - -DBUILD_CLOCKDIFF=false
+              - -DBUILD_RARPD=false
+              - -DBUILD_RDISC=false
+              - -DENABLE_RDISC_SERVER=false
+              - -DBUILD_TRACEPATH=false
+              - -DBUILD_NINFOD=false
+              - -DBUILD_MANS=false
+              - -DSKIP_TESTS=true
+            sources:
+              - type: git
+                url: https://github.com/iputils/iputils.git
+                tag: "20211215"
+                commit: "1d1e7c43210d8af316a41cb2c53d612a4c16f34d"
       - name: xchm
         # Help file viewer
         cleanup:
