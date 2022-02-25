@@ -891,7 +891,7 @@ modules:
         # cp --verbose --force ibusdotnet/* libpalaso/* /app/lib/fieldworks/
         # cp --verbose --force fw/* /app/lib/fieldworks/
 
-    sources:
+    # sources:
 
 
 
