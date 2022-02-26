@@ -412,6 +412,9 @@ modules:
             url: https://download.mono-project.com/monolite/monolite-linux-1051600011-latest.tar.gz
             sha512: b48bb273f5a9107f9bb9795d47277aeaaeb458588a6e011676bb9a152b83759f305cf1031a5e74a62145854ef17026cb1aa20ea9adb5e6b15f275b9d6af585db
             dest: mcs/class/lib/monolite-linux/1051600011
+          - type: patch
+            # mono uses a hard-coded path to ping. Help it find ping in /app.
+            path: patches/mono/mono-ping-path.patch
         modules:
           - name: python-2.7
             # Build Python 2 without cleaning away parts that we still need,
@@ -723,11 +726,7 @@ modules:
             # FlexBridge uses .NET/Mono Ping to check connectivity. Mono's Ping
             # uses the ping utility.
             buildsystem: meson
-            build-options:
-              # Mono Ping.cs hard-codes the paths to ping.
-              prefix: /
             config-opts:
-              - --prefix=/
               - -DBUILD_ARPING=false
               - -DBUILD_CLOCKDIFF=false
               - -DBUILD_RARPD=false
