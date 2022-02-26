@@ -29,8 +29,6 @@ runtime: org.gnome.Platform
 # build and test on without flatpak.
 runtime-version: "3.36"
 sdk: org.gnome.Sdk
-# Write to the SDK so ping can be installed at /bin/ping.
-writable-sdk: true
 
 finish-args:
   - --socket=x11
