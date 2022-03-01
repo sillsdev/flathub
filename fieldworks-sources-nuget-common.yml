@@ -64,8 +64,8 @@
   sha512: fa00ebb5045d12c51274f64411c551981beceb1266a8606a4731063109b95ea1f15939197bf3d2ba899db61e593dc39bfce876908bba34286823525093ae3d8e
   dest: .
 - type: file
-  url: https://api.nuget.org/v3-flatcontainer/ibusdotnet/2.0.3/ibusdotnet.2.0.3.nupkg
-  sha512: 951303e47b4e092c7b250425c282173cc35783477b872c67c1c2784e0ab94b0512849155df53461fc52a15c669e13b58465cadc0d5f1e7b6726c58d10c464a93
+  url: https://api.nuget.org/v3-flatcontainer/ibusdotnet/2.1.0-beta.19/ibusdotnet.2.1.0-beta.19.nupkg
+  sha512: 205cdef18176c94eab66422b8dcbfc1b5bdf5d2c5d06134c606df9aa3369adf2f7e5b3c7cdf05bc5d5437bdf8daa9147f461df4bdeba5940bc1a14f4db3d768f
   dest: .
 - type: file
   url: https://api.nuget.org/v3-flatcontainer/icu.net/2.7.0-beta.10/icu.net.2.7.0-beta.10.nupkg
