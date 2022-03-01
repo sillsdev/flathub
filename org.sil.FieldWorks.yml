@@ -243,9 +243,9 @@ modules:
           - "*.a"
         sources:
           - type: git
-            url: https://salsa.debian.org/debian/dbus-glib.git
-            tag: debian/0.110-5
-            commit: 722fc1041fc8d975774b17a6cff0ec260e666172
+            url: https://gitlab.freedesktop.org/dbus/dbus-glib.git
+            tag: dbus-glib-0.110
+            commit: ffeb6909967ff79585a7ede85227da94f04ecb01
       - name: libxklavier
         buildsystem: autotools
         cleanup:
@@ -253,15 +253,12 @@ modules:
           - "*.a"
         sources:
           - type: git
-            url: https://salsa.debian.org/gnome-team/libxklavier.git
-            commit: 4cd9bfe37a52961270d588b37e617cbce8217e5a
-            tag: debian/5.4-4
-          - type: shell
-            commands:
-              - |
-                for PATCH_FILE in $(cat debian/patches/series); do
-                  patch -p1 -i debian/patches/${PATCH_FILE}
-                done
+            url: https://gitlab.freedesktop.org/archived-projects/libxklavier.git
+            tag: libxklavier-5.4
+            commit: 396955bd2ba2db34a42b3807b03155fcc11dfe50
+          - type: patch
+            # From https://sources.debian.org/patches/libxklavier/5.4-4/0001-autogen.sh-Drop-intltool-requirement.patch/
+            path: patches/libxklavier/0001-autogen.sh-Drop-intltool-requirement.patch
       - name: gtkmm2.4
         config-opts:
           - --disable-documentation
@@ -497,8 +494,6 @@ modules:
           - name: giflib
             buildsystem: simple
             build-commands:
-              # libgdiplus needs giflib to have GifQuantizeBuffer
-              - patch -i debian/patches/revert-GifQuantizeBuffer-remove-from-lib.patch
               # Skip building documentation
               - "echo >doc/Makefile all:"
               - make PREFIX=/app
@@ -508,8 +503,12 @@ modules:
               - "*.a"
             sources:
               - type: git
-                url: https://salsa.debian.org/deiv-guest/giflib.git
-                commit: de2120737dbbeb00728054232a21c6b03c1ae687
+                url: https://github.com/mirrorer/giflib.git
+                commit: fa37672085ce4b3d62c51627ab3c8cf2dda8009a
+              # libgdiplus needs giflib to have GifQuantizeBuffer
+              - type: patch
+                # From https://sources.debian.org/patches/giflib/5.1.9-2/revert-GifQuantizeBuffer-remove-from-lib.patch/
+                path: patches/giflib/revert-GifQuantizeBuffer-remove-from-lib.patch
       - name: icu-fw
         # FW ICU should install to paths like
         # /app/lib/fieldworks/lib/libicuuc.so . The FieldWorks build expects

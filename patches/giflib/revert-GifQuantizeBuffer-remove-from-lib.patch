@@ -1,0 +1,26 @@
+Description: Revert the remove of GifQuantizeBuffer symbol from the main lib.
+ It is needed for some applications (exactimage, mplayer-gui, mplayer, qutemol and xplanet).
+ .
+ This patch is temporary to allow switch to the new ABI, the change
+ is trivial, the symbol is moved to libutil, so the packages will
+ need to links against it.
+Author: David Suárez <david.sephirot@gmail.com>
+Origin: vendor
+Last-Update: 2019-12-07
+
+--- a/Makefile
++++ b/Makefile
+@@ -29,11 +29,11 @@
+ LIBVER=$(LIBMAJOR).$(LIBMINOR).$(LIBPOINT)
+ 
+ SOURCES = dgif_lib.c egif_lib.c gifalloc.c gif_err.c gif_font.c \
+-	gif_hash.c openbsd-reallocarray.c
++	gif_hash.c openbsd-reallocarray.c quantize.c
+ HEADERS = gif_hash.h  gif_lib.h  gif_lib_private.h
+ OBJECTS = $(SOURCES:.c=.o)
+ 
+-USOURCES = qprintf.c quantize.c getarg.c 
++USOURCES = qprintf.c getarg.c 
+ UHEADERS = getarg.h
+ UOBJECTS = $(USOURCES:.c=.o)
+ 
