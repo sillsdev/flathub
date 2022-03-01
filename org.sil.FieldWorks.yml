@@ -166,7 +166,7 @@ modules:
         # assemblies used are fetched separately.
         dest: liblcm
         url: https://github.com/sillsdev/liblcm.git
-        branch: master
+        # Branch master
         commit: 6a6ed9bbe8433352769d6909079fe54b77368b99
       - type: git
         dest: libcom
@@ -353,7 +353,7 @@ modules:
                 sources:
                   - type: git
                     url: https://github.com/freedesktop/cairomm.git
-                    branch: cairomm-1-12
+                    # Branch cairomm-1-12
                     commit: e9ef515b7b8db5b4f024ddfefe5dfc03f2b8ccea
           - shared-modules/gtk2/gtk2.json
       - name: wget
@@ -445,7 +445,7 @@ modules:
         sources:
           - type: git
             url: https://github.com/sillsdev/gtk-sharp.git
-            branch: develop
+            # Branch develop
             commit: fcf1dd40d4892be309dd450bcda2026ddece4480
           - type: script
             commands:
@@ -523,7 +523,7 @@ modules:
         sources:
           - type: git
             url: https://github.com/sillsdev/icu.git
-            branch: FieldWorks
+            # Branch FieldWorks
             commit: f648b14cd744202c24648c5f76847621721e1ae9
       - name: encoding-converters
         buildsystem: autotools
