@@ -150,13 +150,13 @@ modules:
       - type: git
         dest: fw
         # Build from main repo
-        url: https://github.com/sillsdev/FieldWorks.git
+        # url: https://github.com/sillsdev/FieldWorks.git
         # From branch support/9.0
-        commit: 79f6e77d5cc3660d43ef775015bbc33a95bf6a0f
+        # commit: 79f6e77d5cc3660d43ef775015bbc33a95bf6a0f
 
         # Build from commit still in review
-        # url: https://gerrit.lsdev.sil.org/FieldWorks
-        # commit:
+        url: https://gerrit.lsdev.sil.org/FieldWorks
+        commit: 203bb17ecaa14fd6bb89e4a67daa6eda9074ffd9
 
         # Build from local repo
         # url: ../fw
