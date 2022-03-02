@@ -556,7 +556,7 @@ modules:
             commands:
               - |
                 set -xueo pipefail
-                # Adjust prefix
+                # Adjust prefix of PluginDir and RootDir in registry file.
                 # Note: EncCnvtrs/AutoConfigDialog.cs wants to find a help file
                 # in a path specified by the RootDir registry key, but it
                 # doesn't look like that help file is even being installed for
