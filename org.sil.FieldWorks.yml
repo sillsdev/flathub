@@ -45,6 +45,10 @@ finish-args:
   # components.
   # Users need to be able to export dictionaries to arbitrary locations.
   - --filesystem=host
+  # FieldWorks writes temporary reports to /tmp, to open in a browser to show
+  # the user, such as regarding the import process. Use the same /tmp as the
+  # host, so the host browser can find the files.
+  - --filesystem=/tmp
   # As a language-documentation tool, FieldWorks allows a user to assign
   # specific keyboard input methods to specific writing systems, and then
   # automatically switches between those keyboards when the user moves between
