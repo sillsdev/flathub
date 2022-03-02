@@ -379,6 +379,7 @@ modules:
             commit: d0bd232482302a28ff444c27c91b0bf82bb7f365
       - name: mono5-sil
         cleanup:
+          # Not cleaning away lib/mono/4.5/mcs* because mcs.exe is used in SFM import.
           - "/include"
           - "*.a"
           - "/bin/gtk-demo"
@@ -388,7 +389,6 @@ modules:
           - "/lib/mono/2*"
           - "/lib/mono/3*"
           - "/lib/mono/4.5/dim"
-          - "/lib/mono/4.5/mcs*"
           - "/lib/mono/4.5/Microsoft.CodeAnalysis.*"
           - "/lib/mono/gac/Microsoft.Build.Engine"
           - "/lib/mono/gac/Microsoft.Build"
