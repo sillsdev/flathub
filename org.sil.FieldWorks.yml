@@ -495,9 +495,10 @@ modules:
             buildsystem: simple
             build-commands:
               # Skip building documentation
-              - "echo >doc/Makefile all:"
-              - make PREFIX=/app
-              - make PREFIX=/app install
+              - perl -pi -e 's#doc/Makefile##' configure.ac
+              - ./autogen.sh --prefix=/app
+              - make
+              - make install
             cleanup:
               - "/include"
               - "*.a"
@@ -505,10 +506,8 @@ modules:
               - type: git
                 url: https://github.com/mirrorer/giflib.git
                 commit: fa37672085ce4b3d62c51627ab3c8cf2dda8009a
-              # libgdiplus needs giflib to have GifQuantizeBuffer
-              - type: patch
-                # From https://sources.debian.org/patches/giflib/5.1.9-2/revert-GifQuantizeBuffer-remove-from-lib.patch/
-                path: patches/giflib/revert-GifQuantizeBuffer-remove-from-lib.patch
+                # Note that libgdiplus needs giflib to have GifQuantizeBuffer.
+                # Some giflibs need adjustment to have that built in.
       - name: icu-fw
         # FW ICU should install to paths like
         # /app/lib/fieldworks/lib/libicuuc.so . The FieldWorks build expects
