@@ -856,17 +856,18 @@ modules:
   #       url: https://github.com/sillsdev/libpalaso.git
   #       # PR
   #       commit: 1edf7f77c63da761531232b9b81e3a325f7c1c9e
-  - name: Addenda
-    buildsystem: simple
-    build-commands:
-      - |
-        set -xueo pipefail
-        cp --verbose --force addenda/* /app/lib/fieldworks/ || echo "Ignoring error copying"
-    sources:
-      # Update: ~/projects/libpalaso/mybuild && cp -a ~/code/ibusdotnet/output/Debug/net461/{ibusdotnet.dll,ibusdotnet.pdb} ~/projects/libpalaso/output/DebugMonoStrongName/{SIL.Core.dll,SIL.Core.pdb,SIL.Core.Desktop.dll,SIL.Core.Desktop.pdb,SIL.Windows.Forms.Keyboarding.dll,SIL.Windows.Forms.Keyboarding.pdb} ~/fwrepo/flathub/addenda/
-      - type: dir
-        path: addenda
-        dest: addenda
+#   - name: Addenda
+#     buildsystem: simple
+#     build-commands:
+#       - |
+#         set -xueo pipefail
+#         ls -al
+#         cp --verbose --force addenda/* /app/lib/fieldworks/ || echo "Ignoring error copying"
+#     sources:
+#       # Update: ~/projects/libpalaso/mybuild && cp -a ~/code/ibusdotnet/output/Debug/net461/{ibusdotnet.dll,ibusdotnet.pdb} ~/projects/libpalaso/output/DebugMonoStrongName/{SIL.Core.dll,SIL.Core.pdb,SIL.Core.Desktop.dll,SIL.Core.Desktop.pdb,SIL.Windows.Forms.Keyboarding.dll,SIL.Windows.Forms.Keyboarding.pdb} ~/fwrepo/flathub/addenda/
+#       - type: dir
+#         path: addenda
+#         dest: addenda
   - name: Local-final-adjustments
     buildsystem: simple
     build-commands:
