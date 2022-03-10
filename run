@@ -6,4 +6,10 @@ set -ueo pipefail
 # Share path to projects dir in dev repo in case projects dir is set to that location on dev machine.
 DEV_PROJECTS_PATH="${HOME}"/fwrepo/fw/DistFiles/Projects
 
+export FW_DEBUG=true
+export SIL_REPORTING_LOGGING=foreground
+export FW_DEBUG_BASH_TRACE=true
+export MONO_TRACE_LISTENER="Console.Out"
+export MONO_EVENTLOG_TYPE=local:"${XDG_CACHE_HOME-$HOME/.cache}/mono-eventlog"
+
 flatpak run -vv --devel --env=FW_DEBUG=true --filesystem="${DEV_PROJECTS_PATH}" "$@" org.sil.FieldWorks
