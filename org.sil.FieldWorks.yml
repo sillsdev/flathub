@@ -660,7 +660,7 @@ modules:
             # Build from main repo
             url: https://github.com/sillsdev/flexbridge.git
             # Branch develop
-            commit: 2702b46cbd228f98e17ef3ca0e3d8a95953b6830
+            commit: 7dbc684697944d59fad7f091f5266f99d1a289a9
 
             # Build from commit still in review
             # url: https://github.com/sillsdev/flexbridge.git
