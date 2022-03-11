@@ -541,18 +541,18 @@ modules:
             sha512: 3b404655c39cfc39334c8437ff2c7d6007e23262daa7bb34863fdd6f2e7da9a89ab97176a52b1e8a99327fde3e9decc29c450664492af73680f5a715a72aacf3
             dest: build/
           # Use local nuget packages
-          - type: shell
-            commands:
-              - |
-                tee nuget.config <<< '<?xml version="1.0" encoding="utf-8"?>
-                <configuration>
-                  <packageSources>
-                    <add key="LocalNugetPackages" value="'$(pwd)/nuget-sources'" />
-                  </packageSources>
-                  <disabledPackageSources>
-                    <add key="nuget.org" value="true" />
-                  </disabledPackageSources>
-                </configuration>'
+          - type: inline
+            dest-filename: nuget.config
+            contents: |
+              <?xml version="1.0" encoding="utf-8"?>
+              <configuration>
+                <packageSources>
+                  <add key="LocalNugetPackages" value="'$(pwd)/nuget-sources'" />
+                </packageSources>
+                <disabledPackageSources>
+                  <add key="nuget.org" value="true" />
+                </disabledPackageSources>
+              </configuration>
         modules:
           - name: teckit
             cleanup:
@@ -642,18 +642,18 @@ modules:
           # how it resolves dependencies.
           - flexbridge-sources-nuget-specific.yml
           # Use local nuget packages
-          - type: shell
-            commands:
-              - |
-                tee nuget.config <<< '<?xml version="1.0" encoding="utf-8"?>
-                <configuration>
-                  <packageSources>
-                    <add key="LocalNugetPackages" value="'$(pwd)/nuget-sources'" />
-                  </packageSources>
-                  <disabledPackageSources>
-                    <add key="nuget.org" value="true" />
-                  </disabledPackageSources>
-                </configuration>'
+          - type: inline
+            dest-filename: nuget.config
+            contents: |
+              <?xml version="1.0" encoding="utf-8"?>
+              <configuration>
+                <packageSources>
+                  <add key="LocalNugetPackages" value="'$(pwd)/nuget-sources'" />
+                </packageSources>
+                <disabledPackageSources>
+                  <add key="nuget.org" value="true" />
+                </disabledPackageSources>
+              </configuration>
           # Regenerate: Set flexbridge git dir to newer code. Then run (in the
           # directory with the flatpak manifest):
           #   .../flatpak-builder-tools/dotnet/flatpak-dotnet-generator.py flexbridge-sources-nuget.json $(find $HOME/fwrepo/flexbridge -name \*.csproj -o -name \*.proj)
@@ -663,9 +663,10 @@ modules:
           # Determine what is needed by running in the flexbridge repo:
           #   msbuild -t:DownloadDependencies build/FLExBridge.proj && cat build/FLExBridge.files
           - flexbridge-sources-deps.yml
-          - type: shell
-            commands:
-              - tee gitversion.properties <<< 'BuildVersion=1.0.0'
+          - type: inline
+            dest-filename: gitversion.properties
+            contents: |
+              BuildVersion=1.0.0
         modules:
           - name: ping
             # FlexBridge uses .NET/Mono Ping to check connectivity. Mono's Ping
