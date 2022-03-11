@@ -527,6 +527,7 @@ modules:
           - type: git
             url: https://github.com/sillsdev/icu.git
             # Branch FieldWorks54
+            tag: v54.1.31-fw
             commit: f648b14cd744202c24648c5f76847621721e1ae9
       - name: encoding-converters
         buildsystem: autotools
