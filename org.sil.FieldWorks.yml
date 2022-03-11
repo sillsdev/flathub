@@ -786,6 +786,18 @@ modules:
                 # chm html. v3.0.5.1 still worked, rendering the html.
                 tag: v3.0.4
                 commit: 721d62adde3f8ba8704a9cf56efeb050f652dfbf
+      - name: setxkbmap
+        # Needed by ibusdotnet for keyboarding.
+        sources:
+          - type: archive
+            url: https://xorg.freedesktop.org/releases/individual/app/setxkbmap-1.3.2.tar.gz
+            sha512: 5e07285c16fb8822fec90ce8393c9f484fa19defa3d9db927a70dd1b525706b78901af5fff58fa99c947236f99c0010e34f1968f65e42ed6ba89a5c3925451fe
+      - name: xkeyboard-config
+        # Used by setxkbmap
+        sources:
+          - type: archive
+            url: https://xorg.freedesktop.org/releases/individual/data/xkeyboard-config/xkeyboard-config-2.34.tar.gz
+            sha512: 8ddb21da44dd22dedd3206990c54ce3f91cd3081f4fc8c4a49f6f0b49d91a865df530c1d30a7ca0054526462cfb7aab24b13c07d5370af7d2041f270684944af
       - name: fonts-sil-doulos
         # From https://software.sil.org/doulos/download/previous-versions/
         buildsystem: simple
@@ -826,18 +838,6 @@ modules:
           - type: archive
             url: https://software.sil.org/downloads/r/ezra/EzraSIL-2.51.zip
             sha512: 404f273a078ce89b84c1fcb91a7d9b729a80934b1327eb62d6625db245fcd4e96400c5fb5350014011771bfeac3191481b6c95e724232355b031f46eb51aab15
-      - name: setxkbmap
-        # Needed by ibusdotnet for keyboarding.
-        sources:
-          - type: archive
-            url: https://xorg.freedesktop.org/releases/individual/app/setxkbmap-1.3.2.tar.gz
-            sha512: 5e07285c16fb8822fec90ce8393c9f484fa19defa3d9db927a70dd1b525706b78901af5fff58fa99c947236f99c0010e34f1968f65e42ed6ba89a5c3925451fe
-      - name: xkeyboard-config
-        # Used by setxkbmap
-        sources:
-          - type: archive
-            url: https://xorg.freedesktop.org/releases/individual/data/xkeyboard-config/xkeyboard-config-2.34.tar.gz
-            sha512: 8ddb21da44dd22dedd3206990c54ce3f91cd3081f4fc8c4a49f6f0b49d91a865df530c1d30a7ca0054526462cfb7aab24b13c07d5370af7d2041f270684944af
   - name: wmctrl
     # To help identify different desktop environments, for keyboarding.
     sources:
