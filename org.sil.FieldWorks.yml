@@ -545,7 +545,7 @@ modules:
               <?xml version="1.0" encoding="utf-8"?>
               <configuration>
                 <packageSources>
-                  <add key="LocalNugetPackages" value="'$(pwd)/nuget-sources'" />
+                  <add key="LocalNugetPackages" value="nuget-sources" />
                 </packageSources>
                 <disabledPackageSources>
                   <add key="nuget.org" value="true" />
@@ -646,7 +646,7 @@ modules:
               <?xml version="1.0" encoding="utf-8"?>
               <configuration>
                 <packageSources>
-                  <add key="LocalNugetPackages" value="'$(pwd)/nuget-sources'" />
+                  <add key="LocalNugetPackages" value="nuget-sources" />
                 </packageSources>
                 <disabledPackageSources>
                   <add key="nuget.org" value="true" />
