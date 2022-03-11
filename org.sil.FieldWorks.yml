@@ -241,7 +241,7 @@ modules:
                 tag: "2.28.1"
                 commit: 5d8721c5619b0d9c904f669f712db1d9ca7107f9
             modules:
-              - name: glibmm2.4
+              - name: glibmm
                 buildsystem: meson
                 config-opts:
                   - -Dbuild-documentation=false
@@ -255,8 +255,8 @@ modules:
                 sources:
                   - type: git
                     url: https://gitlab.gnome.org/GNOME/glibmm.git
-                    tag: "2.64.2"
-                    commit: e775940669cb6d93f37ddc2b4cd7da446dfa482c
+                    tag: "2.66.2"
+                    commit: 7d6cb3ed9dd1366c6595ea56d4d4481887749aa6
                 modules:
                   - name: libsigc++-2.0
                     config-opts:
