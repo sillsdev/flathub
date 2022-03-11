@@ -30,6 +30,7 @@ later.
 Flathub repo, FW flatpak manifest, tools:
 
 ```bash
+sudo add-apt-repository ppa:flatpak/stable
 flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak --user install flathub org.gnome.Sdk//3.36
 flatpak --user install flathub org.gnome.Platform//3.36
