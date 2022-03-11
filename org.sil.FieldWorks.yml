@@ -59,7 +59,7 @@ finish-args:
   # what keyboard was switched to.
   - --talk-name=org.gnome.Shell
   # FieldWorks uses FlexBridge to synchronize data over the network or by USB
-  # Flash Drives. FlexBridge uses queries for avaliable USB Flash Drives using
+  # Flash Drives. FlexBridge queries for avaliable USB Flash Drives using
   # the system bus.
   - --system-talk-name=org.freedesktop.Udisks2
 
@@ -155,7 +155,7 @@ modules:
         dest: fw
         # Build from main repo
         # url: https://github.com/sillsdev/FieldWorks.git
-        # From branch support/9.0
+        # Branch support/9.0
         # commit: 79f6e77d5cc3660d43ef775015bbc33a95bf6a0f
 
         # Build from commit still in review
@@ -379,7 +379,7 @@ modules:
         sources:
           - type: git
             url: https://gitlab.gnome.org/GNOME/gnome-desktop.git
-            # Using branch gnome-3-36
+            # Branch gnome-3-36
             commit: d0bd232482302a28ff444c27c91b0bf82bb7f365
       - name: mono5-sil
         cleanup:
@@ -526,7 +526,7 @@ modules:
         sources:
           - type: git
             url: https://github.com/sillsdev/icu.git
-            # Branch FieldWorks
+            # Branch FieldWorks54
             commit: f648b14cd744202c24648c5f76847621721e1ae9
       - name: encoding-converters
         buildsystem: autotools
@@ -658,7 +658,7 @@ modules:
           - type: git
             # Build from main repo
             url: https://github.com/sillsdev/flexbridge.git
-            # From branch develop
+            # Branch develop
             commit: 2702b46cbd228f98e17ef3ca0e3d8a95953b6830
 
             # Build from commit still in review
@@ -798,6 +798,8 @@ modules:
           - type: archive
             url: https://xorg.freedesktop.org/releases/individual/data/xkeyboard-config/xkeyboard-config-2.34.tar.gz
             sha512: 8ddb21da44dd22dedd3206990c54ce3f91cd3081f4fc8c4a49f6f0b49d91a865df530c1d30a7ca0054526462cfb7aab24b13c07d5370af7d2041f270684944af
+      # FieldWorks is used to describe languages using various writing
+      # systems. Include some fonts.
       - name: fonts-sil-doulos
         # From https://software.sil.org/doulos/download/previous-versions/
         buildsystem: simple
