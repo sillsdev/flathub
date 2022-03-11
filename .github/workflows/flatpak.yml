@@ -96,7 +96,9 @@ jobs:
           sudo apt-get clean
           # du -sh /usr/share/dotnet /usr/local/lib/android /opt/ghc || true
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
-          # df -h /
+          df -h /
+          du -sh /{usr,snap,var,opt,etc,srv,root,home}/* 2>/dev/null |
+            sort --human-numeric-sort || true
       - uses: actions/checkout@v2
         with:
           submodules: recursive
