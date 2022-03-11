@@ -25,9 +25,7 @@ app-id: org.sil.FieldWorks
 # org.gnome.Platform provides some pieces that we would need to manually specify
 # if we use org.freedesktop.Platform.
 runtime: org.gnome.Platform
-# Target a runtime that is most similar to Ubuntu 20.04, for which we can easily
-# build and test on without flatpak.
-runtime-version: "3.36"
+runtime-version: "41"
 sdk: org.gnome.Sdk
 
 finish-args:
