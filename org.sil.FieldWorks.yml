@@ -224,6 +224,7 @@ modules:
             url: https://download.gnome.org/sources/gtkmm/2.24/gtkmm-2.24.5.tar.xz
             sha256: 0680a53b7bf90b4e4bf444d1d89e6df41c777e0bacc96e9c09fc4dd2f5fe6b72
         modules:
+          - shared-modules/gtk2/gtk2.json
           - name: atkmm1.6
             buildsystem: meson
             config-opts:
@@ -308,7 +309,6 @@ modules:
                     url: https://github.com/freedesktop/cairomm.git
                     # Branch cairomm-1-12
                     commit: e9ef515b7b8db5b4f024ddfefe5dfc03f2b8ccea
-          - shared-modules/gtk2/gtk2.json
       - name: wget
         buildsystem: autotools
         cleanup:
