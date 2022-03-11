@@ -116,8 +116,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install flatpak-builder
           sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-          sudo flatpak install --noninteractive flathub org.gnome.Sdk//3.36
-          sudo flatpak install --noninteractive flathub org.gnome.Platform//3.36
+          sudo flatpak install --noninteractive flathub org.gnome.Sdk//41
+          sudo flatpak install --noninteractive flathub org.gnome.Platform//41
       - name: Build flatpak package
         run: |
           set -xueo pipefail
