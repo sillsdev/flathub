@@ -25,7 +25,7 @@ app-id: org.sil.FieldWorks
 # org.gnome.Platform provides some pieces that we would need to manually specify
 # if we use org.freedesktop.Platform.
 runtime: org.gnome.Platform
-runtime-version: "40"
+runtime-version: "3.36"
 sdk: org.gnome.Sdk
 
 finish-args:
@@ -302,8 +302,8 @@ modules:
                 sources:
                   - type: git
                     url: https://gitlab.gnome.org/GNOME/glibmm.git
-                    tag: "2.66.2"
-                    commit: 7d6cb3ed9dd1366c6595ea56d4d4481887749aa6
+                    tag: "2.64.2"
+                    commit: e775940669cb6d93f37ddc2b4cd7da446dfa482c
                 modules:
                   - name: libsigc++-2.0
                     config-opts:
