@@ -25,7 +25,7 @@ app-id: org.sil.FieldWorks
 # org.gnome.Platform provides some pieces that we would need to manually specify
 # if we use org.freedesktop.Platform.
 runtime: org.gnome.Platform
-runtime-version: "40"
+runtime-version: "3.36"
 sdk: org.gnome.Sdk
 
 finish-args:
