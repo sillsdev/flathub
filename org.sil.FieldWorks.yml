@@ -401,7 +401,7 @@ modules:
           - type: git
             url: https://github.com/sillsdev/mono.git
             # Past sil/5.16.0.179
-            commit: 3bb5d7c98c3bc6f977bc7960f3a541bc0acba715
+            commit: 6314b294062980270bc302bb018a985e5018ecc8
           - type: archive
             # Update URL by doing: cd .../path/to/mono-repo && .../determine-monolite-url
             url: https://download.mono-project.com/monolite/monolite-linux-1051600011-latest.tar.gz
