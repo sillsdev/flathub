@@ -163,8 +163,7 @@ jobs:
         with:
           artifacts: "artifacts/*"
           prerelease: true
-          # Branch to build from
-          commit: org.sil.FieldWorks
+          commit: ${{ github.ref_name }}
           # New tag name to use
           tag: "${{ env.TAG_NAME }}"
           allowUpdates: true
