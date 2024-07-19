@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Dictionary App Builder
+Comment=Build customized Dictionary apps for Android smartphones and tablets
+Exec=/app/bin/dab-run.sh %u
+Icon=org.sil.dictionary-app-builder
+Terminal=false
+Type=Application
+Categories=Development;
+StartupWMClass=dictionary-app-builder:
+StartupNotify=true

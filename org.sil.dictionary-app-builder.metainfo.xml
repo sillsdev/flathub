@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2024 SIL -->
+<component type="desktop-application">
+  <id>org.sil.dictionary-app-builder</id>
+  
+  <name>Dictionary App Builder</name>
+
+  <summary>Create mobile dictionary apps with pictures, search and audio</summary>
+  
+  <developer id="org.sil">
+    <name>SIL International</name>
+  </developer>
+
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+
+  <categories>
+    <category>Development</category>
+    <category>Building</category>
+  </categories>
+
+  <content_rating type="oars-1.1" />
+
+  <launchable type="desktop-id">org.sil.dictionary-app-builder.desktop</launchable>
+
+  <url type="homepage">https://software.sil.org/dictionaryappbuilder/</url>
+  <url type="bugtracker">https://sil-appbuilder.freshdesk.com/support/tickets/new</url>
+  <url type="faq">https://software.sil.org/dictionaryappbuilder/support/faq/</url>
+  <url type="help">https://software.sil.org/dictionaryappbuilder/resources/</url>
+  <!-- <url type="donation">https://give.sil.org/give/485238/#!/donation/checkout</url> -->
+  <url type="donation">https://give.sil.org</url>
+  <url type="contribute">https://community.software.sil.org/</url>
+
+  <description>
+    <p>
+    <em>Dictionary App Builder</em> helps you to build customized dictionary apps for Android and iOS smartphones and tablets. You specify the lexicon data file to use, the app name, fonts, colors, the about box information, the audio, illustrations and the icons. Dictionary App Builder will package everything together and build the customized app for you. You can then install it on your phone, send it to others by Bluetooth, share it on microSD memory cards and publish it to app stores on the Internet.
+    </p>
+  </description>
+          
+ <launchable type="desktop-id">dictionary-app-builder.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>App Building Process</caption>
+      <image>https://software.sil.org/scriptureappbuilder/wp-content/uploads/sites/10/2015/04/SabProcess1.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Audio Playback and Text Synchronization</caption>
+      <image>https://software.sil.org/scriptureappbuilder/wp-content/uploads/sites/10/2015/03/Audio-Playback-972x1024.png</image>
+    </screenshot>
+  </screenshots>
+
+  <releases>
+    <!-- <release date=" " version="12.0"> -->
+    <release date="2024-05-17" version="11.4">
+      <url type="details">https://software.sil.org/dictionaryappbuilder/release-notes/</url>
+    </release>
+  </releases>
+  
+</component>
