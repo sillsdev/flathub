@@ -1,5 +1,5 @@
 /.flatpak-builder
 /build-dir
 /build
-/output
-/.gitmodules
+/dab-build-logs
+
